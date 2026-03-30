@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.18)
+project(gpu-accelerated-smr LANGUAGES CXX VERSION 1.0.0)
+
+# Options
+option(DOCS "Set to build documentation" OFF)
+
+# Flags
+set(CXX_STANDARD 20 CACHE STRING "Uses C++20 or 23")
+
+# Mandate BUILD_MODE Cmake flag
+if(NOT DEFINED BUILD_MODE)
+  message(FATAL_ERROR "You must specify BUILD_MODE (e.g., -DBUILD_MODE=Debug or Release)")
+endif()
+
+# Set to Debug or Release mode
+if(BUILD_MODE STREQUAL "DEBUG")
+  message(STATUS "Building in Debug mode")
+  set(CMAKE_BUILD_TYPE Debug)
+  add_compile_options(-g -O0)
+elseif(BUILD_MODE STREQUAL "RELEASE")
+  message(STATUS "Building in Release mode")
+  set(CMAKE_BUILD_TYPE Release)
+  add_compile_options(-O3)
+else()
+  message(FATAL_ERROR "BUILD_MODE must be: (DEBUG | RELEASE)")
+endif()
+
+# Set global compiler flags
+add_compile_options(-Wall -Wextra -Wwrite-strings -Werror)
+#######################################################################################################################
+# Setup
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+message(STATUS "Using standard ${CXX_STANDARD}")
+
+set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
+
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME}
+  INTERFACE
+  ${CMAKE_SOURCE_DIR}/include
+)
+
+add_subdirectory(experiments)
+
+
