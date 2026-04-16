@@ -1,0 +1,23 @@
+[settings]
+
+
+[requires]
+
+
+[options]
+    shared=False
+
+[full_settings]
+
+
+[full_requires]
+
+
+[full_options]
+    shared=False
+
+[recipe_hash]
+
+
+[env]
+

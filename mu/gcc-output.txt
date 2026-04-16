@@ -1,0 +1,1813 @@
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: Remotes registry file missing, creating default one in /root/.conan/remotes.json[0m
+[1m[33mAuto detecting your dev setup to initialize the default profile (/root/.conan/profiles/default)[0m
+[1m[32mFound gcc 7[0m
+[1m[32mFound clang 6.0[0m
+[1m[36mgcc>=5, using the major as version[0m
+[1m[31m
+************************* WARNING: GCC OLD ABI COMPATIBILITY ***********************
+ 
+Conan detected a GCC version > 5 but has adjusted the 'compiler.libcxx' setting to
+'libstdc++' for backwards compatibility.
+Your compiler is likely using the new CXX11 ABI by default (libstdc++11).
+
+If you want Conan to use the new ABI for the default profile, run:
+
+    $ conan profile update settings.compiler.libcxx=libstdc++11 default
+
+Or edit '/root/.conan/profiles/default' and set compiler.libcxx=libstdc++11
+
+************************************************************************************
+
+
+[0m
+[1m[33mDefault settings[0m
+[1m[33m	os=Linux
+	os_build=Linux
+	arch=x86_64
+	arch_build=x86_64
+	compiler=gcc
+	compiler.version=7
+	compiler.libcxx=libstdc++
+	build_type=Release[0m
+[1m[35m*** You can change them in /root/.conan/profiles/default ***[0m
+[1m[35m*** Or override with -s compiler='other' -s ...s***
+
+[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'description'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable exports: [0m[1m[37mCopied 1 '.py' file: compileroptions.py[0m
+[1m[32mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mFolder: /root/.conan/data/dory-compiler-options/0.0.1/dory/stable/export[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mExported revision: c22f3c220056aa1c69bc0a5fdb1d7b9c[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mForced build from source[0m
+[1m[35mInstalling package: dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable from local cache - Cache[0m
+[1m[33mPackages[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9 - Build[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-compiler-options/0.0.1/dory/stable/source[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mBuilding your package in /root/.conan/data/dory-compiler-options/0.0.1/dory/stable/build/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
+[1m[35mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mCalling build()[0m
+[1m[33mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mWARN: This conanfile has no build step[0m
+[1m[32mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mPackage '5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9' built[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mBuild folder /root/.conan/data/dory-compiler-options/0.0.1/dory/stable/build/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mPackage folder /root/.conan/data/dory-compiler-options/0.0.1/dory/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9[0m
+[1m[35mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mCalling package()[0m
+[1m[33mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mWARN: This conanfile has no package step[0m
+[1m[33mdory-compiler-options/0.0.1@dory/stable package(): [0m[1m[37mWARN: No files in this package![0m
+[1m[32mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mPackage '5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9' created[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mCreated package revision 73ab3eabc542d0346ca71df65ddb0d89[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-external/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.hpp' files: ibverbs.hpp, memcached.hpp[0m
+[1m[36mdory-external/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-external/0.0.1/_/_/export[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mExported revision: 32bc3c3312eac03b72a1c10ba78a020b[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mForced build from source[0m
+[1m[35mInstalling package: dory-external/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Build[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-external/0.0.1/_/_/source[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-external/0.0.1/_/_/build/3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d[0m
+[1m[33mdory-external/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-external/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-external/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-external/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Current conanbuildinfo.cmake directory: /root/.conan/data/dory-external/0.0.1/_/_/build/3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d
+-- WARN: conaninfo.txt not found
+-- WARN: CONAN_COMPILER variable not set, please make sure yourself that your compiler and version matches your declared settings
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    BUILD_SHARED_LIBS
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-external/0.0.1/_/_/build/3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d
+[1m[32mdory-external/0.0.1: [0m[1m[37mPackage '3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d' built[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-external/0.0.1/_/_/build/3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-external/0.0.1/_/_/package/3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d[0m
+[1m[35mdory-external/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-external/0.0.1 package(): [0m[1m[37mPackaged 2 '.hpp' files: ibverbs.hpp, memcached.hpp[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mPackage '3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d' created[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mCreated package revision e098f1bfacb438616336d2f4d3a0ac14[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 7 '.hpp' files[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: logger.cpp[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-shared/0.0.1/_/_/export[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mExported revision: c0cc04c8f71b15083d440270a3f0fd50[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mspdlog/1.5.0: [0m[1m[37mNot found in local cache, looking in remotes...[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mTrying with 'conancenter'...[0m
+Downloading conanmanifest.txt:   0%|          | 0.00/169 [00:00<?, ?B/s]                                                                        Downloading conanmanifest.txt completed [0.17k]                                          
+Downloading conanfile.py    :   0%|          | 0.00/6.99k [00:00<?, ?B/s]                                                                         Downloading conanfile.py completed [6.99k]                                               
+Downloading conan_export.tgz:   0%|          | 0.00/248 [00:00<?, ?B/s]                                                                       Downloading conan_export.tgz completed [0.24k]                                           
+Decompressing conan_export.tgz:   0%|          | 0.00/248 [00:00<?, ?B/s]                                                                         Decompressing conan_export.tgz completed [0.00k]                                         
+[1m[36mspdlog/1.5.0: [0m[1m[37mDownloaded recipe revision 0[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mNot found in local cache, looking in remotes...[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mTrying with 'conancenter'...[0m
+Downloading conanmanifest.txt:   0%|          | 0.00/106 [00:00<?, ?B/s]                                                                        Downloading conanmanifest.txt completed [0.10k]                                          
+Downloading conanfile.py    :   0%|          | 0.00/6.02k [00:00<?, ?B/s]                                                                         Downloading conanfile.py completed [6.02k]                                               
+Downloading conan_export.tgz:   0%|          | 0.00/324 [00:00<?, ?B/s]                                                                       Downloading conan_export.tgz completed [0.32k]                                           
+Decompressing conan_export.tgz:   0%|          | 0.00/324 [00:00<?, ?B/s]                                                                         Decompressing conan_export.tgz completed [0.00k]                                         
+[1m[36mfmt/6.2.1: [0m[1m[37mDownloaded recipe revision 0[0m
+[1m[35mInstalling package: dory-shared/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Downloaded[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Downloaded[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Build[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Build[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Build[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mConfiguring sources in /root/.conan/data/fmt/6.2.1/_/_/source/src[0m
+fmt/6.2.1: [1m[37mDownloading fmt-6.2.1.zip   :   0%|          | 0.00/1.10M [00:00<?, ?B/s][0mfmt/6.2.1: [1m[37mDownloading fmt-6.2.1.zip   : 100%|##########| 1.10M/1.10M [00:00<00:00, 11.5MB/s][0mfmt/6.2.1: [1m[37m[0mfmt/6.2.1: [1m[37m                                                                                  [0mfmt/6.2.1: [1m[37m[0mfmt/6.2.1: [1m[37mDownloading fmt-6.2.1.zip completed [1125.94k]                                           [0mfmt/6.2.1: [1m[37m
+[0mfmt/6.2.1: [1m[37m[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mUnzipping 4.4MB, this can take a while[0m
+fmt/6.2.1: Unzipping 0 %                                                         fmt/6.2.1: Unzipping 1 %                                                         fmt/6.2.1: Unzipping 2 %                                                         fmt/6.2.1: Unzipping 22 %                                                        fmt/6.2.1: Unzipping 32 %                                                        fmt/6.2.1: Unzipping 35 %                                                        fmt/6.2.1: Unzipping 36 %                                                        fmt/6.2.1: Unzipping 49 %                                                        fmt/6.2.1: Unzipping 51 %                                                        fmt/6.2.1: Unzipping 52 %                                                        fmt/6.2.1: Unzipping 53 %                                                        fmt/6.2.1: Unzipping 54 %                                                        fmt/6.2.1: Unzipping 58 %                                                        fmt/6.2.1: Unzipping 59 %                                                        fmt/6.2.1: Unzipping 60 %                                                        fmt/6.2.1: Unzipping 62 %                                                        fmt/6.2.1: Unzipping 63 %                                                        fmt/6.2.1: Unzipping 64 %                                                        fmt/6.2.1: Unzipping 65 %                                                        fmt/6.2.1: Unzipping 66 %                                                        fmt/6.2.1: Unzipping 67 %                                                        fmt/6.2.1: Unzipping 69 %                                                        fmt/6.2.1: Unzipping 70 %                                                        fmt/6.2.1: Unzipping 72 %                                                        fmt/6.2.1: Unzipping 73 %                                                        fmt/6.2.1: Unzipping 74 %                                                        fmt/6.2.1: Unzipping 80 %                                                        fmt/6.2.1: Unzipping 82 %                                                        fmt/6.2.1: Unzipping 85 %                                                        fmt/6.2.1: Unzipping 86 %                                                        fmt/6.2.1: Unzipping 89 %                                                        fmt/6.2.1: Unzipping 92 %                                                        fmt/6.2.1: Unzipping 95 %                                                        fmt/6.2.1: Unzipping 96 %                                                        fmt/6.2.1: Unzipping 99 %                                                        fmt/6.2.1: Unzipping 100 %                                                       fmt/6.2.1: [1m[37m[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mBuilding your package in /root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
+[1m[35mfmt/6.2.1: [0m[1m[37mCalling generate()[0m
+[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Using the new toolchains and generators without specifying a build profile (e.g: -pr:b=default) is discouraged and might cause failures and unexpected behavior[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPreset 'debug' added to CMakePresets.json. Invoke it manually using 'cmake --preset debug'[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mIf your CMake version is not compatible with CMakePresets (<3.19) call cmake like: 'cmake <path> -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug/generators/conan_toolchain.cmake -DFMT_DOC=OFF -DFMT_TEST=OFF -DFMT_INSTALL=ON -DFMT_LIB_DIR=lib -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Debug'[0m
+[1m[35mfmt/6.2.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mfmt/6.2.1: [0m[1m[37mCalling build()[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mapply_conandata_patches(): No patches defined in conandata[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mCMake command: cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="/root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug/generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c" -DFMT_DOC="OFF" -DFMT_TEST="OFF" -DFMT_INSTALL="ON" -DFMT_LIB_DIR="lib" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Debug" "/root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/src"[0m
+-- CMake version: 3.25.2
+-- Using Conan toolchain: /root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug/generators/conan_toolchain.cmake
+-- Conan toolchain: Setting CMAKE_POSITION_INDEPENDENT_CODE=ON (options.fPIC)
+-- Conan toolchain: C++ Standard 17 with extensions OFF
+-- Conan toolchain: Setting BUILD_SHARED_LIBS = OFF
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Version: 6.2.1
+-- Build type: Debug
+-- CXX_STANDARD: 17
+-- Performing Test has_std_17_flag
+-- Performing Test has_std_17_flag - Success
+-- Performing Test has_std_1z_flag
+-- Performing Test has_std_1z_flag - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Required features: cxx_variadic_templates
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug
+[1m[36mfmt/6.2.1: [0m[1m[37mCMake command: cmake --build "/root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug" '--' '-j8'[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/fmt.dir/src/format.cc.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/fmt.dir/src/os.cc.o[0m
+[100%] [32m[1mLinking CXX static library libfmtd.a[0m
+[100%] Built target fmt
+[1m[32mfmt/6.2.1: [0m[1m[37mPackage '467844f290ff4af1df60720f1607bc6095cf829c' built[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mBuild folder /root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mGenerating the package[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage folder /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c[0m
+[1m[35mfmt/6.2.1: [0m[1m[37mCalling package()[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mCopied 1 '.rst' file: LICENSE.rst[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mCMake command: cmake --install "/root/.conan/data/fmt/6.2.1/_/_/build/467844f290ff4af1df60720f1607bc6095cf829c/build/Debug" --prefix "/root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c"[0m
+-- Install configuration: "Debug"
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/cmake/fmt/fmt-config.cmake
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/cmake/fmt/fmt-config-version.cmake
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/cmake/fmt/fmt-targets.cmake
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/cmake/fmt/fmt-targets-debug.cmake
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/libfmtd.a
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/chrono.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/color.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/compile.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/core.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/format.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/format-inl.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/locale.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/os.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/ostream.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/posix.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/printf.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/ranges.h
+-- Installing: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/pkgconfig/fmt.pc
+[1m[36mfmt/6.2.1 package(): [0m[1m[37mPackaged 1 '.a' file: libfmtd.a[0m
+[1m[36mfmt/6.2.1 package(): [0m[1m[37mPackaged 1 '.rst' file: LICENSE.rst[0m
+[1m[36mfmt/6.2.1 package(): [0m[1m[37mPackaged 12 '.h' files[0m
+[1m[32mfmt/6.2.1: [0m[1m[37mPackage '467844f290ff4af1df60720f1607bc6095cf829c' created[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mCreated package revision 4dee174cfc13aff0db409971539e95aa[0m
+Downloading conan_sources.tgz:   0%|          | 0.00/250 [00:00<?, ?B/s]                                                                        Downloading conan_sources.tgz completed [0.24k]                                          
+Decompressing conan_sources.tgz:   0%|          | 0.00/250 [00:00<?, ?B/s]                                                                          Decompressing conan_sources.tgz completed [0.00k]                                        
+[1m[36mspdlog/1.5.0: [0m[1m[37mConfiguring sources in /root/.conan/data/spdlog/1.5.0/_/_/source[0m
+Downloading v1.5.0.tar.gz   :   0%|          | 0.00/264k [00:00<?, ?B/s]                                                                        Downloading v1.5.0.tar.gz completed [264.08k]                                            
+
+[1m[36mspdlog/1.5.0: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mBuilding your package in /root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52[0m
+[1m[33mspdlog/1.5.0: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[33mspdlog/1.5.0: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake_find_package' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake_find_package created Findfmt.cmake[0m
+[1m[33mspdlog/1.5.0: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake_find_package_multi' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake_find_package_multi created fmt-config-version.cmake[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake_find_package_multi created fmtTarget-debug.cmake[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake_find_package_multi created fmtTargets.cmake[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerator cmake_find_package_multi created fmt-config.cmake[0m
+[1m[35mspdlog/1.5.0: [0m[1m[37mAggregating env generators[0m
+[1m[35mspdlog/1.5.0: [0m[1m[37mCalling build()[0m
+[1m[33mspdlog/1.5.0: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- Build spdlog: 1.5.0
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Build type: Debug
+-- Conan: Using autogenerated Findfmt.cmake
+-- Found fmt: 6.2.1 (found version "6.2.1") 
+-- Library fmtd found /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/libfmtd.a
+-- Found: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/libfmtd.a
+-- Library fmtd found /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/libfmtd.a
+-- Found: /root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/lib/libfmtd.a
+-- Generating install
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+
+[0m
+-- Build files have been written to: /root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52
+[ 16%] [32mBuilding CXX object source_subfolder/CMakeFiles/spdlog.dir/src/spdlog.cpp.o[0m
+[ 33%] [32mBuilding CXX object source_subfolder/CMakeFiles/spdlog.dir/src/stdout_sinks.cpp.o[0m
+[ 50%] [32mBuilding CXX object source_subfolder/CMakeFiles/spdlog.dir/src/color_sinks.cpp.o[0m
+[ 66%] [32mBuilding CXX object source_subfolder/CMakeFiles/spdlog.dir/src/file_sinks.cpp.o[0m
+[ 83%] [32mBuilding CXX object source_subfolder/CMakeFiles/spdlog.dir/src/async.cpp.o[0m
+In file included from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/src/color_sinks.cpp:24:0[m[K:
+[01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/sinks/ansicolor_sink-inl.h:[m[K In member function '[01m[Kvoid spdlog::sinks::ansicolor_sink<ConsoleMutex>::print_ccode_(const string_view_t&)[m[K':
+[01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/sinks/ansicolor_sink-inl.h:114:53:[m[K [01;35m[Kwarning: [m[K'[01m[Kusing char_type = char[m[K' is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+     fwrite(color_code.data(), sizeof(string_view_t::[01;35m[Kchar_type[m[K), color_code.size(), target_file_);
+                                                     [01;35m[K^~~~~~~~~[m[K
+In file included from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/fmt/fmt.h:25:0[m[K,
+                 from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/common.h:38[m[K,
+                 from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/logger.h:17[m[K,
+                 from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/async_logger.h:17[m[K,
+                 from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/include/spdlog/async.h:17[m[K,
+                 from [01m[K/root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52/source_subfolder/src/color_sinks.cpp:11[m[K:
+[01m[K/root/.conan/data/fmt/6.2.1/_/_/package/467844f290ff4af1df60720f1607bc6095cf829c/include/fmt/core.h:357:46:[m[K [01;36m[Knote: [m[Kdeclared here
+   using char_type FMT_DEPRECATED_ALIAS = Char[01;36m[K;[m[K
+                                              [01;36m[K^[m[K
+[100%] [32m[1mLinking CXX static library ../lib/libspdlogd.a[0m
+[100%] Built target spdlog
+[1m[32mspdlog/1.5.0: [0m[1m[37mPackage 'e79d06d3eb96a851113589601aefad4c6b2c5f52' built[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mBuild folder /root/.conan/data/spdlog/1.5.0/_/_/build/e79d06d3eb96a851113589601aefad4c6b2c5f52[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mGenerating the package[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage folder /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52[0m
+[1m[35mspdlog/1.5.0: [0m[1m[37mCalling package()[0m
+[100%] Built target spdlog
+[36mInstall the project...[0m
+-- Install configuration: "Debug"
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/common-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/fmt
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/fmt/ostr.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/fmt/fmt.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/fmt/bin_to_hex.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/logger-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/async.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/async_logger-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/spdlog.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/common.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/spdlog-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/formatter.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/logger.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/synchronous_factory.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/pattern_formatter.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/circular_q.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/periodic_worker.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/log_msg.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/log_msg-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/fmt_helper.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/periodic_worker-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/log_msg_buffer-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/registry-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/backtracer.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/null_mutex.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/file_helper-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/pattern_formatter-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/os-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/log_msg_buffer.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/registry.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/console_globals.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/os.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/backtracer-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/thread_pool-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/mpmc_blocking_q.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/file_helper.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/details/thread_pool.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/version.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/stdout_color_sinks-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/basic_file_sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/syslog_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/msvc_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/stdout_sinks.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/null_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/wincolor_sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/ansicolor_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/ringbuffer_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/systemd_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/android_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/base_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/ansicolor_sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/dist_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/rotating_file_sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/stdout_sinks-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/base_sink-inl.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/rotating_file_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/ostream_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/dup_filter_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/stdout_color_sinks.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/basic_file_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/daily_file_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/sinks/wincolor_sink.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/async_logger.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/include/spdlog/tweakme.h
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/libspdlogd.a
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/pkgconfig/spdlog.pc
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/cmake/spdlog/spdlogConfigTargets.cmake
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/cmake/spdlog/spdlogConfigTargets-debug.cmake
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/cmake/spdlog/spdlogConfig.cmake
+-- Installing: /root/.conan/data/spdlog/1.5.0/_/_/package/e79d06d3eb96a851113589601aefad4c6b2c5f52/lib/cmake/spdlog/spdlogConfigVersion.cmake
+[1m[36mspdlog/1.5.0 package(): [0m[1m[37mPackaged 1 '.a' file: libspdlogd.a[0m
+[1m[36mspdlog/1.5.0 package(): [0m[1m[37mPackaged 1 file: LICENSE[0m
+[1m[36mspdlog/1.5.0 package(): [0m[1m[37mPackaged 65 '.h' files[0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mPackage 'e79d06d3eb96a851113589601aefad4c6b2c5f52' created[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mCreated package revision 1b5c2ae2872960203211cd920105b627[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-shared/0.0.1/_/_/source[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-shared/0.0.1/_/_/build/f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0[0m
+[1m[33mdory-shared/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-shared/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-shared/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-shared/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- IPO / LTO supported: TRUE
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept  -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-shared/0.0.1/_/_/build/f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0
+[0/2] Building CXX object CMakeFiles/doryshared.dir/logger.cpp.o[K[1/2] Building CXX object CMakeFiles/doryshared.dir/logger.cpp.o[K[1/2] Linking CXX static library lib/libdoryshared.a[K[2/2] Linking CXX static library lib/libdoryshared.a[K
+[1m[32mdory-shared/0.0.1: [0m[1m[37mPackage 'f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0' built[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-shared/0.0.1/_/_/build/f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-shared/0.0.1/_/_/package/f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0[0m
+[1m[35mdory-shared/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-shared/0.0.1 package(): [0m[1m[37mPackaged 2 '.a' files: libdoryshared.a, libfoo.a[0m
+[1m[36mdory-shared/0.0.1 package(): [0m[1m[37mPackaged 7 '.hpp' files[0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mPackage 'f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0' created[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mCreated package revision 83d7dc446d94d1443b3e46ef01ef1270[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 3 '.hpp' files: ae_handler.hpp, device.hpp, block.hpp[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.cpp' files: device.cpp, block.cpp[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-ctrl/0.0.1/_/_/export[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mExported revision: 6c049bce1655eec6a71226b9d03c4aa1[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+log_level=OFF
+[build_requires]
+[env]
+
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mForced build from source[0m
+[1m[35mInstalling package: dory-ctrl/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-ctrl/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Build[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-ctrl/0.0.1/_/_/source[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-ctrl/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[33mdory-ctrl/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-ctrl/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-ctrl/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11
+[0/3] Building CXX object CMakeFiles/doryctrl.dir/device.cpp.o[K[0/3] Building CXX object CMakeFiles/doryctrl.dir/block.cpp.o[K[1/3] Building CXX object CMakeFiles/doryctrl.dir/device.cpp.o[K[2/3] Building CXX object CMakeFiles/doryctrl.dir/block.cpp.o[K[2/3] Linking CXX static library lib/libdoryctrl.a[K[3/3] Linking CXX static library lib/libdoryctrl.a[K
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mPackage '479b2606695b53c353efe0e9c4c15c21ac6eab11' built[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-ctrl/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-ctrl/0.0.1/_/_/package/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-ctrl/0.0.1 package(): [0m[1m[37mPackaged 2 '.a' files: libdoryctrl.a, libfoo.a[0m
+[1m[36mdory-ctrl/0.0.1 package(): [0m[1m[37mPackaged 3 '.hpp' files: ae_handler.hpp, device.hpp, block.hpp[0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mPackage '479b2606695b53c353efe0e9c4c15c21ac6eab11' created[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mCreated package revision 9fcdbac1cc3a00d8f9f31120350f7952[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: store.cpp[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.hpp' file: store.hpp[0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-memstore/0.0.1/_/_/export[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mExported revision: 3d420fd89415366217bf66ae2fb3ec87[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mForced build from source[0m
+[1m[35mInstalling package: dory-memstore/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Build[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-memstore/0.0.1/_/_/source[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-memstore/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[33mdory-memstore/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-memstore/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-memstore/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-memstore/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-memstore/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11
+[0/2] Building CXX object CMakeFiles/dorymemstore.dir/store.cpp.o[K[1/2] Building CXX object CMakeFiles/dorymemstore.dir/store.cpp.o[K[1/2] Linking CXX static library lib/libdorymemstore.a[K[2/2] Linking CXX static library lib/libdorymemstore.a[K
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mPackage '479b2606695b53c353efe0e9c4c15c21ac6eab11' built[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-memstore/0.0.1/_/_/build/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-memstore/0.0.1/_/_/package/479b2606695b53c353efe0e9c4c15c21ac6eab11[0m
+[1m[35mdory-memstore/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-memstore/0.0.1 package(): [0m[1m[37mPackaged 2 '.a' files: libfoo.a, libdorymemstore.a[0m
+[1m[36mdory-memstore/0.0.1 package(): [0m[1m[37mPackaged 1 '.hpp' file: store.hpp[0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mPackage '479b2606695b53c353efe0e9c4c15c21ac6eab11' created[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mCreated package revision 17ec6d1206744f4cd4e912e723cfc4ad[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 3 '.hpp' files: rc.hpp, exchanger.hpp, wr-builder.hpp[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.cpp' files: rc.cpp, exchanger.cpp[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-connection/0.0.1/_/_/export[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mExported revision: b5489b744021ba926adafec3e08e7bd7[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-connection/0.0.1: [0m[1m[37mForced build from source[0m
+[1m[35mInstalling package: dory-connection/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Build[0m
+[1m[36m    dory-ctrl/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-connection/0.0.1/_/_/source[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-connection/0.0.1/_/_/build/b4c8ad1ca97195ceff91606a1f3f82d94029d2b4[0m
+[1m[33mdory-connection/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-connection/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-connection/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-connection/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-connection/0.0.1/_/_/build/b4c8ad1ca97195ceff91606a1f3f82d94029d2b4
+[0/3] Building CXX object CMakeFiles/doryconn.dir/rc.cpp.o[K[0/3] Building CXX object CMakeFiles/doryconn.dir/exchanger.cpp.o[K[1/3] Building CXX object CMakeFiles/doryconn.dir/rc.cpp.o[K[2/3] Building CXX object CMakeFiles/doryconn.dir/exchanger.cpp.o[K[2/3] Linking CXX static library lib/libdoryconn.a[K[3/3] Linking CXX static library lib/libdoryconn.a[K
+[1m[32mdory-connection/0.0.1: [0m[1m[37mPackage 'b4c8ad1ca97195ceff91606a1f3f82d94029d2b4' built[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-connection/0.0.1/_/_/build/b4c8ad1ca97195ceff91606a1f3f82d94029d2b4[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-connection/0.0.1/_/_/package/b4c8ad1ca97195ceff91606a1f3f82d94029d2b4[0m
+[1m[35mdory-connection/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-connection/0.0.1 package(): [0m[1m[37mPackaged 2 '.a' files: libdoryconn.a, libfoo.a[0m
+[1m[36mdory-connection/0.0.1 package(): [0m[1m[37mPackaged 3 '.hpp' files: rc.hpp, exchanger.hpp, wr-builder.hpp[0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mPackage 'b4c8ad1ca97195ceff91606a1f3f82d94029d2b4' created[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mCreated package revision df748387731358c03f34ca277bbec222[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'license'. It is recommended to add it as attribute[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'description'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable exports: [0m[1m[37mCopied 1 '.py' file: compileroptions.py[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-compiler-options/0.0.1@dory/stable: [0m[1m[37mExported revision: c22f3c220056aa1c69bc0a5fdb1d7b9c[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-external/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.hpp' files: ibverbs.hpp, memcached.hpp[0m
+[1m[36mdory-external/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-external/0.0.1: [0m[1m[37mExported revision: 32bc3c3312eac03b72a1c10ba78a020b[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-external/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 7 '.hpp' files[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: logger.cpp[0m
+[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mExported revision: c0cc04c8f71b15083d440270a3f0fd50[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-shared/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: store.cpp[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-memstore/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.hpp' file: store.hpp[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mExported revision: 3d420fd89415366217bf66ae2fb3ec87[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-memstore/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 3 '.hpp' files: ae_handler.hpp, device.hpp, block.hpp[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.cpp' files: device.cpp, block.cpp[0m
+[1m[36mdory-ctrl/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mExported revision: 6c049bce1655eec6a71226b9d03c4aa1[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-ctrl/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-ctrl/0.0.1:0637b11d6f0ace1f3dd253a48191e34207bb727b - Build[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-ctrl/0.0.1/_/_/build/0637b11d6f0ace1f3dd253a48191e34207bb727b[0m
+[1m[33mdory-ctrl/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-ctrl/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-ctrl/0.0.1/_/_/build/0637b11d6f0ace1f3dd253a48191e34207bb727b
+[0/3] Building CXX object CMakeFiles/doryctrl.dir/device.cpp.o[K[0/3] Building CXX object CMakeFiles/doryctrl.dir/block.cpp.o[K[1/3] Building CXX object CMakeFiles/doryctrl.dir/device.cpp.o[K[2/3] Building CXX object CMakeFiles/doryctrl.dir/block.cpp.o[K[2/3] Linking CXX static library lib/libdoryctrl.a[K[3/3] Linking CXX static library lib/libdoryctrl.a[K
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mPackage '0637b11d6f0ace1f3dd253a48191e34207bb727b' built[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-ctrl/0.0.1/_/_/build/0637b11d6f0ace1f3dd253a48191e34207bb727b[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-ctrl/0.0.1/_/_/package/0637b11d6f0ace1f3dd253a48191e34207bb727b[0m
+[1m[35mdory-ctrl/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-ctrl/0.0.1 package(): [0m[1m[37mPackaged 2 '.a' files: libdoryctrl.a, libfoo.a[0m
+[1m[36mdory-ctrl/0.0.1 package(): [0m[1m[37mPackaged 3 '.hpp' files: ae_handler.hpp, device.hpp, block.hpp[0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mPackage '0637b11d6f0ace1f3dd253a48191e34207bb727b' created[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mCreated package revision 93bce75feb7a70fff6b3230513f2eec3[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 3 '.hpp' files: rc.hpp, exchanger.hpp, wr-builder.hpp[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 2 '.cpp' files: rc.cpp, exchanger.cpp[0m
+[1m[36mdory-connection/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mThe stored package has not changed[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mExported revision: b5489b744021ba926adafec3e08e7bd7[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-connection/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Cache[0m
+[1m[36m    dory-ctrl/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
+[1m[35mExporting package recipe[0m
+[1m[36mdory-crash-consensus/0.0.1 exports_sources: [0m[1m[37mCopied 4 '.h' files: crash-consensus.h, atomicops.h, readerwriterqueue.h, timers.h[0m
+[1m[36mdory-crash-consensus/0.0.1 exports_sources: [0m[1m[37mCopied 25 '.hpp' files[0m
+[1m[36mdory-crash-consensus/0.0.1 exports_sources: [0m[1m[37mCopied 10 '.cpp' files[0m
+[1m[36mdory-crash-consensus/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
+[1m[32mdory-crash-consensus/0.0.1: [0m[1m[37mA new conanfile.py version was exported[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mFolder: /root/.conan/data/dory-crash-consensus/0.0.1/_/_/export[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mExported revision: 7c378789a410caf038aa2eed5d7b404b[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mInstalling package: dory-crash-consensus/0.0.1[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1:897d688047a5aa041b4f056ed33484c021e9b9a4 - Build[0m
+[1m[36m    dory-ctrl/0.0.1:0637b11d6f0ace1f3dd253a48191e34207bb727b - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mConfiguring sources in /root/.conan/data/dory-crash-consensus/0.0.1/_/_/source[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mCopying sources to build folder[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mBuilding your package in /root/.conan/data/dory-crash-consensus/0.0.1/_/_/build/897d688047a5aa041b4f056ed33484c021e9b9a4[0m
+[1m[33mdory-crash-consensus/0.0.1: [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mdory-crash-consensus/0.0.1: [0m[1m[37mAggregating env generators[0m
+[1m[36mdory-crash-consensus/0.0.1 imports(): [0m[1m[37mCopied 7 '.a' files[0m
+[1m[35mdory-crash-consensus/0.0.1: [0m[1m[37mCalling build()[0m
+[1m[33mdory-crash-consensus/0.0.1: [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /root/.conan/data/dory-crash-consensus/0.0.1/_/_/build/897d688047a5aa041b4f056ed33484c021e9b9a4
+[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/memory.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log-iterators.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/contexted-poller.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/response-tracker.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/quorum-waiter.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/pinning.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/consensus.cpp.o[K[1/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log-iterators.cpp.o[K[1/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus.cpp.o[K[2/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/pinning.cpp.o[K[2/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus-c-wrapper.cpp.o[K[3/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log.cpp.o[K[4/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/response-tracker.cpp.o[K[5/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/quorum-waiter.cpp.o[K[6/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/memory.cpp.o[K[7/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/contexted-poller.cpp.o[K[8/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus-c-wrapper.cpp.o[K[9/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus.cpp.o[K[10/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/consensus.cpp.o[K[10/11] Linking CXX static library lib/libdorycrashconsensus.a[K[11/11] Linking CXX static library lib/libdorycrashconsensus.a[K
+[1m[32mdory-crash-consensus/0.0.1: [0m[1m[37mPackage '897d688047a5aa041b4f056ed33484c021e9b9a4' built[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mBuild folder /root/.conan/data/dory-crash-consensus/0.0.1/_/_/build/897d688047a5aa041b4f056ed33484c021e9b9a4[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mGenerated conanbuildinfo.txt[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mGenerating the package[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mPackage folder /root/.conan/data/dory-crash-consensus/0.0.1/_/_/package/897d688047a5aa041b4f056ed33484c021e9b9a4[0m
+[1m[35mdory-crash-consensus/0.0.1: [0m[1m[37mCalling package()[0m
+[1m[36mdory-crash-consensus/0.0.1 package(): [0m[1m[37mPackaged 1 '.a' file: libdorycrashconsensus.a[0m
+[1m[36mdory-crash-consensus/0.0.1 package(): [0m[1m[37mPackaged 1 '.h' file: crash-consensus.h[0m
+[1m[36mdory-crash-consensus/0.0.1 package(): [0m[1m[37mPackaged 1 '.hpp' file: crash-consensus.hpp[0m
+[1m[32mdory-crash-consensus/0.0.1: [0m[1m[37mPackage '897d688047a5aa041b4f056ed33484c021e9b9a4' created[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mCreated package revision 76fea1f6d879413c6e6cd6a5f69d80e4[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+shared=False
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mInstalling package[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Cache[0m
+[1m[36m    dory-ctrl/0.0.1:0637b11d6f0ace1f3dd253a48191e34207bb727b - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
+[1m[33mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[35mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mAggregating env generators[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mGenerated graphinfo[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1) imports(): [0m[1m[37mCopied 7 '.a' files[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mUsing lockfile: '/mu/crash-consensus/libgen/build/static/installation/conan.lock'[0m
+[1m[36mUsing cached profile from lockfile[0m
+[1m[35mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mCalling build()[0m
+[1m[33mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Adjusting fPIC flag (ON)
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /mu/crash-consensus/libgen/build/static/installation
+[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/memory.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log-iterators.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/contexted-poller.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/response-tracker.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/quorum-waiter.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/pinning.cpp.o[K[0/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/consensus.cpp.o[K[1/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/pinning.cpp.o[K[1/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus.cpp.o[K[2/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log-iterators.cpp.o[K[2/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus-c-wrapper.cpp.o[K[3/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/log/log.cpp.o[K[4/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/quorum-waiter.cpp.o[K[5/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/response-tracker.cpp.o[K[6/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/memory.cpp.o[K[7/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/contexted-poller.cpp.o[K[8/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus.cpp.o[K[9/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/crash-consensus-c-wrapper.cpp.o[K[10/11] Building CXX object CMakeFiles/dorycrashconsensus.dir/consensus.cpp.o[K[10/11] Linking CXX static library lib/libdorycrashconsensus.a[K[11/11] Linking CXX static library lib/libdorycrashconsensus.a[K
+[0m[1m[36mUsing lockfile: '/mu/crash-consensus/libgen/build/static/installation/conan.lock'[0m
+[1m[36mUsing cached profile from lockfile[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mGenerating the package[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mPackage folder /mu/crash-consensus/libgen/build/static/packaging[0m
+[1m[35mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mCalling package()[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1) package(): [0m[1m[37mPackaged 1 '.a' file: libdorycrashconsensus.a[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1) package(): [0m[1m[37mPackaged 1 '.h' file: crash-consensus.h[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1) package(): [0m[1m[37mPackaged 1 '.hpp' file: crash-consensus.hpp[0m
+[1m[32mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mPackage 'packaging' created[0m
+[1m[36mconanfile.py (dory-crash-consensus/0.0.1): [0m[1m[37mCreated package revision e25f3b793d7e2f757c35fd0abd63663d[0m
+[0m/mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libdoryconn /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libdorycrashconsensus /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libdoryctrl /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libdorymemstore /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libdoryshared /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libfmtd /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libfoo /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving/libspdlogd /mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static/archiving /mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen/build/static /mu/crash-consensus/libgen
+/mu/crash-consensus/libgen
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+shared=True
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mInstalling package[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1:897d688047a5aa041b4f056ed33484c021e9b9a4 - Cache[0m
+[1m[36m    dory-ctrl/0.0.1:0637b11d6f0ace1f3dd253a48191e34207bb727b - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-crash-consensus/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
+[1m[35mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mAggregating env generators[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mGenerated graphinfo[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1) imports(): [0m[1m[37mCopied 1 '.hpp' file: crash-consensus.hpp[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1) imports(): [0m[1m[37mCopied 1 '.h' file: crash-consensus.h[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mUsing lockfile: '/mu/crash-consensus/libgen/build/shared/installation/conan.lock'[0m
+[1m[36mUsing cached profile from lockfile[0m
+[1m[35mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mCalling build()[0m
+[1m[33mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /mu/crash-consensus/libgen/build/shared/installation
+[0/2] Building CXX object CMakeFiles/crashconsensus.dir/main.cpp.o[K[1/2] Building CXX object CMakeFiles/crashconsensus.dir/main.cpp.o[K[1/2] Linking CXX shared library lib/libcrashconsensus.so[K[2/2] Linking CXX shared library lib/libcrashconsensus.so[K
+[0m[1m[36mUsing lockfile: '/mu/crash-consensus/libgen/build/shared/installation/conan.lock'[0m
+[1m[36mUsing cached profile from lockfile[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mGenerating the package[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mPackage folder /mu/crash-consensus/libgen/build/shared/packaging[0m
+[1m[35mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mCalling package()[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1) package(): [0m[1m[37mPackaged 1 '.so' file: libcrashconsensus.so[0m
+[1m[32mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mPackage 'packaging' created[0m
+[1m[36mconanfile.py (dory-crash-consensus-shared/0.0.1): [0m[1m[37mCreated package revision 4e200b664186b2f429f0b1bab34b7faf[0m
+[0m/mu/crash-consensus/demo/using_conan_fully/build /mu/crash-consensus/demo/using_conan_fully
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mConfiguration:[0m
+[settings]
+arch=x86_64
+arch_build=x86_64
+build_type=Debug
+compiler=gcc
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=7
+os=Linux
+os_build=Linux
+[options]
+[build_requires]
+[env]
+
+[1m[36mdory-external/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mfmt/6.2.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mspdlog/1.5.0: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-shared/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-ctrl/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-memstore/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-connection/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[36mdory-crash-consensus/0.0.1: [0m[1m[37mPackage is up to date[0m
+[1m[35mconanfile.py (dory-demo/0.0.1): [0m[1m[37mInstalling package[0m
+[1m[33mRequirements[0m
+[1m[36m    dory-connection/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-ctrl/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-external/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-memstore/0.0.1 from local cache - Cache[0m
+[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
+[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
+[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
+[1m[33mPython requires[0m
+[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
+[1m[33mPackages[0m
+[1m[36m    dory-connection/0.0.1:b4c8ad1ca97195ceff91606a1f3f82d94029d2b4 - Cache[0m
+[1m[36m    dory-crash-consensus/0.0.1:897d688047a5aa041b4f056ed33484c021e9b9a4 - Cache[0m
+[1m[36m    dory-ctrl/0.0.1:0637b11d6f0ace1f3dd253a48191e34207bb727b - Cache[0m
+[1m[36m    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d - Cache[0m
+[1m[36m    dory-memstore/0.0.1:479b2606695b53c353efe0e9c4c15c21ac6eab11 - Cache[0m
+[1m[36m    dory-shared/0.0.1:f63326f19ac8d49f2cfd9ad63b7055485f3ba8e0 - Cache[0m
+[1m[36m    fmt/6.2.1:467844f290ff4af1df60720f1607bc6095cf829c - Cache[0m
+[1m[36m    spdlog/1.5.0:e79d06d3eb96a851113589601aefad4c6b2c5f52 - Cache[0m
+
+[1m[36mInstalling (downloading, building) binaries...[0m
+[1m[32mdory-external/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mfmt/6.2.1: [0m[1m[37mAlready installed![0m
+[1m[32mspdlog/1.5.0: [0m[1m[37mAlready installed![0m
+[1m[32mdory-shared/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-ctrl/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-memstore/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-connection/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[32mdory-crash-consensus/0.0.1: [0m[1m[37mAlready installed![0m
+[1m[33mconanfile.py (dory-demo/0.0.1): [0m[1m[37mWARN: 
+     ************************************************
+     The 'cmake' generator is deprecated.
+     Please update your code and remove it.
+     *************************************************
+[0m
+[1m[36mconanfile.py (dory-demo/0.0.1): [0m[1m[37mGenerator cmake created conanbuildinfo.cmake[0m
+[1m[36mconanfile.py (dory-demo/0.0.1): [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
+[1m[35mconanfile.py (dory-demo/0.0.1): [0m[1m[37mAggregating env generators[0m
+[1m[36mconanfile.py (dory-demo/0.0.1): [0m[1m[37mGenerated conaninfo.txt[0m
+[1m[36mconanfile.py (dory-demo/0.0.1): [0m[1m[37mGenerated graphinfo[0m
+[1m[33mWARN: Revisions are disabled. Using Conan without revisions enabled is deprecated[0m
+
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[0m
+[1m[33mWARN: **************************************************[0m
+[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
+[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
+[1m[33mWARN: **************************************************[0m
+[1m[36mUsing lockfile: '/mu/crash-consensus/demo/using_conan_fully/build/conan.lock'[0m
+[1m[36mUsing cached profile from lockfile[0m
+[1m[35mconanfile.py (dory-demo/0.0.1): [0m[1m[37mCalling build()[0m
+[1m[33mconanfile.py (dory-demo/0.0.1): [0m[1m[37mWARN: **** The 'from conans import CMake' helper is deprecated. Please update your code and remove it. ****[0m
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan setting CPP STANDARD: 17 WITH EXTENSIONS OFF
+-- Conan: Compiler GCC>=5, checking major version 7
+-- Conan: Checking correct version: 7
+-- Conan: C++ stdlib: libstdc++11
+-- CMAKE_C_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wlogical-op  -m64
+-- CMAKE_CXX_FLAGS: -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Wall -Wfloat-equal -Wpedantic -Wpointer-arith -Wswitch-default -Wpacked -Wextra -Winvalid-pch -Wmissing-field-initializers -Wunreachable-code -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Wformat-nonliteral -Wuninitialized -Wformat-security -Wformat-y2k -Winit-self -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wstrict-overflow=5 -Wundef -Wno-unused -Wctor-dtor-privacy -Wsign-promo -Woverloaded-virtual -Wold-style-cast -Wlogical-op -Wstrict-null-sentinel -Wnoexcept -Winline -g -m64
+-- CMAKE_BUILD_TYPE: Debug
+-- CMAKE_INTERPROCEDURAL_OPTIMIZATION: TRUE
+-- Configuring done
+-- Generating done
+[33mCMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CMAKE_INSTALL_BINDIR
+    CMAKE_INSTALL_DATAROOTDIR
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
+    CMAKE_INSTALL_LIBEXECDIR
+    CMAKE_INSTALL_OLDINCLUDEDIR
+    CMAKE_INSTALL_SBINDIR
+
+[0m
+-- Build files have been written to: /mu/crash-consensus/demo/using_conan_fully/build
+[0/10] Building CXX object src/CMakeFiles/main-st.dir/main-st.cpp.o[K[0/10] Building CXX object src/CMakeFiles/main-st-lat.dir/main-st-lat.cpp.o[K[0/10] Building CXX object src/CMakeFiles/main-dt.dir/main-dt.cpp.o[K[0/10] Building CXX object src/CMakeFiles/stats.dir/stats.cpp.o[K[0/10] Building CXX object src/CMakeFiles/fifo.dir/fifo.cpp.o[K[1/10] Building CXX object src/CMakeFiles/fifo.dir/fifo.cpp.o[K[1/10] Linking CXX executable bin/fifo[K[2/10] Building CXX object src/CMakeFiles/stats.dir/stats.cpp.o[K[2/10] Linking CXX executable bin/stats[K[3/10] Linking CXX executable bin/fifo[K[4/10] Building CXX object src/CMakeFiles/main-st-lat.dir/main-st-lat.cpp.o[K[4/10] Linking CXX executable bin/main-st-lat[K[5/10] Building CXX object src/CMakeFiles/main-dt.dir/main-dt.cpp.o[K[5/10] Linking CXX executable bin/main-dt[K[6/10] Linking CXX executable bin/stats[K[7/10] Building CXX object src/CMakeFiles/main-st.dir/main-st.cpp.o[K[7/10] Linking CXX executable bin/main-st[K[8/10] Linking CXX executable bin/main-dt[K[9/10] Linking CXX executable bin/main-st-lat[K[10/10] Linking CXX executable bin/main-st[K
+[0m

@@ -1,0 +1,21 @@
+
+cd /mu/conan/exports/compiler-options
+conan create . dory/stable
+cd /mu/extern/
+conan create . -pr=../conan/profiles/gcc-release.profile
+cd /mu/shared
+conan create . -pr=../conan/profiles/gcc-release.profile --build=missing
+cd /mu/ctrl
+conan create . -pr=../conan/profiles/gcc-release.profile -o log_level=OFF
+cd /mu/memstore
+conan create . -pr=../conan/profiles/gcc-release.profile
+cd /mu/conn
+conan create . -pr=../conan/profiles/gcc-release.profile
+
+./build.py crash-consensus
+crash-consensus/libgen/export.sh gcc-release
+/mu/crash-consensus/demo/using_conan_fully/build.sh gcc-release
+/mu/crash-consensus/experiments/build.sh
+/mu/crash-consensus/experiments/liquibook/build.sh
+export LD_LIBRARY_PATH=/mu/crash-consensus/experiments/exported:$LD_LIBRARY_PATH
+echo "export LD_LIBRARY_PATH=/mu/crash-consensus/experiments/exported:$LD_LIBRARY_PATH" >> ~/.bashrc

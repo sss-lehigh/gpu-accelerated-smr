@@ -1,0 +1,14 @@
+{
+ "options": [
+  [
+   "shared",
+   "False"
+  ]
+ ],
+ "root": {
+  "name": "dory-external",
+  "version": "0.0.1",
+  "user": null,
+  "channel": null
+ }
+}

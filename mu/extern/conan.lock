@@ -1,0 +1,18 @@
+{
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "ref": "dory-external/0.0.1",
+    "options": "shared=False",
+    "python_requires": [
+     "dory-compiler-options/0.0.1@dory/stable"
+    ],
+    "path": "conanfile.py",
+    "context": "host"
+   }
+  },
+  "revisions_enabled": false
+ },
+ "version": "0.4",
+ "profile_host": "[settings]\narch=x86_64\narch_build=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=17\ncompiler.libcxx=libstdc++11\ncompiler.version=7\nos=Linux\nos_build=Linux\n[options]\n[build_requires]\n[env]\n"
+}
