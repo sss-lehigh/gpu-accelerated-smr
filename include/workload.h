@@ -11,9 +11,12 @@
 #define SCALAR_MULT_PERC 20
 #define MAT_ADD_PERC 10
 #define MAT_SUB_PERC 10
-#define MAT_MULT_PERC 10
+#define MAT_MULT_PERC 5
+#define NEW_MAT_ADD_PERC 5
+#define NEW_MAT_SUB_PERC 5
+#define NEW_MAT_MULT_PERC 5
 
-#define MATRIX_DIM 64
+#define MATRIX_DIM 2
 #define MAX_RANDOM_VALUE 1000
 
 enum class OpType : uint8_t {
@@ -22,12 +25,19 @@ enum class OpType : uint8_t {
   SCALAR_MULT = 2,
   MAT_ADD = 3,
   MAT_SUB = 4,
-  MAT_MULT = 5
+  MAT_MULT = 5,
+  NEW_MAT_ADD = 6,
+  NEW_MAT_SUB = 7,
+  NEW_MAT_MULT = 8
 };
 
 struct op {
   uint64_t id;
   OpType type;
+  std::optional<uint64_t> dest_mat_id_1;
+  std::optional<uint64_t> dest_mat_id_2;
+  // Will only be populated if we have a "new" prefix, indicating that this
+  // will have additional matrix as the parameter instead of index
   std::optional<int> scalar_param;
   std::optional<DenseMat<int>> mat_param;
 };
@@ -49,33 +59,65 @@ class WorkloadGenerator {
     return default_mat;
   }
 
-  std::vector<op> generate(uint64_t num_ops) {
+  std::vector<op> generate(uint64_t num_ops, uint64_t num_mats = 1) {
     for (uint64_t i = 0; i < num_ops; ++i) {
       op new_op;
       new_op.id = i;
       int op_type_rand = rand() % 100;
       if (op_type_rand < SCALAR_ADD_PERC) {
         new_op.type = OpType::SCALAR_ADD;
-        new_op.scalar_param = rand() % 100;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        // rest of parameters are ignored...
       } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC) {
         new_op.type = OpType::SCALAR_SUB;
-        new_op.scalar_param = rand() % 100;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        // rest of parameters are ignored...
       } else if (op_type_rand <
                  SCALAR_ADD_PERC + SCALAR_SUB_PERC + SCALAR_MULT_PERC) {
         new_op.type = OpType::SCALAR_MULT;
-        new_op.scalar_param = rand() % 100;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        // rest of parameters are ignored...
       } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC +
                                     SCALAR_MULT_PERC + MAT_ADD_PERC) {
         new_op.type = OpType::MAT_ADD;
-        new_op.mat_param = generateMatrix();
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.dest_mat_id_2 = rand() % num_mats;
+        // rest of parameters are ignored...
       } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC +
                                     SCALAR_MULT_PERC + MAT_ADD_PERC +
                                     MAT_SUB_PERC) {
         new_op.type = OpType::MAT_SUB;
-        new_op.mat_param = generateMatrix();
-      } else {
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.dest_mat_id_2 = rand() % num_mats;
+        // rest of parameters are ignored...
+      } else if(op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC + SCALAR_MULT_PERC +
+                                    MAT_ADD_PERC + MAT_SUB_PERC + MAT_MULT_PERC) {
         new_op.type = OpType::MAT_MULT;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.dest_mat_id_2 = rand() % num_mats;
+        // rest of parameters are ignored...
+      } else if(op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC + SCALAR_MULT_PERC +
+                                    MAT_ADD_PERC + MAT_SUB_PERC + MAT_MULT_PERC +
+                                    NEW_MAT_ADD_PERC) {
+        new_op.type = OpType::NEW_MAT_ADD;
+        new_op.dest_mat_id_1 = rand() % num_mats;
         new_op.mat_param = generateMatrix();
+        // rest of parameters are ignored...
+      } else if(op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC + SCALAR_MULT_PERC +
+                                    MAT_ADD_PERC + MAT_SUB_PERC + MAT_MULT_PERC +
+                                    NEW_MAT_ADD_PERC + NEW_MAT_SUB_PERC) {
+        new_op.type = OpType::NEW_MAT_SUB;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.mat_param = generateMatrix();
+        // rest of parameters are ignored...
+      } else {
+        new_op.type = OpType::NEW_MAT_MULT;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.mat_param = generateMatrix();
+        // rest of parameters are ignored...
       }
       ops.push_back(new_op);
     }
@@ -85,46 +127,69 @@ class WorkloadGenerator {
   void print(uint64_t start_idx, uint64_t end_idx) {
     LOGGING_ASSERT(start_idx < end_idx && end_idx <= ops.size(),
                    "Invalid index range for printing operations.");
+    LOGGING_INFO("########### Workload ###########");
     for (uint64_t i = start_idx; i < end_idx && i < ops.size(); ++i) {
       op& current_op = ops[i];
       LOGGING_INFO("Operation id {}:", current_op.id);
       switch (current_op.type) {
         case OpType::SCALAR_ADD: {
-          LOGGING_INFO("Type: SCALAR_ADD, Scalar Param: {}",
-                       current_op.scalar_param.value());
+          LOGGING_INFO("Type: SCALAR_ADD, Scalar Param: {}, State Mat ID: {}",
+                       current_op.scalar_param.value(), current_op.dest_mat_id_1.value());
           break;
         }
 
         case OpType::SCALAR_SUB: {
-          LOGGING_INFO("Type: SCALAR_SUB, Scalar Param: {}",
-                       current_op.scalar_param.value());
+          LOGGING_INFO("Type: SCALAR_SUB, Scalar Param: {}, State Mat ID: {}",
+                       current_op.scalar_param.value(), current_op.dest_mat_id_1.value());
           break;
         }
 
         case OpType::SCALAR_MULT: {
-          LOGGING_INFO("Type: SCALAR_MULT, Scalar Param: {}",
-                       current_op.scalar_param.value());
+          LOGGING_INFO("Type: SCALAR_MULT, Scalar Param: {}, State Mat ID: {}",
+                       current_op.scalar_param.value(), current_op.dest_mat_id_1.value());
           break;
         }
 
         case OpType::MAT_ADD: {
-          LOGGING_INFO("Type: MAT_ADD, Matrix Param: {}",
-                       current_op.mat_param->ToString());
+          LOGGING_INFO("Type: MAT_ADD, M1_ID: {}, M2_ID: {}",
+                       current_op.dest_mat_id_1.value(),
+                       current_op.dest_mat_id_2.value());
           break;
         }
 
         case OpType::MAT_SUB: {
-          LOGGING_INFO("Type: MAT_SUB, Matrix Param: {}",
-                       current_op.mat_param->ToString());
+          LOGGING_INFO("Type: MAT_SUB, M1_ID: {}, M2_ID: {}",
+                       current_op.dest_mat_id_1.value(),
+                       current_op.dest_mat_id_2.value());
           break;
         }
 
         case OpType::MAT_MULT: {
-          LOGGING_INFO("Type: MAT_MULT, Matrix Param: {}",
-                       current_op.mat_param->ToString());
+          LOGGING_INFO("Type: MAT_MULT, M1_ID: {}, M2_ID: {}",
+                       current_op.dest_mat_id_1.value(),
+                       current_op.dest_mat_id_2.value());
+          break;
+        }
+
+        case OpType::NEW_MAT_ADD: {
+          LOGGING_INFO("Type: NEW_MAT_ADD, Matrix ID: {}, Incoming Matrix: {}",
+                       current_op.dest_mat_id_1.value(), current_op.mat_param->ToString());
+          break;
+        }
+
+        case OpType::NEW_MAT_SUB: {
+          LOGGING_INFO("Type: NEW_MAT_SUB, Matrix ID: {}, Incoming Matrix: {}",
+                       current_op.dest_mat_id_1.value(), current_op.mat_param->ToString());
+          break;
+        }
+
+        case OpType::NEW_MAT_MULT: {
+          LOGGING_INFO("Type: NEW_MAT_MULT, Matrix ID: {}, Incoming Matrix: {}",
+                       current_op.dest_mat_id_1.value(), current_op.mat_param->ToString());
           break;
         }
       }
+      LOGGING_INFO("-----------------------------------");
     }
   }
 };
