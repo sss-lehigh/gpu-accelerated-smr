@@ -8,11 +8,26 @@
 #define WARP_SIZE 32
 
 // Kernel for shifting all matrix elements by a value
-__global__ void addScalarGridStrideKernel(float* data, float scalar, size_t n) {
+__global__ void addScalarVectorizedKernel(float* data, float scalar, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
-  for (size_t i = index; i < n; i += stride) {
+  size_t n_vec = n / 4;
+  float4 *data_vec = reinterpret_cast<float4 *>(data);
+  float4 scalar_vec = make_float4(scalar, scalar, scalar, scalar);
+
+  for (size_t i = index; i < n_vec; i+= stride) {
+    float4 val = data_vec[i];
+    val.x += scalar_vec.x;
+    val.y += scalar_vec.y;
+    val.z += scalar_vec.z;
+    val.w += scalar_vec.w;
+    data_vec[i] = val;
+  }
+
+  // Handle the tail elements (0 to 3 elements)
+  size_t tail_start = n_vec * 4;
+  for (size_t i = tail_start + index; i < n; i += stride) {
     data[i] += scalar;
   }
 }
@@ -23,15 +38,13 @@ void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols) {
   // typical block size. can be tuned
   int blockSize = 256;
 
-  // Calculate required blocks with a maximum limit of 32 * 256
-  int desired_blocks = (n + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 32 * 256);
+  // Calculate grid size based on vectorized element count
+  size_t n_vec = n / 4; 
+  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
+  int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalarGridStrideKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  addScalarVectorizedKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
   CUDA_CHECK(cudaGetLastError());
-  
-  
-  CUDA_CHECK(cudaDeviceSynchronize()); // debugging (remove later)
 }
 
 // Kernel for scaling all matrix elements by a factor
