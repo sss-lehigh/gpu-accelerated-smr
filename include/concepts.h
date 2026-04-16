@@ -1,6 +1,7 @@
 #pragma once
 
 #include <concepts>
+#include <cstdint>
 
 /// The MATRIX concept: a minimal description of what we expect from anything
 /// that purports to be a matrix
