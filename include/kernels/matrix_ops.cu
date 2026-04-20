@@ -47,6 +47,22 @@ void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols) {
   CUDA_CHECK(cudaGetLastError());
 }
 
+void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols) {
+  size_t n = rows * cols;
+  scalar = (-1.0f)* scalar;
+
+  // typical block size. can be tuned
+  int blockSize = 256;
+
+  // Calculate grid size based on vectorized element count
+  size_t n_vec = n / 4; 
+  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
+  int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
+
+  addScalarVectorizedKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  CUDA_CHECK(cudaGetLastError());
+}
+
 // Kernel for scaling all matrix elements by a factor
 __global__ void scaleMatrixGridStrideKernel(float* data, float factor, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;

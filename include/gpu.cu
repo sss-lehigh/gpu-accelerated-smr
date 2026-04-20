@@ -25,7 +25,7 @@ public:
         for (const auto& level : levels) {
             int s_idx = 0; //to allocate tasks to all 8 gpu streams 
             for (uint64_t op_id : level) {
-                DagNode& node = dag[op_id];
+                const DagNode& node = dag.at(op_id);
                 cudaStream_t stream = streams[s_idx%8]; //determine which stream to launch on 
                 
                 launch(node, stream);
@@ -38,7 +38,7 @@ public:
     } //end run 
 
 private:
-    void launch(DagNode& node, cudaStream_t stream) {
+    void launch(const DagNode& node, cudaStream_t stream) {
         float* d_out = device_mats[node.op.dest_mat_id_1];
 
         if (node.has_fused_scalar) {

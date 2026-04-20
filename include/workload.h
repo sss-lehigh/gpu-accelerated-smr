@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <fstream>
 
 #include "DenseMat.h"
 #include "logging.h"
