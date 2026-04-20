@@ -139,10 +139,10 @@ class WorkloadGenerator {
       SerializedOp sop; 
       sop.id = op.id; 
       sop.type = op.type; 
-      sop.dest_mat_1 = op.dest_mat_id_1.value_or(-1);
-      sop.dest_mat_2 = op.dest_mat_id_2.value_or(-1);
+      sop.dest_mat_id_1 = op.dest_mat_id_1.value_or(-1);
+      sop.dest_mat_id_2 = op.dest_mat_id_2.value_or(-1);
       sop.scalar_param = op.scalar_param.value_or(0);
-      sop.has_matrix_param = op.mat_param.has_value();
+      sop.has_mat_param = op.mat_param.has_value();
 
       ofs.write(reinterpret_cast<char*>(&sop), sizeof(SerializedOp)); 
 
@@ -159,7 +159,7 @@ class WorkloadGenerator {
       ofs.write(reinterpret_cast<const char*>(mat.data()), size); 
       } //end if 
     } //end for 
-    
+
     ofs.close();
     LOGGING_INFO("Dummy log generated at: {}", path);
   } //end write log fcn  
