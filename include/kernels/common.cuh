@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 // Standard macro for catching CUDA errors
 #define CUDA_CHECK(call) \
