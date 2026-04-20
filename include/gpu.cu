@@ -21,7 +21,7 @@ public:
         } //end for 
     } //end constructor 
 
-    void run(std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
+    void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
         for (const auto& level : levels) {
             int s_idx = 0; //to allocate tasks to all 8 gpu streams 
             for (uint64_t op_id : level) {
@@ -55,13 +55,6 @@ private:
 
                 case OpType::SCALAR_MULT:
                     launchScaleMatrix(d_out, (float)node.op.scalar_param, rows, cols);
-                    break;
-
-                case OpType::MAT_MULT:
-                    {
-                        float* d_mat_B = device_mats[node.op.dest_mat_id_2];
-                        launchDenseMatVec(d_out, d_mat_B, d_out, rows, cols);
-                    }
                     break;
 
                 // [KAP325] FIXME:::: we don't have cuda kernels for this
