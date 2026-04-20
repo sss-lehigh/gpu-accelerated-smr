@@ -1,2 +1,2 @@
-include/dummy_*
+include/*.log
 include/log_gen
