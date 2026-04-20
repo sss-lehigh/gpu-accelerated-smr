@@ -103,4 +103,8 @@ public:
             dag[sop.id] = node; 
         } //end while 
     } //end bukld dag 
+
+    const std::map<uint64_t, DagNode>& get_dag() const {
+        return dag; 
+    } //end dag getter 
 }; //end class
