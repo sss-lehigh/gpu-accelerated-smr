@@ -30,40 +30,55 @@ private:
     std::map<uint64_t, uint64_t> last_write; 
     std::map<uint64_t, DagNode> dag; 
 
+    bool heavy_op(OpType type) {
+        return type == OpType::MAT_MULT || type == OpType::MAT_ADD || type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT 
+            || type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
+    } //end heavy operation 
+
 public: 
     void build_dag(const std::string& path) {
         std::ifstream log(path, std::ios::binary);
         SerializedOp sop; 
 
         while (log.read(reinterpret_cast<char*>(&sop), sizeof(SerializedOp))) {
-            uint64_t targ_mat = sop.dest_mat_id_1; 
+            uint64_t targ_mat = sop.dest_mat_id_1;
 
-            //merge scalar ops 
-            if ((sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_SUB || sop.type == OpType::SCALAR_MULT) && last_write.count(targ_mat)) {
+            if (last_write.count(targ_mat)) {
                 uint64_t prev_op = last_write[targ_mat]; 
                 DagNode& prev = dag[prev_op]; 
 
-                if (prev.op.type == OpType::SCALAR_ADD || prev.op.type == OpType::SCALAR_SUB || prev.op.type == OpType::SCALAR_MULT) {
-                    prev.op.scalar_param += sop.scalar_param; 
+                //merge scalar ops 
+                if (sop.type == prev.op.type && (sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_SUB || sop.type == OpType::SCALAR_MULT) && last_write.count(targ_mat)) {
+                    // [KAP325] I've assumed that when we do scalar subtrctions numbers are passed in as positves 
+                    if (prev.op.type == OpType::SCALAR_ADD || prev.op.type == OpType::SCALAR_SUB) {
+                        prev.op.scalar_param += sop.scalar_param; 
+                    } //end if 
+
+                    if (prev.op.type == OpType::SCALAR_MULT) {
+                        prev.op.scalar_param *= sop.scalar_param; 
+                    } //end if 
+
+                    last_write[sop.id] = prev_op; 
                     continue; 
                 } //end if 
-            } //end if 
 
-            //kernel fuxzion 
-            if ((sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_SUB || sop.type == OpType::SCALAR_MULT) && last_write.count(targ_mat)) {
-                uint64_t prev_op = last_write[targ_mat]; 
-                DagNode& prev = dag[prev_op]; 
+                //kernel fuxzion 
+                if ((sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_MULT) && heavy_op(prev.op.type)) {
+                    uint64_t prev_op = last_write[targ_mat]; 
+                    DagNode& prev = dag[prev_op]; 
 
-                if (prev.op.type == OpType::MAT_MULT || prev.op.type == OpType::MAT_ADD || prev.op.type == OpType::MAT_SUB || 
-                                prev.op.type == OpType::NEW_MAT_MULT || prev.op.type == OpType::NEW_MAT_ADD || prev.op.type == OpType:: NEW_MAT_SUB) {
-                    prev.fused_scalar += sop.scalar_param; 
+                    int val = (sop.type == OpType::SCALAR_SUB) ? -sop.scalar_param : sop.scalar_param;
+                    prev.fused_scalar += val; 
                     prev.has_fused_scalar = true; 
+                    last_write[sop.id] = prev_op; 
                     continue; 
                 } //end if 
             } //end if 
 
             DagNode node; 
             node.op = sop; 
+            node.has_fused_scalar = false;
+            node.fused_scalar = 0;
 
             if (last_write.count(sop.dest_mat_id_1)) {
                 node.deps.insert(last_write[sop.dest_mat_id_1]); 
