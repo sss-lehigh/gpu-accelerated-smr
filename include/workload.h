@@ -42,6 +42,15 @@ struct op {
   std::optional<DenseMat<int>> mat_param;
 };
 
+struct SerializedOp {
+  uint64_t id; 
+  OpType type; 
+  uint64_t dest_mat_id_1;
+  uint64_t dest_mat_id_2;
+  int32_t scalar_param; 
+  bool has_mat_param; 
+}; //end serialized op struc t
+
 class WorkloadGenerator {
  private:
   std::vector<op> ops;
@@ -123,6 +132,37 @@ class WorkloadGenerator {
     }
     return ops;
   }
+
+  void write_log(const std::string& path) {
+    std::ofstream ofs(path, std::ios::binary); 
+    for (const auto& op : ops) {
+      SerializedOp sop; 
+      sop.id = op.id; 
+      sop.type = op.type; 
+      sop.dest_mat_id_1 = op.dest_mat_id_1.value_or(-1);
+      sop.dest_mat_id_2 = op.dest_mat_id_2.value_or(-1);
+      sop.scalar_param = op.scalar_param.value_or(0);
+      sop.has_mat_param = op.mat_param.has_value();
+
+      ofs.write(reinterpret_cast<char*>(&sop), sizeof(SerializedOp)); 
+
+      if (sop.has_mat_param) {
+        auto& mat = op.mat_param.value(); 
+        uint64_t rows = mat.num_rows; 
+        uint64_t cols = mat.num_cols; 
+
+      ofs.write(reinterpret_cast<const char*>(&rows), sizeof(uint64_t)); 
+      ofs.write(reinterpret_cast<const char*>(&cols), sizeof(uint64_t)); 
+
+      size_t size = rows*cols*sizeof(int); 
+
+      ofs.write(reinterpret_cast<const char*>(mat.data()), size); 
+      } //end if 
+    } //end for 
+
+    ofs.close();
+    LOGGING_INFO("Dummy log generated at: {}", path);
+  } //end write log fcn  
 
   void print(uint64_t start_idx, uint64_t end_idx) {
     LOGGING_ASSERT(start_idx < end_idx && end_idx <= ops.size(),

@@ -146,6 +146,10 @@ class DenseMat {
     return result;
   }
 
+  T* data() const {
+    return _vals;
+  } //end getter 
+
  protected:
   /// Ensure the given row and column are within the dimensions of this Matrix
   ///
