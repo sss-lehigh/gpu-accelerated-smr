@@ -546,3 +546,63 @@ void launchMatrixScaleAdd(const float *d_A, const float *d_B, float *d_C,
   
   CUDA_CHECK(cudaGetLastError());
 }
+
+// Optimized GEMM with In-Place Accumulation (C = alpha * (A * B) + beta * C)
+__global__ void sgemmInPlaceAccumulateKernel(const float* __restrict__ A, 
+                                             const float* __restrict__ B, 
+                                             float* __restrict__ C, 
+                                             int M, int N, int K,
+                                             float alpha, float beta) {
+  
+  __shared__ float As[TILE_SIZE][TILE_SIZE];
+  __shared__ float Bs[TILE_SIZE][TILE_SIZE];
+
+  int row = blockIdx.y * blockDim.y + threadIdx.y;
+  int col = blockIdx.x * blockDim.x + threadIdx.x;
+
+  float sum = 0.0f;
+
+  int numTiles = (K + TILE_SIZE - 1) / TILE_SIZE;
+  for (int t = 0; t < numTiles; ++t) {
+    
+    // Load tiles into shared memory
+    if (row < M && (t * TILE_SIZE + threadIdx.x) < K) {
+      As[threadIdx.y][threadIdx.x] = A[row * K + t * TILE_SIZE + threadIdx.x];
+    } else {
+      As[threadIdx.y][threadIdx.x] = 0.0f;
+    }
+
+    if (col < N && (t * TILE_SIZE + threadIdx.y) < K) {
+      Bs[threadIdx.y][threadIdx.x] = B[(t * TILE_SIZE + threadIdx.y) * N + col];
+    } else {
+      Bs[threadIdx.y][threadIdx.x] = 0.0f;
+    }
+
+    __syncthreads();
+
+    // Compute partial dot product
+    #pragma unroll
+    for (int i = 0; i < TILE_SIZE; ++i) {
+      sum += As[threadIdx.y][i] * Bs[i][threadIdx.x];
+    }
+
+    __syncthreads();
+  }
+
+  // Write the accumulated sum back to global memory IN PLACE
+  if (row < M && col < N) {
+    int idx = row * N + col;
+    // Scale the dot product by alpha, add it to the scaled existing C value
+    C[idx] = alpha * sum + beta * C[idx];
+  }
+}
+
+void launchSgemmAccumulate(const float *d_A, const float *d_B, float *d_C, 
+                           int M, int N, int K, float alpha = 1.0f, float beta = 1.0f) {
+  dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
+  dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
+                 (M + TILE_SIZE - 1) / TILE_SIZE);
+
+  sgemmInPlaceAccumulateKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
+  CUDA_CHECK(cudaGetLastError());
+}
