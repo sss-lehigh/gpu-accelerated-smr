@@ -1,2 +1,3 @@
 include/*.log
 include/log_gen
+include/*.txt
