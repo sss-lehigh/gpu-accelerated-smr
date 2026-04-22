@@ -606,3 +606,100 @@ void launchSgemmAccumulate(const float *d_A, const float *d_B, float *d_C,
   sgemmInPlaceAccumulateKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
   CUDA_CHECK(cudaGetLastError());
 }
+
+// Vectorized kernel for elementwies matrix-matrix multiplication (C = A . B)
+__global__ void matrixElementwiseMultVectorizedKernel(const float* A, const float* B, float* C, size_t n) {
+  size_t index = blockIdx.x * blockDim.x + threadIdx.x;
+  size_t stride = blockDim.x * gridDim.x;
+
+  // Vectorized processing setup
+  size_t n_vec = n / 4;
+  
+  // Cast pointers to float4 for 128-bit memory transactions.
+  // A, B, and C must all be 16-byte aligned.
+  const float4* A_vec = reinterpret_cast<const float4*>(A);
+  const float4* B_vec = reinterpret_cast<const float4*>(B);
+  float4* C_vec = reinterpret_cast<float4*>(C);
+
+  // Main grid-stride loop over 128-bit chunks
+  for (size_t i = index; i < n_vec; i += stride) {
+    float4 a = A_vec[i];
+    float4 b = B_vec[i];
+    
+    float4 c;
+    c.x = a.x * b.x;
+    c.y = a.y * b.y;
+    c.z = a.z * b.z;
+    c.w = a.w * b.w;
+    
+    // Single 128-bit store
+    C_vec[i] = c;
+  }
+
+  // Tail processing for arrays not perfectly divisible by 4
+  size_t tail_start = n_vec * 4;
+  for (size_t i = tail_start + index; i < n; i += stride) {
+    C[i] = A[i] * B[i];
+  }
+}
+
+void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+  size_t n = rows * cols;
+  int blockSize = 256;
+
+  // Calculate grid size based on 128-bit chunks
+  size_t n_vec = n / 4; 
+  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
+  int num_blocks = std::min(desired_blocks, 80 * 32); 
+
+  matrixElementwiseMultVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  CUDA_CHECK(cudaGetLastError());
+}
+
+// Vectorized kernel for in-place element wise matrix multiplication (A .= B)
+__global__ void inPlaceMatrixElementwiseMultVectorizedKernel(float* __restrict__ A, const float* __restrict__ B, size_t n) {
+  size_t index = blockIdx.x * blockDim.x + threadIdx.x;
+  size_t stride = blockDim.x * gridDim.x;
+
+  // Vectorized processing setup
+  size_t n_vec = n / 4;
+  
+  // Cast pointers to float4 for 128-bit memory transactions.
+  float4* A_vec = reinterpret_cast<float4*>(A);
+  const float4* B_vec = reinterpret_cast<const float4*>(B);
+
+  // Main grid-stride loop over 128-bit chunks
+  for (size_t i = index; i < n_vec; i += stride) {
+    // Load 128-bits from A and B
+    float4 a = A_vec[i];
+    float4 b = B_vec[i];
+    
+    // Perform vector addition locally in registers
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
+    a.w *= b.w;
+    
+    // Store 128-bits back into A
+    A_vec[i] = a;
+  }
+
+  // Tail processing for arrays not perfectly divisible by 4
+  size_t tail_start = n_vec * 4;
+  for (size_t i = tail_start + index; i < n; i += stride) {
+    A[i] *= B[i];
+  }
+}
+
+void launchInPlaceMatrixElementwiseMultVectorizedKernel(float *d_A, const float *d_B, size_t rows, size_t cols) {
+  size_t n = rows * cols;
+  int blockSize = 256;
+
+  // Calculate grid size based on 128-bit chunks
+  size_t n_vec = n / 4; 
+  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
+  int num_blocks = std::min(desired_blocks, 80 * 32); 
+
+  inPlaceMatrixElementwiseMultVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  CUDA_CHECK(cudaGetLastError());
+}
