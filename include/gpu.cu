@@ -61,15 +61,58 @@ private:
                 // [KAP325] FIXME:::: we don't have cuda kernels for this
                 case OpType::MAT_MULT: 
                 {
-                    DenseMat<uint64_t>* dtr = new DenseMat(rows, cols);
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
                     float* d_mat_B = device_mats[node.op.dest_mat_id_2];
-                    launchSgemm(d_out, d_mat_B, dtr, rows, cols, stream);
+
+                    launchSgemm(d_out, d_mat_B, d_temp_result, rows, cols, stream);
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
+                    cudaFree(d_temp_result);
+
                     break;
                 }
+
                 case OpType::NEW_MAT_ADD:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+                    // float* d_mat_B = device_mats[node.op.dest_mat_id_2];
+
+                    launchMatrixAdd(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
+                    cudaFree(d_temp_result); 
+
+                    break; 
+                }
+
                 case OpType::NEW_MAT_SUB:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+                    float* d_mat_B = device_mats[node.op.dest_mat_id_2];
+
+                    launchMatrixSub(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
+                    cudaFree(d_temp_result); 
+
+                    break; 
+                }
+
                 case OpType::NEW_MAT_MULT:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+
+                    launchSgemm(d_out, node.mat_data, d_temp_result, rows, cols, stream);
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
+                    cudaFree(d_temp_result);
+
                     break;
+                }
 
                 default:
                     break;
