@@ -21,10 +21,12 @@
 
 struct DagNode {
     SerializedOp op; 
-    std::vector<float> mat_data; 
+    // std::vector<float> mat_data; 
+    float* d_mat_param = nullptr;
     std::set<uint64_t> deps; 
     bool has_fused_scalar; 
     int fused_scalar; 
+    uint64_t rows, cols; 
 }; //end dagnode struct
 
 class DagGenerator {
@@ -99,14 +101,20 @@ public:
                 log.read(reinterpret_cast<char*>(&r), sizeof(uint64_t));
                 log.read(reinterpret_cast<char*>(&c), sizeof(uint64_t));
 
-                // node.op.rows = r; 
-                // node.op.cols = c; 
+                node.rows = r; 
+                node.cols = c; 
 
-                size_t n_rows = r*c; 
-                size_t total_bytes = n_rows*sizeof(float); 
+                std::vector<float> float_data(r * c);
+                log.read(reinterpret_cast<char*>(float_data.data()), r * c * sizeof(float));
 
-                node.mat_data.resize(r * c * sizeof(int));
-                log.read(reinterpret_cast<char*>(node.mat_data.data()), node.mat_data.size());
+                cudaMalloc(&node.d_mat_param, r * c * sizeof(float));
+                cudaMemcpy(node.d_mat_param, float_data.data(), r * c * sizeof(float), cudaMemcpyHostToDevice);
+
+                // size_t n_rows = r*c; 
+                // size_t total_bytes = n_rows*sizeof(float); 
+
+                // node.mat_data.resize(r * c * sizeof(float));
+                // log.read(reinterpret_cast<char*>(node.mat_data.data()), node.mat_data.size());
             } //end iof 
 
             dag[sop.id] = node; 

@@ -158,7 +158,7 @@ class WorkloadGenerator {
         ofs.write(reinterpret_cast<const char*>(&rows), sizeof(uint64_t)); 
         ofs.write(reinterpret_cast<const char*>(&cols), sizeof(uint64_t)); 
 
-        size_t size = rows*cols*sizeof(int); 
+        size_t size = rows*cols*sizeof(float); 
 
         ofs.write(reinterpret_cast<const char*>(mat.data()), size); 
       } //end if 
