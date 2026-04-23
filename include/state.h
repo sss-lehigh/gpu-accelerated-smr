@@ -50,9 +50,9 @@ private:
   void fill_matrices(DistType& dist, GeneratorType& gen) {
       for (auto& matrix : matrices) {
           // Assuming DenseMat has rows(), cols(), and operator()(r, c)
-          for (size_t r = 0; r < matrix.rows(); ++r) {
-              for (size_t c = 0; c < matrix.cols(); ++c) {
-                  matrix(r, c) = dist(gen);
+          for (size_t r = 0; r < matrix.num_rows; ++r) {
+              for (size_t c = 0; c < matrix.num_cols; ++c) {
+                  matrix.set(r, c, dist(gen));
               }
           }
       }
