@@ -148,7 +148,7 @@ void launchFusedScalarMultiplyAndAdd(float *d_data, float alpha, float beta, siz
 }
 
 // Vectorized kernel for matrix-matrix addition (C = A + B)
-__global__ void matrixAddVectorizedKernel(const float* A, const float* B, float* C, size_t n) {
+__global__ void matrixAddKernel(const float* A, const float* B, float* C, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -192,12 +192,12 @@ void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  matrixAddVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  matrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for in-place matrix addition (A += B)
-__global__ void inPlaceMatrixAddVectorizedKernel(float* __restrict__ A, const float* __restrict__ B, size_t n) {
+__global__ void inPlaceMatrixAddKernel(float* __restrict__ A, const float* __restrict__ B, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -240,12 +240,12 @@ void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t co
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixAddVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceMatrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for matrix-matrix subtraction (C = A - B)
-__global__ void matrixSubVectorizedKernel(const float* __restrict__ A, 
+__global__ void matrixSubKernel(const float* __restrict__ A, 
                                           const float* __restrict__ B, 
                                           float* __restrict__ C, 
                                           size_t n) {
@@ -292,12 +292,12 @@ void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  matrixSubVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  matrixSubKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for in-place matrix subtraction (A -= B)
-__global__ void inPlaceMatrixSubVectorizedKernel(float* __restrict__ A, 
+__global__ void inPlaceMatrixSubKernel(float* __restrict__ A, 
                                                  const float* __restrict__ B, 
                                                  size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -342,12 +342,12 @@ void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t co
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixSubVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceMatrixSubKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // GEMM using Shared Memory Tiling
-__global__ void sgemmSharedMemoryTiledKernel(const float* __restrict__ A, 
+__global__ void sgemmKernel(const float* __restrict__ A, 
                                              const float* __restrict__ B, 
                                              float* __restrict__ C, 
                                              int M, int N, int K) {
@@ -408,12 +408,12 @@ void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, i
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  sgemmSharedMemoryTiledKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K);
+  sgemmKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Fused GEMM + Matrix Addition = (A x B) + D
-__global__ void sgemmAddFusedKernel(const float* __restrict__ A, 
+__global__ void fusedSgemmAddKernel(const float* __restrict__ A, 
                                     const float* __restrict__ B, 
                                     const float* __restrict__ D,
                                     float* __restrict__ C, 
@@ -459,7 +459,7 @@ __global__ void sgemmAddFusedKernel(const float* __restrict__ A,
   }
 }
 
-void launchSgemmAddFused(const float *d_A, const float *d_B, const float *d_D, float *d_C, 
+void launchFusedSgemmAdd(const float *d_A, const float *d_B, const float *d_D, float *d_C, 
                          int M, int N, int K, cudaStream_t stream = 0) {
                          
   // Define a 2D block matching the tile dimensions.
@@ -469,13 +469,13 @@ void launchSgemmAddFused(const float *d_A, const float *d_B, const float *d_D, f
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  sgemmAddFusedKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_D, d_C, M, N, K);
+  fusedSgemmAddKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_D, d_C, M, N, K);
   
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Fused Matrix Addition and Scaling: C = (alpha * A) + (beta * B)
-__global__ void matrixScaleAddVectorizedKernel(const float* __restrict__ A, 
+__global__ void fusedScalarMultMatrixAddKernel(const float* __restrict__ A, 
                                                const float* __restrict__ B, 
                                                float* __restrict__ C, 
                                                float alpha, float beta, 
@@ -508,7 +508,7 @@ __global__ void matrixScaleAddVectorizedKernel(const float* __restrict__ A,
   }
 }
 
-void launchMatrixScaleAdd(const float *d_A, const float *d_B, float *d_C, 
+void launchFusedScalarMultMatrixAdd(const float *d_A, const float *d_B, float *d_C, 
                           float alpha, float beta, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
@@ -517,13 +517,13 @@ void launchMatrixScaleAdd(const float *d_A, const float *d_B, float *d_C,
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
   // Launch the kernel
-  matrixScaleAddVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, alpha, beta, n);
+  fusedScalarMultMatrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, alpha, beta, n);
   
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Optimized GEMM with In-Place Accumulation (C = alpha * (A * B) + beta * C)
-__global__ void sgemmInPlaceAccumulateKernel(const float* __restrict__ A, 
+__global__ void inPlaceSgemmAccumulateKernel(const float* __restrict__ A, 
                                              const float* __restrict__ B, 
                                              float* __restrict__ C, 
                                              int M, int N, int K,
@@ -572,18 +572,18 @@ __global__ void sgemmInPlaceAccumulateKernel(const float* __restrict__ A,
   }
 }
 
-void launchSgemmAccumulate(const float *d_A, const float *d_B, float *d_C, 
+void launchInPlaceSgemmAccumulate(const float *d_A, const float *d_B, float *d_C, 
                            int M, int N, int K, float alpha = 1.0f, float beta = 1.0f, cudaStream_t stream = 0) {
   dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  sgemmInPlaceAccumulateKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
+  inPlaceSgemmAccumulateKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for elementwies matrix-matrix multiplication (C = A . B)
-__global__ void matrixElementwiseMultVectorizedKernel(const float* A, const float* B, float* C, size_t n) {
+__global__ void elementwiesMatrixMultKernel(const float* A, const float* B, float* C, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -627,12 +627,12 @@ void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C,
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  matrixElementwiseMultVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  elementwiesMatrixMultKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for in-place element wise matrix multiplication (A .= B)
-__global__ void inPlaceMatrixElementwiseMultVectorizedKernel(float* __restrict__ A, const float* __restrict__ B, size_t n) {
+__global__ void inPlaceElementwiseMatrixMultKernel(float* __restrict__ A, const float* __restrict__ B, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -666,7 +666,7 @@ __global__ void inPlaceMatrixElementwiseMultVectorizedKernel(float* __restrict__
   }
 }
 
-void launchInPlaceMatrixElementwiseMultVectorizedKernel(float *d_A, const float *d_B, size_t rows, size_t cols, cudaStream_t stream = 0) {
+void launchInPlaceElementwiseMatrixMult(float *d_A, const float *d_B, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -675,6 +675,6 @@ void launchInPlaceMatrixElementwiseMultVectorizedKernel(float *d_A, const float 
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixElementwiseMultVectorizedKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceElementwiseMatrixMultKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }
