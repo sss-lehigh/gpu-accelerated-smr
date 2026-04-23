@@ -3,6 +3,7 @@
 #include "scheduler.h"
 #include "kernels/common.cuh"
 #include "DenseMat.h"
+#include "state.h"
 
 class GpuExecutor {
 private:
@@ -21,6 +22,17 @@ public:
             cudaStreamCreate(&streams[i]);
         } //end for 
     } //end constructor 
+
+    void load_state(const State<float>& initial_state) {
+        size_t bytes = rows * cols * sizeof(float); 
+
+        for (int i = 0; i < 5; i++) {
+            const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
+            CUDA_CHECK(cudaMemcpy(device_mats[i], cpu_mat.data(), bytes, cudaMemcpyHostToDevice));
+        } //end for 
+
+        CUDA_CHECK(cudaDeviceSynchronize());
+    } //end load state
 
     void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
         for (const auto& level : levels) {
