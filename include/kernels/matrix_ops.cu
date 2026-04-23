@@ -8,8 +8,8 @@
 #define WARP_SIZE 32
 #define TILE_SIZE 32
 
-// Kernel for shifting all matrix elements by a value
-__global__ void addScalarVectorizedKernel(float* data, float scalar, size_t n) {
+// Kernel for shifting all matrix elements by a value, A = a + A
+__global__ void addScalarKernel(float* data, float scalar, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -33,7 +33,7 @@ __global__ void addScalarVectorizedKernel(float* data, float scalar, size_t n) {
   }
 }
 
-void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols) {
+void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
 
   // typical block size. can be tuned
@@ -44,11 +44,11 @@ void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols) {
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalarVectorizedKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  addScalarKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
-void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols) {
+void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   scalar = (-1.0f)* scalar;
 
@@ -60,12 +60,12 @@ void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols)
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalarVectorizedKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  addScalarKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
 // Vectorized kernel for matrix scaling
-__global__ void scaleMatrixVectorizedKernel(float* data, float factor, size_t n) {
+__global__ void multiplyScalarKernel(float* data, float factor, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -90,7 +90,7 @@ __global__ void scaleMatrixVectorizedKernel(float* data, float factor, size_t n)
   }
 }
 
-void launchScaleMatrix(float *d_data, float factor, size_t rows, size_t cols) {
+void launchMultiplyScalar(float *d_data, float factor, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
 
   int blockSize = 256;
@@ -100,38 +100,13 @@ void launchScaleMatrix(float *d_data, float factor, size_t rows, size_t cols) {
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32);
 
-  scaleMatrixVectorizedKernel<<<num_blocks, blockSize>>>(d_data, factor, n);
+  multiplyScalarKernel<<<num_blocks, blockSize>>>(d_data, factor, n);
   
   CUDA_CHECK(cudaGetLastError());
-}
-
-// Kernel for fusing scaling and scalar addition
-__global__ void scaleAndAddGridStrideKernel(float* data, float factor, float scalar, size_t n) {
-  size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-  size_t stride = blockDim.x * gridDim.x;
-
-  for (size_t i = index; i < n; i += stride) {
-    // fmaf(x, y, z) computes (x * y) + z as a single hardware instruction
-    data[i] = fmaf(data[i], factor, scalar);
-  }
-}
-
-void launchScaleAndAdd(float *d_data, float factor, float scalar, size_t rows, size_t cols) {
-  size_t n = rows * cols;
-
-  int blockSize = 256;
-
-  int desired_blocks = (n + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 32 * 256);
-
-  scaleAndAddGridStrideKernel<<<num_blocks, blockSize>>>(d_data, factor, scalar, n);
-  
-  CUDA_CHECK(cudaGetLastError());
-  CUDA_CHECK(cudaDeviceSynchronize()); // Remove later
 }
 
 // Vectorized kernel for fused multiply-add (y = alpha * x + beta)
-__global__ void fusedScaleAddVectorizedKernel(float* data, float alpha, float beta, size_t n) {
+__global__ void fusedSclarMultiplyAndAddKernel(float* data, float alpha, float beta, size_t n) {
   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
   size_t stride = blockDim.x * gridDim.x;
 
@@ -159,7 +134,7 @@ __global__ void fusedScaleAddVectorizedKernel(float* data, float alpha, float be
   }
 }
 
-void launchFusedScaleAdd(float *d_data, float alpha, float beta, size_t rows, size_t cols) {
+void launchFusedScalarMultiplyAndAdd(float *d_data, float alpha, float beta, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -168,7 +143,7 @@ void launchFusedScaleAdd(float *d_data, float alpha, float beta, size_t rows, si
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  fusedScaleAddVectorizedKernel<<<num_blocks, blockSize>>>(d_data, alpha, beta, n);
+  fusedSclarMultiplyAndAddKernel<<<num_blocks, blockSize>>>(d_data, alpha, beta, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -208,7 +183,7 @@ __global__ void matrixAddVectorizedKernel(const float* A, const float* B, float*
   }
 }
 
-void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -256,7 +231,7 @@ __global__ void inPlaceMatrixAddVectorizedKernel(float* __restrict__ A, const fl
   }
 }
 
-void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t cols) {
+void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -308,7 +283,7 @@ __global__ void matrixSubVectorizedKernel(const float* __restrict__ A,
   }
 }
 
-void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -358,7 +333,7 @@ __global__ void inPlaceMatrixSubVectorizedKernel(float* __restrict__ A,
   }
 }
 
-void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t cols) {
+void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -425,7 +400,7 @@ __global__ void sgemmSharedMemoryTiledKernel(const float* __restrict__ A,
   }
 }
 
-void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, int K) {
+void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, int K, cudaStream_t stream = 0) {
   // Use a 2D block topology mapping directly to the tile size
   dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
   
@@ -485,7 +460,7 @@ __global__ void sgemmAddFusedKernel(const float* __restrict__ A,
 }
 
 void launchSgemmAddFused(const float *d_A, const float *d_B, const float *d_D, float *d_C, 
-                         int M, int N, int K) {
+                         int M, int N, int K, cudaStream_t stream = 0) {
                          
   // Define a 2D block matching the tile dimensions.
   dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
@@ -534,7 +509,7 @@ __global__ void matrixScaleAddVectorizedKernel(const float* __restrict__ A,
 }
 
 void launchMatrixScaleAdd(const float *d_A, const float *d_B, float *d_C, 
-                          float alpha, float beta, size_t rows, size_t cols) {
+                          float alpha, float beta, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
   size_t n_vec = n / 4; 
@@ -598,7 +573,7 @@ __global__ void sgemmInPlaceAccumulateKernel(const float* __restrict__ A,
 }
 
 void launchSgemmAccumulate(const float *d_A, const float *d_B, float *d_C, 
-                           int M, int N, int K, float alpha = 1.0f, float beta = 1.0f) {
+                           int M, int N, int K, float alpha = 1.0f, float beta = 1.0f, cudaStream_t stream = 0) {
   dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
@@ -643,7 +618,7 @@ __global__ void matrixElementwiseMultVectorizedKernel(const float* A, const floa
   }
 }
 
-void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
@@ -691,7 +666,7 @@ __global__ void inPlaceMatrixElementwiseMultVectorizedKernel(float* __restrict__
   }
 }
 
-void launchInPlaceMatrixElementwiseMultVectorizedKernel(float *d_A, const float *d_B, size_t rows, size_t cols) {
+void launchInPlaceMatrixElementwiseMultVectorizedKernel(float *d_A, const float *d_B, size_t rows, size_t cols, cudaStream_t stream = 0) {
   size_t n = rows * cols;
   int blockSize = 256;
 
