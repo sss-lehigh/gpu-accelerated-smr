@@ -98,6 +98,13 @@ public:
                 uint64_t r, c;
                 log.read(reinterpret_cast<char*>(&r), sizeof(uint64_t));
                 log.read(reinterpret_cast<char*>(&c), sizeof(uint64_t));
+
+                // node.op.rows = r; 
+                // node.op.cols = c; 
+
+                size_t n_rows = r*c; 
+                size_t total_bytes = n_rows*sizeof(float); 
+
                 node.mat_data.resize(r * c * sizeof(int));
                 log.read(reinterpret_cast<char*>(node.mat_data.data()), node.mat_data.size());
             } //end iof 

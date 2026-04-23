@@ -2,6 +2,7 @@
 #include "kernels/matrix_ops.h" 
 #include "scheduler.h"
 #include "kernels/common.cuh"
+#include "DenseMat.h"
 
 class GpuExecutor {
 private:
@@ -42,30 +43,76 @@ private:
         float* d_out = device_mats[node.op.dest_mat_id_1];
 
         if (node.has_fused_scalar) {
-            launchScaleAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols);
+            launchScaleAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
         } else {
             switch (node.op.type) {
                 case OpType::SCALAR_ADD:
-                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols);
+                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_SUB:
-                    launchAddScalar(d_out, -(float)node.op.scalar_param, rows, cols);
+                    launchAddScalar(d_out, -(float)node.op.scalar_param, rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_MULT:
-                    launchScaleMatrix(d_out, (float)node.op.scalar_param, rows, cols);
+                    launchScaleMatrix(d_out, (float)node.op.scalar_param, rows, cols, stream);
                     break;
 
                 // [KAP325] FIXME:::: we don't have cuda kernels for this
                 case OpType::MAT_MULT: 
                 {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
                     float* d_mat_B = device_mats[node.op.dest_mat_id_2];
-                }
-                case OpType::NEW_MAT_ADD:
-                case OpType::NEW_MAT_SUB:
-                case OpType::NEW_MAT_MULT:
+
+                    launchSgemm(d_out, d_mat_B, d_temp_result, rows, cols, stream);
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
+                    cudaFree(d_temp_result);
+
                     break;
+                }
+
+                case OpType::NEW_MAT_ADD:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+                    // float* d_mat_B = device_mats[node.op.dest_mat_id_2];
+
+                    launchMatrixAdd(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
+                    cudaFree(d_temp_result); 
+
+                    break; 
+                }
+
+                case OpType::NEW_MAT_SUB:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+                    float* d_mat_B = device_mats[node.op.dest_mat_id_2];
+
+                    launchMatrixSub(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
+                    cudaFree(d_temp_result); 
+
+                    break; 
+                }
+
+                case OpType::NEW_MAT_MULT:
+                {
+                    float* d_temp_result;
+                    size_t size = rows*cols*sizeof(float); 
+                    cudaMalloc(&d_temp_result, size); 
+
+                    launchSgemm(d_out, node.mat_data, d_temp_result, rows, cols, stream);
+                    cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
+                    cudaFree(d_temp_result);
+
+                    break;
+                }
 
                 default:
                     break;

@@ -50,6 +50,8 @@ struct SerializedOp {
   uint64_t dest_mat_id_2;
   int32_t scalar_param; 
   bool has_mat_param; 
+  // uint64_t rows; 
+  // uint64_t cols; 
 }; //end serialized op struc t
 
 class WorkloadGenerator {
@@ -136,6 +138,7 @@ class WorkloadGenerator {
 
   void write_log(const std::string& path) {
     std::ofstream ofs(path, std::ios::binary); 
+
     for (const auto& op : ops) {
       SerializedOp sop; 
       sop.id = op.id; 
@@ -152,12 +155,12 @@ class WorkloadGenerator {
         uint64_t rows = mat.num_rows; 
         uint64_t cols = mat.num_cols; 
 
-      ofs.write(reinterpret_cast<const char*>(&rows), sizeof(uint64_t)); 
-      ofs.write(reinterpret_cast<const char*>(&cols), sizeof(uint64_t)); 
+        ofs.write(reinterpret_cast<const char*>(&rows), sizeof(uint64_t)); 
+        ofs.write(reinterpret_cast<const char*>(&cols), sizeof(uint64_t)); 
 
-      size_t size = rows*cols*sizeof(int); 
+        size_t size = rows*cols*sizeof(int); 
 
-      ofs.write(reinterpret_cast<const char*>(mat.data()), size); 
+        ofs.write(reinterpret_cast<const char*>(mat.data()), size); 
       } //end if 
     } //end for 
 
