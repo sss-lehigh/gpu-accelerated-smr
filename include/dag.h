@@ -21,7 +21,7 @@
 
 struct DagNode {
     SerializedOp op; 
-    std::vector<uint8_t> mat_data; 
+    std::vector<float> mat_data; 
     std::set<uint64_t> deps; 
     bool has_fused_scalar; 
     int fused_scalar; 

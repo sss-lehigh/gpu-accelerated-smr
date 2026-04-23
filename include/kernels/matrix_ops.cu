@@ -44,7 +44,7 @@ void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols, cuda
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalarKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  addScalarKernel<<<num_blocks, blockSize, 0, stream>>>(d_data, scalar, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -60,7 +60,7 @@ void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols,
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalarKernel<<<num_blocks, blockSize>>>(d_data, scalar, n);
+  addScalarKernel<<<num_blocks, blockSize, 0, stream>>>(d_data, scalar, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -100,7 +100,7 @@ void launchMultiplyScalar(float *d_data, float factor, size_t rows, size_t cols,
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32);
 
-  multiplyScalarKernel<<<num_blocks, blockSize>>>(d_data, factor, n);
+  multiplyScalarKernel<<<num_blocks, blockSize, 0, stream>>>(d_data, factor, n);
   
   CUDA_CHECK(cudaGetLastError());
 }
@@ -143,7 +143,7 @@ void launchFusedScalarMultiplyAndAdd(float *d_data, float alpha, float beta, siz
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  fusedSclarMultiplyAndAddKernel<<<num_blocks, blockSize>>>(d_data, alpha, beta, n);
+  fusedSclarMultiplyAndAddKernel<<<num_blocks, blockSize, 0, stream>>>(d_data, alpha, beta, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -192,7 +192,7 @@ void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  matrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  matrixAddKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -240,7 +240,7 @@ void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t co
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceMatrixAddKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -292,7 +292,7 @@ void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  matrixSubKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  matrixSubKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -342,7 +342,7 @@ void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t co
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixSubKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceMatrixSubKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -408,7 +408,7 @@ void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, i
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  sgemmKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K);
+  sgemmKernel<<<numBlocks, threadsPerBlock, 0, stream>>>(d_A, d_B, d_C, M, N, K);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -469,7 +469,7 @@ void launchFusedSgemmAdd(const float *d_A, const float *d_B, const float *d_D, f
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  fusedSgemmAddKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_D, d_C, M, N, K);
+  fusedSgemmAddKernel<<<numBlocks, threadsPerBlock, 0, stream>>>(d_A, d_B, d_D, d_C, M, N, K);
   
   CUDA_CHECK(cudaGetLastError());
 }
@@ -517,7 +517,7 @@ void launchFusedScalarMultMatrixAdd(const float *d_A, const float *d_B, float *d
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
   // Launch the kernel
-  fusedScalarMultMatrixAddKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, alpha, beta, n);
+  fusedScalarMultMatrixAddKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, d_C, alpha, beta, n);
   
   CUDA_CHECK(cudaGetLastError());
 }
@@ -578,7 +578,7 @@ void launchInPlaceSgemmAccumulate(const float *d_A, const float *d_B, float *d_C
   dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, 
                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
-  inPlaceSgemmAccumulateKernel<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
+  inPlaceSgemmAccumulateKernel<<<numBlocks, threadsPerBlock, 0, stream>>>(d_A, d_B, d_C, M, N, K, alpha, beta);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -627,7 +627,7 @@ void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C,
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  elementwiesMatrixMultKernel<<<num_blocks, blockSize>>>(d_A, d_B, d_C, n);
+  elementwiesMatrixMultKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, d_C, n);
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -675,6 +675,6 @@ void launchInPlaceElementwiseMatrixMult(float *d_A, const float *d_B, size_t row
   int desired_blocks = (n_vec + blockSize - 1) / blockSize;
   int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceElementwiseMatrixMultKernel<<<num_blocks, blockSize>>>(d_A, d_B, n);
+  inPlaceElementwiseMatrixMultKernel<<<num_blocks, blockSize, 0, stream>>>(d_A, d_B, n);
   CUDA_CHECK(cudaGetLastError());
 }

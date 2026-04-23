@@ -43,7 +43,7 @@ private:
         float* d_out = device_mats[node.op.dest_mat_id_1];
 
         if (node.has_fused_scalar) {
-            launchScaleAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
+            launchFusedScalarMultiplyAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
         } else {
             switch (node.op.type) {
                 case OpType::SCALAR_ADD:
@@ -51,11 +51,11 @@ private:
                     break;
 
                 case OpType::SCALAR_SUB:
-                    launchAddScalar(d_out, -(float)node.op.scalar_param, rows, cols, stream);
+                    launchSubtractScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_MULT:
-                    launchScaleMatrix(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchMultiplyScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
                     break;
 
                 // [KAP325] FIXME:::: we don't have cuda kernels for this
@@ -66,7 +66,7 @@ private:
                     cudaMalloc(&d_temp_result, size); 
                     float* d_mat_B = device_mats[node.op.dest_mat_id_2];
 
-                    launchSgemm(d_out, d_mat_B, d_temp_result, rows, cols, stream);
+                    launchSgemm(d_out, d_mat_B, d_temp_result, rows, cols, cols, stream);
                     cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
                     cudaFree(d_temp_result);
 
@@ -80,7 +80,7 @@ private:
                     cudaMalloc(&d_temp_result, size); 
                     // float* d_mat_B = device_mats[node.op.dest_mat_id_2];
 
-                    launchMatrixAdd(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    launchMatrixAdd(d_out, node.mat_data.data(), d_temp_result, rows, cols, stream); 
                     cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
                     cudaFree(d_temp_result); 
 
@@ -94,7 +94,7 @@ private:
                     cudaMalloc(&d_temp_result, size); 
                     float* d_mat_B = device_mats[node.op.dest_mat_id_2];
 
-                    launchMatrixSub(d_out, node.mat_data, d_temp_result, rows, cols, stream); 
+                    launchMatrixSub(d_out, node.mat_data.data(), d_temp_result, rows, cols, stream); 
                     cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream); 
                     cudaFree(d_temp_result); 
 
@@ -107,7 +107,7 @@ private:
                     size_t size = rows*cols*sizeof(float); 
                     cudaMalloc(&d_temp_result, size); 
 
-                    launchSgemm(d_out, node.mat_data, d_temp_result, rows, cols, stream);
+                    launchSgemm(d_out, node.mat_data.data(), d_temp_result, rows, cols, cols, stream);
                     cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream);
                     cudaFree(d_temp_result);
 
