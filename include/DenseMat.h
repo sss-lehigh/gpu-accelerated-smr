@@ -4,7 +4,7 @@
 #include <cstring>
 #include <functional>
 
-#include "logging.h"
+#include "romulus/logging.h"
 
 const uint64_t ROWS = 10;
 const uint64_t COLS = 10;
@@ -35,7 +35,8 @@ class DenseMat {
       : num_rows(num_rows),
         num_cols(num_cols),
         _vals((T*)malloc(num_rows * num_cols * sizeof(T))) {
-    LOGGING_ASSERT(num_rows > 0 && num_cols > 0, "Matrix dimensions must be >0");
+    ROMULUS_ASSERT(num_rows > 0 && num_cols > 0,
+                   "Matrix dimensions must be >0");
     // Fill vals with random data
     for (uint64_t i = 0; i < num_rows * num_cols; ++i) _vals[i] = T();
   }
@@ -61,7 +62,7 @@ class DenseMat {
   DenseMat& operator=(const DenseMat& other) {
     if (this == &other) return *this;  // Self-assignment check
 
-    LOGGING_ASSERT(num_rows == other.num_rows && num_cols == other.num_cols,
+    ROMULUS_ASSERT(num_rows == other.num_rows && num_cols == other.num_cols,
                    "Matrix dimensions must match for copy assignment");
     memcpy(_vals, other._vals, num_rows * num_cols * sizeof(T));
     return *this;
@@ -71,7 +72,7 @@ class DenseMat {
   DenseMat& operator=(DenseMat&& other) noexcept {
     if (this == &other) return *this;  // Self-assignment check
 
-    LOGGING_ASSERT(num_rows == other.num_rows && num_cols == other.num_cols,
+    ROMULUS_ASSERT(num_rows == other.num_rows && num_cols == other.num_cols,
                    "Matrix dimensions must match for move assignment");
 
     // Free our current memory
@@ -149,9 +150,7 @@ class DenseMat {
     return result;
   }
 
-  T* data() const {
-    return _vals;
-  } //end getter 
+  T* data() const { return _vals; }  // end getter
 
  protected:
   /// Ensure the given row and column are within the dimensions of this Matrix
@@ -159,7 +158,7 @@ class DenseMat {
   /// @param row The 1-based row to check
   /// @param col The 1-based column to check
   void checkRowCol(uint64_t row, uint64_t col) const {
-    LOGGING_ASSERT(row >= 1 && col >= 1 && row <= num_rows && col <= num_cols,
+    ROMULUS_ASSERT(row >= 1 && col >= 1 && row <= num_rows && col <= num_cols,
                    "Coordinates out of range.");
   }
 

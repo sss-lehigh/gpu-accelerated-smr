@@ -17,12 +17,12 @@ if(BUILD_MODE STREQUAL "DEBUG")
   message(STATUS "Building in Debug mode")
   set(CMAKE_BUILD_TYPE Debug)
   add_compile_options(-g -O0)
-  add_compile_options(-U LOG_LEVEL -D LOG_LEVEL=DEBUG)
+  add_compile_options(-U LOG_LEVEL -D ROMULUS_LOG_LEVEL=DEBUG)
 elseif(BUILD_MODE STREQUAL "RELEASE")
   message(STATUS "Building in Release mode")
   set(CMAKE_BUILD_TYPE Release)
   add_compile_options(-O3)
-  add_compile_options(-U LOG_LEVEL -D LOG_LEVEL=RELEASE)
+  add_compile_options(-U LOG_LEVEL -D ROMULUS_LOG_LEVEL=RELEASE)
 else()
   message(FATAL_ERROR "BUILD_MODE must be: (DEBUG | RELEASE)")
 endif()
@@ -36,12 +36,14 @@ message(STATUS "Using standard ${CXX_STANDARD}")
 
 set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
+set(HOME_DIR $ENV{HOME})
+
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME}
   INTERFACE
   ${CMAKE_SOURCE_DIR}/include
 )
 
-add_subdirectory(experiments)
+add_subdirectory(src)
 
 

@@ -1,63 +1,66 @@
 #pragma once
 
-#include <vector>
 #include <random>
 #include <type_traits>
+#include <vector>
 
-#include "logging.h"
 #include "DenseMat.h"
+#include "romulus/logging.h"
 
 template <typename T>
 class State {
+ private:
+  size_t num_matrix;
+  std::vector<DenseMat<T>> matrices;
 
-  private:
-    size_t num_matrix;
-    std::vector<DenseMat<T>> matrices;
-
-  public:
-    State(int num = 5) : num_matrix{num} {
-      matrices.reserve(num);
-      for (size_t i = 0; i < num; ++i) {
-        // emplace_back passes these arguments directly to DenseMat(uint64_t, uint64_t)
-        matrices.emplace_back(ROWS, COLS); 
-      }
+ public:
+  State(int num = 5) : num_matrix{static_cast<size_t>(num)} {
+    matrices.reserve(num);
+    for (size_t i = 0; i < static_cast<size_t>(num); ++i) {
+      // emplace_back passes these arguments directly to DenseMat(uint64_t,
+      // uint64_t)
+      matrices.emplace_back(ROWS, COLS);
     }
-    State(std::vector<DenseMat<T>> matrices) : matrices(matrices), num_matrix(matrices.size()) {}
+  }
+  State(std::vector<DenseMat<T>> matrices)
+      : matrices(matrices), num_matrix(matrices.size()) {}
 
-    DenseMat<T> getMatrix(size_t index) const {
-      if (index >= matrices.size()) {
-        LOGGING_FATAL("Matrix index out of range.");
-      }
-      return matrices[index];
+  DenseMat<T> getMatrix(size_t index) const {
+    if (index >= matrices.size()) {
+      ROMULUS_FATAL("Matrix index out of range.");
     }
-
-
-    void populate_random_state_matrix(T min_val = static_cast<T>(0), T max_val = static_cast<T>(1)) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-
-        if constexpr (std::is_floating_point_v<T>) {
-            std::uniform_real_distribution<T> dist(min_val, max_val);
-            fill_matrices(dist, gen);
-        } else if constexpr (std::is_integral_v<T>) {
-            std::uniform_int_distribution<T> dist(min_val, max_val);
-            fill_matrices(dist, gen);
-        } else {
-            // Fallback or static assertion if T is a complex number or unsupported type
-            static_assert(std::is_arithmetic_v<T>, "Type T must be an arithmetic type to generate random numbers natively.");
-        }
-    }
-
-private:
-  template <typename DistType, typename GeneratorType>
-  void fill_matrices(DistType& dist, GeneratorType& gen) {
-      for (auto& matrix : matrices) {
-          for (size_t r = 1; r <= matrix.num_rows; ++r) {
-              for (size_t c = 1; c <= matrix.num_cols; ++c) {
-                  matrix.set(r, c, dist(gen));
-              }
-          }
-      }
+    return matrices[index];
   }
 
+  void populate_random_state_matrix(T min_val = static_cast<T>(0),
+                                    T max_val = static_cast<T>(1)) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    if constexpr (std::is_floating_point_v<T>) {
+      std::uniform_real_distribution<T> dist(min_val, max_val);
+      fill_matrices(dist, gen);
+    } else if constexpr (std::is_integral_v<T>) {
+      std::uniform_int_distribution<T> dist(min_val, max_val);
+      fill_matrices(dist, gen);
+    } else {
+      // Fallback or static assertion if T is a complex number or unsupported
+      // type
+      static_assert(std::is_arithmetic_v<T>,
+                    "Type T must be an arithmetic type to generate random "
+                    "numbers natively.");
+    }
+  }
+
+ private:
+  template <typename DistType, typename GeneratorType>
+  void fill_matrices(DistType& dist, GeneratorType& gen) {
+    for (auto& matrix : matrices) {
+      for (size_t r = 1; r <= matrix.num_rows; ++r) {
+        for (size_t c = 1; c <= matrix.num_cols; ++c) {
+          matrix.set(r, c, dist(gen));
+        }
+      }
+    }
+  }
 };
