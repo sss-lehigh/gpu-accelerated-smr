@@ -6,6 +6,7 @@
 
 #define WARP_SIZE 32
 #define TILE_SIZE 32
+#define thread_count 8
 
 struct float4 {
     float x, y, z, w;
@@ -42,114 +43,119 @@ struct dim3 {
 float fmaf(float x, float y, float z) { return x * y + z; }
 
 // Kernel for shifting all matrix elements by a value, A = a + A
-void addScalar(float* data, float scalar, size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
+void addScalar(float4 *data, float scalar, size_t start, size_t end) {
 
-  size_t n_vec = n / 4;
-  float4 *data_vec;
-  float4::create_float4_vec(data_vec, data);
-  float4 scalar_vec = float4::make_float4(scalar, scalar, scalar, scalar);
-
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 val = data_vec[i];
-    val.x += scalar_vec.x;
-    val.y += scalar_vec.y;
-    val.z += scalar_vec.z;
-    val.w += scalar_vec.w;
-    data_vec[i] = val;
+  for (size_t i = start; i < end; i++) {
+    float4 val = data[i];
+    val.x += scalar;
+    val.y += scalar;
+    val.z += scalar;
+    val.w += scalar;
+    data[i] = val;
   }
 
-  // Handle the tail elements (0 to 3 elements)
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    data[i] += scalar;
-  }
 }
 
-void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols) {
+void launchAddScalar(float *d_data, float scalar, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
 
-  // typical block size. can be tuned
-  int blockSize = 256;
+  float4 *data_vec;
+  float4::create_float4_vec(data_vec, d_data);
 
   // Calculate grid size based on vectorized element count
   size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalar(d_data, scalar, n);
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  addScalar(data_vec, scalar, start, end);
+
+  if (thread_id == thread_count) {
+    // Handle the tail elements (0 to 3 elements)
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_data[i] += scalar;
+    }
   }
 
-void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols) {
+}
+
+void launchSubtractScalar(float *d_data, float scalar, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
   scalar = (-1.0f)* scalar;
 
-  // typical block size. can be tuned
-  int blockSize = 256;
+  float4 *data_vec;
+  float4::create_float4_vec(data_vec, d_data);
 
   // Calculate grid size based on vectorized element count
   size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); // Scaled for V100S SM count
 
-  addScalar(d_data, scalar, n);
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  addScalar(data_vec, scalar, start, end);
+
+  if (thread_id == thread_count) {
+    // Handle the tail elements (0 to 3 elements)
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_data[i] += scalar;
+    }
   }
 
+}
+
 // Vectorized kernel for matrix scaling
-void multiplyScalar(float* data, float factor, size_t n) {
+void multiplyScalar(float4 *data, float factor, size_t start, size_t end) {
 //   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
 //   size_t stride = blockDim.x * gridDim.x;
 
-  // Vectorized processing setup
-  size_t n_vec = n / 4;
-  float4 *data_vec;
-  float4::create_float4_vec(data_vec, data);
+  
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 val = data_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 val = data[i];
     val.x *= factor;
     val.y *= factor;
     val.z *= factor;
     val.w *= factor;
-    data_vec[i] = val;
+    data[i] = val;
   }
 
-  // Tail processing for remaining elements (0 to 3 floats)
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    data[i] *= factor;
-  }
+  
 }
 
-void launchMultiplyScalar(float *d_data, float factor, size_t rows, size_t cols) {
-  size_t n = rows * cols;
-
-  int blockSize = 256;
-
-  // Calculate required blocks based on the vectorized count, not the float count
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32);
-
-  multiplyScalar(d_data, factor, n);
+void launchMultiplyScalar(float *d_data, float factor, size_t rows, size_t cols, uint8_t thread_id) {
   
-  }
-
-// Vectorized kernel for fused multiply-add (y = alpha * x + beta)
-void fusedSclarMultiplyAndAdd(float* data, float alpha, float beta, size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
+  size_t n = rows * cols;
 
   // Vectorized processing setup
   size_t n_vec = n / 4;
   float4 *data_vec;
-  float4::create_float4_vec(data_vec, data);
+  float4::create_float4_vec(data_vec, d_data);
+
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  multiplyScalar(data_vec, factor, start, end);
+  
+  if (thread_id == thread_count) {
+    // Tail processing for remaining elements (0 to 3 floats)
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_data[i] *= factor;
+    }
+  }
+}
+
+// Vectorized kernel for fused multiply-add (y = alpha * x + beta)
+void fusedSclarMultiplyAndAdd(float4 *data, float alpha, float beta, size_t start, size_t end) {
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 val = data_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 val = data[i];
     
     // Hardware Fused Multiply-Add (FMA)
     val.x = fmaf(val.x, alpha, beta);
@@ -157,49 +163,40 @@ void fusedSclarMultiplyAndAdd(float* data, float alpha, float beta, size_t n) {
     val.z = fmaf(val.z, alpha, beta);
     val.w = fmaf(val.w, alpha, beta);
     
-    data_vec[i] = val;
+    data[i] = val;
   }
 
-  // Tail processing
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    data[i] = fmaf(data[i], alpha, beta);
-  }
+  
 }
 
-void launchFusedScalarMultiplyAndAdd(float *d_data, float alpha, float beta, size_t rows, size_t cols) {
+void launchFusedScalarMultiplyAndAdd(float *d_data, float alpha, float beta, size_t rows, size_t cols, uint8_t thread_id) {
   size_t n = rows * cols;
   int blockSize = 256;
 
-  // Grid configuration based on 128-bit vectorized chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
-
-  fusedSclarMultiplyAndAdd(d_data, alpha, beta, n);
-  }
-
-// Vectorized kernel for matrix-matrix addition (C = A + B)
-void matrixAddVectorized(const float* A, const float* B, float* C, size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
-
   // Vectorized processing setup
   size_t n_vec = n / 4;
+  float4 *data_vec;
+  float4::create_float4_vec(data_vec, d_data);
+
+  fusedSclarMultiplyAndAdd(data_vec, alpha, beta, start, end);
+  if (thread_id == thread_count) {
+    // Tail processing
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_data[i] = fmaf(d_data[i], alpha, beta);
+    }
+  }
+}
+
+// Vectorized kernel for matrix-matrix addition (C = A + B)
+void matrixAddVectorized(const float4 *A, const float4 *B, float4 *C, size_t start, size_t end) {
+
   
-  // Cast pointers to float4 for 128-bit memory transactions.
-  // A, B, and C must all be 16-byte aligned.
-  float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
-  float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
-  float4 *C_vec;
-  float4::create_float4_vec(C_vec, C);
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 a = A[i];
+    float4 b = B[i];
     
     float4 c;
     c.x = a.x + b.x;
@@ -208,47 +205,50 @@ void matrixAddVectorized(const float* A, const float* B, float* C, size_t n) {
     c.w = a.w + b.w;
     
     // Single 128-bit store
-    C_vec[i] = c;
+    C[i] = c;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    C[i] = A[i] + B[i];
-  }
+  
 }
 
-void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchMatrixAdd(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
-  int blockSize = 256;
 
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
+  size_t n_vec = n / 4;
+  
+  float4 *A_vec;
+  float4::create_float4_vec(A_vec, d_A);
+  float4 *B_vec;
+  float4::create_float4_vec(B_vec, d_B);
+  float4 *C_vec;
+  float4::create_float4_vec(C_vec, d_C);
 
-  matrixAddVectorized(d_A, d_B, d_C, n);
-  }
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  matrixAddVectorized(A_vec, B_vec, C_vec, start, end);
+
+  if (thread_id == thread_count)
+    // Tail processing for arrays not perfectly divisible by 4
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_C[i] = d_A[i] + d_B[i];
+    }
+}
 
 // Vectorized kernel for in-place matrix addition (A += B)
-void inPlaceMatrixAddVectorized(float* __restrict__ A, const float* __restrict__ B, size_t n) {
+void inPlaceMatrixAddVectorized(float4* __restrict__ A, const float4* __restrict__ B, size_t start, size_t end) {
 //   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
 //   size_t stride = blockDim.x * gridDim.x;
 
-  // Vectorized processing setup
-  size_t n_vec = n / 4;
   
-  // Cast pointers to float4 for 128-bit memory transactions.
-  float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
-  float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
+  for (size_t i = start; i < end; i++) {
     // Load 128-bits from A and B
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+    float4 a = A[i];
+    float4 b = B[i];
     
     // Perform vector addition locally in registers
     a.x += b.x;
@@ -257,52 +257,49 @@ void inPlaceMatrixAddVectorized(float* __restrict__ A, const float* __restrict__
     a.w += b.w;
     
     // Store 128-bits back into A
-    A_vec[i] = a;
+    A[i] = a;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    A[i] += B[i];
-  }
+  
 }
 
-void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t cols) {
+void launchInPlaceMatrixAdd(float *d_A, const float *d_B, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
-  int blockSize = 256;
-
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
-
-  inPlaceMatrixAddVectorized(d_A, d_B, n);
-  }
-
-// Vectorized kernel for matrix-matrix subtraction (C = A - B)
-void matrixSubVectorized(const float* __restrict__ A, 
-                                          const float* __restrict__ B, 
-                                          float* __restrict__ C, 
-                                          size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
 
   // Vectorized processing setup
   size_t n_vec = n / 4;
   
   // Cast pointers to float4 for 128-bit memory transactions.
-  // A, B, and C must be 16-byte aligned.
   float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
+  float4::create_float4_vec(A_vec, d_A);
   float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
-  float4 *C_vec;
-  float4::create_float4_vec(C_vec, C);
+  float4::create_float4_vec(B_vec, d_B);
+
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  inPlaceMatrixAddVectorized(A_vec, B_vec, start, end);
+
+  if (thread_id == thread_count) {
+    // Tail processing for arrays not perfectly divisible by 4
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_A[i] += d_B[i];
+    }
+  }
+}
+
+// Vectorized kernel for matrix-matrix subtraction (C = A - B)
+void matrixSubVectorized(const float4* __restrict__ A, 
+                                          const float4* __restrict__ B, 
+                                          float4* __restrict__ C, 
+                                          size_t start, size_t end) {
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 a = A[i];
+    float4 b = B[i];
     
     float4 c;
     c.x = a.x - b.x;
@@ -311,49 +308,50 @@ void matrixSubVectorized(const float* __restrict__ A,
     c.w = a.w - b.w;
     
     // Single 128-bit store
-    C_vec[i] = c;
+    C[i] = c;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    C[i] = A[i] - B[i];
-  }
+
 }
 
-void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchMatrixSub(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, uint8_t thread_id) {
   size_t n = rows * cols;
-  int blockSize = 256;
-
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
-
-  matrixSubVectorized(d_A, d_B, d_C, n);
-  }
-
-// Vectorized kernel for in-place matrix subtraction (A -= B)
-void inPlaceMatrixSubVectorized(float* __restrict__ A, 
-                                                 const float* __restrict__ B, 
-                                                 size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
-
   // Vectorized processing setup
   size_t n_vec = n / 4;
   
   // Cast pointers to float4 for 128-bit memory transactions.
-  // A is mutable (read/write), B is read-only.
+  // A, B, and C must be 16-byte aligned.
   float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
+  float4::create_float4_vec(A_vec, d_A);
   float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
+  float4::create_float4_vec(B_vec, d_B);
+  float4 *C_vec;
+  float4::create_float4_vec(C_vec, d_C);
 
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  matrixSubVectorized(A_vec, B_vec, C_vec, start, end);
+
+  if (thread_id == thread_count) {
+      // Tail processing for arrays not perfectly divisible by 4
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      d_C[i] = d_A[i] - d_B[i];
+    }
+  }
+}
+
+// Vectorized kernel for in-place matrix subtraction (A -= B)
+void inPlaceMatrixSubVectorized(float4* __restrict__ A, 
+                                                 const float4* __restrict__ B, 
+                                                 size_t start, size_t end) {
+
+  
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 a = A[i];
+    float4 b = B[i];
     
     // Perform vector subtraction locally in registers
     a.x -= b.x;
@@ -362,27 +360,38 @@ void inPlaceMatrixSubVectorized(float* __restrict__ A,
     a.w -= b.w;
     
     // Store the 128-bit result back into A
-    A_vec[i] = a;
+    A[i] = a;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    A[i] -= B[i];
-  }
+  
 }
 
-void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t cols) {
+void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
-  int blockSize = 256;
+  // Vectorized processing setup
+  size_t n_vec = n / 4;
+  
+  // Cast pointers to float4 for 128-bit memory transactions.
+  // A is mutable (read/write), B is read-only.
+  float4 *A_vec;
+  float4::create_float4_vec(A_vec, d_A);
+  float4 *B_vec;
+  float4::create_float4_vec(B_vec, d_B);
 
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
 
-  inPlaceMatrixSubVectorized(d_A, d_B, n);
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  inPlaceMatrixSubVectorized(d_A, d_B, start, end);
+  if (thread_id == thread_count) {
+    // Tail processing for arrays not perfectly divisible by 4
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      A[i] -= B[i];
+    }
   }
+}
 
 // GEMM using Shared Memory Tiling
 void sgemmSharedMemoryTiled(const float* __restrict__ A, 
@@ -447,7 +456,7 @@ void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, i
 //                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
 //   sgemmSharedMemoryTiled(d_A, d_B, d_C, M, N, K);
-  }
+}
 
 // Fused GEMM + Matrix Addition = (A x B) + D
 void sgemmAddFused(const float* __restrict__ A, 
@@ -513,28 +522,20 @@ void launchSgemmAddFused(const float *d_A, const float *d_B, const float *d_D, f
 
 //   sgemmAddFused(d_A, d_B, d_D, d_C, M, N, K);
   
-  }
+}
 
 // Fused Matrix Addition and Scaling: C = (alpha * A) + (beta * B)
 void matrixScaleAddVectorized(const float* __restrict__ A, 
                                                const float* __restrict__ B, 
                                                float* __restrict__ C, 
                                                float alpha, float beta, 
-                                               size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
-  size_t n_vec = n / 4;
-  
-  float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
-  float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
-  float4 *C_vec;
-  float4::create_float4_vec(C_vec, C);
+                                               size_t start, size_t end) {
 
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+  
+
+  for (size_t i = start; i < end; i++) {
+    float4 a = A[i];
+    float4 b = B[i];
     float4 c;
     
     // Using FMA (Fused Multiply-Add) to execute
@@ -543,27 +544,40 @@ void matrixScaleAddVectorized(const float* __restrict__ A,
     c.z = fmaf(a.z, alpha, b.z * beta);
     c.w = fmaf(a.w, alpha, b.w * beta);
     
-    C_vec[i] = c;
+    C[i] = c;
   }
 
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    C[i] = fmaf(A[i], alpha, B[i] * beta);
-  }
+  
 }
 
 void launchMatrixScaleAdd(const float *d_A, const float *d_B, float *d_C, 
-                          float alpha, float beta, size_t rows, size_t cols) {
+                          float alpha, float beta, size_t rows, size_t cols, uint8_t thread_id) {
+  
   size_t n = rows * cols;
-  int blockSize = 256;
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
+  
+  size_t n_vec = n / 4;
+  
+  float4 *A_vec;
+  float4::create_float4_vec(A_vec, d_A);
+  float4 *B_vec;
+  float4::create_float4_vec(B_vec, d_B);
+  float4 *C_vec;
+  float4::create_float4_vec(C_vec, d_C);
+
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
 
   // Launch the kernel
-  matrixScaleAddVectorized(d_A, d_B, d_C, alpha, beta, n);
-  
+  matrixScaleAddVectorized(d_A, d_B, d_C, alpha, beta, start, end);
+
+  if (thread_id == thread_count) {
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      C[i] = fmaf(A[i], alpha, B[i] * beta);
+    }
   }
+  
+}
 
 // Optimized GEMM with In-Place Accumulation (C = alpha * (A * B) + beta * C)
 void sgemmInPlaceAccumulate(const float* __restrict__ A, 
@@ -622,29 +636,15 @@ void launchSgemmAccumulate(const float *d_A, const float *d_B, float *d_C,
 //                  (M + TILE_SIZE - 1) / TILE_SIZE);
 
 //   sgemmInPlaceAccumulate(d_A, d_B, d_C, M, N, K, alpha, beta);
-  }
+}
 
 // Vectorized kernel for elementwies matrix-matrix multiplication (C = A . B)
-void matrixElementwiseMultVectorized(const float* A, const float* B, float* C, size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
-
-  // Vectorized processing setup
-  size_t n_vec = n / 4;
-  
-  // Cast pointers to float4 for 128-bit memory transactions.
-  // A, B, and C must all be 16-byte aligned.
-  float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
-  float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
-  float4 *C_vec;
-  float4::create_float4_vec(C_vec, C);
+void matrixElementwiseMultVectorized(const float4* A, const float4* B, float4* C, size_t start, size_t end) {
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+  for (size_t i = start; i < end; i++) {
+    float4 a = A[i];
+    float4 b = B[i];
     
     float4 c;
     c.x = a.x * b.x;
@@ -653,47 +653,48 @@ void matrixElementwiseMultVectorized(const float* A, const float* B, float* C, s
     c.w = a.w * b.w;
     
     // Single 128-bit store
-    C_vec[i] = c;
+    C[i] = c;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
-  size_t tail_start = n_vec * 4;
-  for (size_t i = tail_start; i < n; i++) {
-    C[i] = A[i] * B[i];
-  }
+  
 }
 
-void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols) {
+void launchElementwiseMatrixMult(const float *d_A, const float *d_B, float *d_C, size_t rows, size_t cols, uint8_t thread_id) {
   size_t n = rows * cols;
-  int blockSize = 256;
-
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
-
-  matrixElementwiseMultVectorized(d_A, d_B, d_C, n);
-  }
-
-// Vectorized kernel for in-place element wise matrix multiplication (A .= B)
-void inPlaceMatrixElementwiseMultVectorized(float* __restrict__ A, const float* __restrict__ B, size_t n) {
-//   size_t index = blockIdx.x * blockDim.x + threadIdx.x;
-//   size_t stride = blockDim.x * gridDim.x;
-
   // Vectorized processing setup
   size_t n_vec = n / 4;
   
   // Cast pointers to float4 for 128-bit memory transactions.
+  // A, B, and C must all be 16-byte aligned.
   float4 *A_vec;
-  float4::create_float4_vec(A_vec, A);
+  float4::create_float4_vec(A_vec, d_A);
   float4 *B_vec;
-  float4::create_float4_vec(B_vec, B);
+  float4::create_float4_vec(B_vec, d_B);
+  float4 *C_vec;
+  float4::create_float4_vec(C_vec, d_C);
+
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  matrixElementwiseMultVectorized(d_A, d_B, d_C, start, end);
+
+  if (thread_id == thread_count) {
+    // Tail processing for arrays not perfectly divisible by 4
+    size_t tail_start = n_vec * 4;
+    for (size_t i = tail_start; i < n; i++) {
+      C[i] = A[i] * B[i];
+    }
+  }
+}
+
+// Vectorized kernel for in-place element wise matrix multiplication (A .= B)
+void inPlaceMatrixElementwiseMultVectorized(float4* __restrict__ A, const float4* __restrict__ B, size_t start, size_t end) {
 
   // Main grid-stride loop over 128-bit chunks
-  for (size_t i = 0; i < n_vec; i++) {
+  for (size_t i = start; i < end; i++) {
     // Load 128-bits from A and B
-    float4 a = A_vec[i];
-    float4 b = B_vec[i];
+    float4 a = A[i];
+    float4 b = B[i];
     
     // Perform vector addition locally in registers
     a.x *= b.x;
@@ -702,24 +703,35 @@ void inPlaceMatrixElementwiseMultVectorized(float* __restrict__ A, const float* 
     a.w *= b.w;
     
     // Store 128-bits back into A
-    A_vec[i] = a;
+    A[i] = a;
   }
 
-  // Tail processing for arrays not perfectly divisible by 4
+  
+}
+
+void launchInPlaceMatrixElementwiseMultVectorized(float *d_A, const float *d_B, size_t rows, size_t cols, uint8_t thread_id) {
+  
+  size_t n = rows * cols;
+
+  // Vectorized processing setup
+  size_t n_vec = n / 4;
+  
+  // Cast pointers to float4 for 128-bit memory transactions.
+  float4 *A_vec;
+  float4::create_float4_vec(A_vec, d_A);
+  float4 *B_vec;
+  float4::create_float4_vec(B_vec, d_B);
+
+  size_t start = n_vec / thread_id;
+  size_t end   = n_vec / (thread_id + 1);
+
+  inPlaceMatrixElementwiseMultVectorized(d_A, d_B, start, end);
+
+  if (thread_id == thread_count) {
+    // Tail processing for arrays not perfectly divisible by 4
   size_t tail_start = n_vec * 4;
   for (size_t i = tail_start; i < n; i++) {
     A[i] *= B[i];
   }
-}
-
-void launchInPlaceMatrixElementwiseMultVectorized(float *d_A, const float *d_B, size_t rows, size_t cols) {
-  size_t n = rows * cols;
-  int blockSize = 256;
-
-  // Calculate grid size based on 128-bit chunks
-  size_t n_vec = n / 4; 
-  int desired_blocks = (n_vec + blockSize - 1) / blockSize;
-  int num_blocks = std::min(desired_blocks, 80 * 32); 
-
-  inPlaceMatrixElementwiseMultVectorized(d_A, d_B, n);
   }
+}

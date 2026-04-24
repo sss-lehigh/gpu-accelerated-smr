@@ -37,15 +37,15 @@ private:
         } else {
             switch (node.op.type) {
                 case OpType::SCALAR_ADD:
-                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols);
+                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols, thread_id);
                     break;
 
                 case OpType::SCALAR_SUB:
-                    launchAddScalar(d_out, -(float)node.op.scalar_param, rows, cols);
+                    launchAddScalar(d_out, -(float)node.op.scalar_param, rows, cols, thread_id);
                     break;
 
                 case OpType::SCALAR_MULT:
-                    launchMultiplyScalar(d_out, (float)sop.scalar_param, rows, cols);
+                    launchMultiplyScalar(d_out, (float)sop.scalar_param, rows, cols, thread_id);
                     break;
 
                 case OpType::MAT_MULT: 
@@ -63,7 +63,7 @@ private:
                     float* d_temp_result;
                     size_t size = rows*cols*sizeof(float); 
 
-                    launchMatrixAdd(d_out, node.d_mat_param, d_temp_result, rows, cols); 
+                    launchMatrixAdd(d_out, node.d_mat_param, d_temp_result, rows, cols, thread_id); 
 
                     break; 
                 }
@@ -72,7 +72,7 @@ private:
                 {
                     float* d_temp_result;
 
-                    launchMatrixSub(d_out, node.d_mat_param, d_temp_result, rows, cols); 
+                    launchMatrixSub(d_out, node.d_mat_param, d_temp_result, rows, cols, thread_id); 
 
 
                     break; 

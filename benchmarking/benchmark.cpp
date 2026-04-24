@@ -113,18 +113,39 @@ int main(int argc, char** argv) {
 
     std::cout << std::endl;
 
+
+    //////////////////////////////////////////////////////////////////////////////////////
+   
     std::cout << "CPU sequential" << std::endl << std::endl;
 
     cpu_executor cpu(ROWS, COLS);
 
-    /// TODO: replace with vector of ops from consensus
-    cpu.run_seq(LOG_PATH);
+    
+
+    try {
+
+        std::cout << "Executing on CPU..."
+        /// TODO: replace with vector of ops from consensus
+        cpu.run_seq(LOG_PATH);
+
+        std::cout << "SUCCESS: Workload completed." << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    } //end try catch 
+
+    std::cout << endl;
+
+    //////////////////////////////////////////////////////////////////////////////////////
 
     std::cout << "CPU parallel (using DAG)" << std::endl << std::endl;
 
+    DagGenerator builder;
+
     try {
+
         std::cout << "[1/3] Initializing DAG Generator..." << std::endl;
-        DagGenerator builder;
 
         /// TODO: replace with vector of ops from consensus
         builder.build_dag(LOG_PATH);
@@ -145,29 +166,49 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     } //end try catch 
 
+     std::cout << endl;
+    
+    //////////////////////////////////////////////////////////////////////////////////////
+
     std::cout << "GPU sequential" << std::endl << std::endl;
 
+    GpuExecutor executor(ROWS, COLS);
+    
+    try {
 
+        std::cout << "[1/2] Allocating VRAM and creating streams..." << std::endl;
+        
+
+
+        std::cout << "[2/2] Executing on GPU..." << std::endl;
+        /// TODO: replace with vector of ops from consensus
+        executor.run_seq(LOG_PATH);
+
+        std::cout << "SUCCESS: Workload completed." << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    } //end try catch 
+
+     std::cout << endl;
+    
+    //////////////////////////////////////////////////////////////////////////////////////
 
     std::cout << "GPU parallel (using DAG)" << std::endl << std::endl;
 
     try {
-        std::cout << "[1/4] Rebuilding DAG..." << std::endl;
+        std::cout << "[1/3] Rebuilding DAG..." << std::endl;
 
         /// TODO: replace with vector of ops from consensus
         builder.build_dag(LOG_PATH);
         auto& dag = builder.get_dag();
         std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
 
-        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
+        std::cout << "[2/3] Sorting DAG into parallel levels..." << std::endl;
         auto levels = Scheduler::get_levels(dag);
-        
-        // Scheduler::print(levels); // [KAP325] for debug/maybe we can add it to our slides 
 
-        std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
-        GpuExecutor executor(ROWS, COLS);
-
-        std::cout << "[4/4] Executing on GPU..." << std::endl;
+        std::cout << "[3/3] Executing on GPU..." << std::endl;
         executor.run(dag, levels);
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
