@@ -1,1 +1,0 @@
-/usr/bin/cc -O3 -DNDEBUG "CMakeFiles/redis-puts-only.dir/redis_latency_puts.c.o" -o redis-puts-only  -pthread 

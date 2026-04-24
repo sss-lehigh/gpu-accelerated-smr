@@ -1,5 +1,0 @@
-/mu/crash-consensus/experiments/memcached/latency_test/build/CMakeFiles/memcached-puts-only.dir
-/mu/crash-consensus/experiments/memcached/latency_test/build/CMakeFiles/memcached-gets-only.dir
-/mu/crash-consensus/experiments/memcached/latency_test/build/CMakeFiles/memcached-puts-gets.dir
-/mu/crash-consensus/experiments/memcached/latency_test/build/CMakeFiles/edit_cache.dir
-/mu/crash-consensus/experiments/memcached/latency_test/build/CMakeFiles/rebuild_cache.dir

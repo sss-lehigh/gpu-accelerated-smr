@@ -1,1029 +1,0 @@
-Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-169-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
- * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
-   just raised the bar for easy, resilient and secure K8s cluster deployment.
-
-   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
-
- * Canonical Livepatch is available for installation.
-   - Reduce system reboots and improve kernel security. Activate at:
-     https://ubuntu.com/livepatch
-New release '20.04.6 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-Last login: Mon Jul 21 16:58:04 2025 from 128.180.109.25
-[01;32malclev@node4[00m:[01;34m~[00m$ ls
-[0m[01;34mmu[0m  prepare_to_run.sh
-[01;32malclev@node4[00m:[01;34m~[00m$ cd mu/
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ls
-[0m[01;32mbuild.py[0m  [01;34mconn[0m             [01;34mcrypto[0m  [01;34mdemo[0m        [01;34mextern[0m     [01;34mlogo[0m      [01;34mmemstore[0m  output.txt  [01;34mshared[0m
-[01;34mconan[0m     [01;34mcrash-consensus[0m  [01;34mctrl[0m    Dockerfile  [01;32mformat.sh[0m  Makefile  [01;34mneb[0m       README.md   [01;34mtest[0m
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ./[K/build.py 
-
-[1m[33mWARN: **************************************************[0m
-[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
-[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
-[1m[33mWARN: **************************************************[0m
-[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
-[1m[35mExporting package recipe[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 7 '.hpp' files[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: logger.cpp[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
-[1m[36mdory-shared/0.0.1: [0m[1m[37mThe stored package has not changed[0m
-[1m[36mdory-shared/0.0.1: [0m[1m[37mExported revision: 3b4d24a4109b81f64d33bc4a912e1ccd[0m
-[1m[36mConfiguration:[0m
-[settings]
-arch=x86_64
-arch_build=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=17
-compiler.libcxx=libstdc++11
-compiler.version=7
-os=Linux
-os_build=Linux
-[options]
-[build_requires]
-[env]
-
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Package binary is corrupted, removing: aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[35mInstalling package: dory-shared/0.0.1[0m
-[1m[33mRequirements[0m
-[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
-[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
-[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
-[1m[33mPython requires[0m
-[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
-[1m[33mPackages[0m
-[1m[36m    dory-shared/0.0.1:22e2f8407a05fb875ab19d88165a8cd1e6f1112d - Build[0m
-[1m[36m    fmt/6.2.1:aa4b42a29a137462803bc7c56a64efa1039e98e4 - Build[0m
-[1m[36m    spdlog/1.5.0:a113cc3aacc02b2b4d973117c51a2562bf07710b - Build[0m
-
-[1m[36mInstalling (downloading, building) binaries...[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Build folder is dirty, removing it: /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mCopying sources to build folder[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mBuilding your package in /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mCalling generate()[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Using the new toolchains and generators without specifying a build profile (e.g: -pr:b=default) is discouraged and might cause failures and unexpected behavior[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mPreset 'release' added to CMakePresets.json. Invoke it manually using 'cmake --preset release'[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mIf your CMake version is not compatible with CMakePresets (<3.19) call cmake like: 'cmake <path> -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake -DFMT_DOC=OFF -DFMT_TEST=OFF -DFMT_INSTALL=ON -DFMT_LIB_DIR=lib -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release'[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mAggregating env generators[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mCalling build()[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mapply_conandata_patches(): No patches defined in conandata[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mCMake command: cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/users/alclev/.conan/data/fmt/6.2.1/_/_/package/aa4b42a29a137462803bc7c56a64efa1039e98e4" -DFMT_DOC="OFF" -DFMT_TEST="OFF" -DFMT_INSTALL="ON" -DFMT_LIB_DIR="lib" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Release" "/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/src"[0m
--- CMake version: 3.10.2
--- Using Conan toolchain: /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake
-CMake Error at /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake:13 (message):
-  The 'CMakeToolchain' generator only works with CMake >= 3.15
-Call Stack (most recent call first):
-  /usr/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)
-  CMakeLists.txt:58 (project)
-
-
-CMake Error: CMake was unable to find a build program corresponding to "Unix Makefiles".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
-CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
--- Configuring incomplete, errors occurred!
-fmt/6.2.1: [1m[37m[0m
-[1m[31mfmt/6.2.1: [0m[1m[37mERROR: Package 'aa4b42a29a137462803bc7c56a64efa1039e98e4' build failed[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Build folder /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release[0m
-[1m[31mERROR: fmt/6.2.1: Error in build() method, line 105
-	cmake.configure()
-	ConanException: Error 1 while executing cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/users/alclev/.conan/data/fmt/6.2.1/_/_/package/aa4b42a29a137462803bc7c56a64efa1039e98e4" -DFMT_DOC="OFF" -DFMT_TEST="OFF" -DFMT_INSTALL="ON" -DFMT_LIB_DIR="lib" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Release" "/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/src"[0m
-[0mMakefile:58: recipe for target '.deps/shared-mangled.conandep' failed
-make: *** [.deps/shared-mangled.conandep] Error 1
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ which conan
-/users/alclev/.local/bin/conan
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ v[Kconan --version
-[1m[32mConan version 1.66.0[0m
-[0m[01;32malclev@node4[00m:[01;34m~/mu[00m$ vim test.sh
-[?2004h[?1049h[22;0;0t[?1h=[?2004h[1;29r[?12h[?12l[27m[29m[m[H[2J[?25l[29;1H"test.sh" [New File][2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[2;1H[94m~                                                                                                                                   [3;1H~                                                                                                                                   [4;1H~                                                                                                                                   [5;1H~                                                                                                                                   [6;1H~                                                                                                                                   [7;1H~                                                                                                                                   [8;1H~                                                                                                                                   [9;1H~                                                                                                                                   [10;1H~                                                                                                                                   [11;1H~                                                                                                                                   [12;1H~                                                                                                                                   [13;1H~                                                                                                                                   [14;1H~                                                                                                                                   [15;1H~                                                                                                                                   [16;1H~                                                                                                                                   [17;1H~                                                                                                                                   [18;1H~                                                                                                                                   [19;1H~                                                                                                                                   [20;1H~                                                                                                                                   [21;1H~                                                                                                                                   [22;1H~                                                                                                                                   [23;1H~                                                                                                                                   [24;1H~                                                                                                                                   [25;1H~                                                                                                                                   [26;1H~                                                                                                                                   [27;1H~                                                                                                                                   [28;1H~                                                                                                                                   [m[29;115H0,0-1[9CAll[1;1H[?25h[?25l[29;105H/[1;1H[29;106H2[1;1H[29;107H8[1;1H[29;108H2[1;1H[29;109H8[1;1H[29;110H/[1;1H[29;111H2[1;1H[29;112H2[1;1H[29;113H2[1;1H[29;114H2[1;1H[29;105H          [1;1H[27m[29m[m[H[2J[2;1H[94m~                                                                                                                                   [3;1H~                                                                                                                                   [4;1H~                                                                                                                                   [5;1H~                                                                                                                                   [6;1H~                                                                                                                                   [7;1H~                                                                                                                                   [8;1H~                                                                                                                                   [9;1H~                                                                                                                                   [10;1H~                                                                                                                                   [11;1H~                                                                                                                                   [12;1H~                                                                                                                                   [13;1H~                                                                                                                                   [14;1H~                                                                                                                                   [15;1H~                                                                                                                                   [16;1H~                                                                                                                                   [17;1H~                                                                                                                                   [18;1H~                                                                                                                                   [19;1H~                                                                                                                                   [20;1H~                                                                                                                                   [21;1H~                                                                                                                                   [22;1H~                                                                                                                                   [23;1H~                                                                                                                                   [24;1H~                                                                                                                                   [25;1H~                                                                                                                                   [26;1H~                                                                                                                                   [27;1H~                                                                                                                                   [28;1H~                                                                                                                                   [m[29;115H0,0-1[9CAll"test.sh" [New File][1;1H[?25h[?25l[29;105Hi[1;1H[29;105H [1;1H[29;1H[1m-- INSERT --[m[29;13H[K[29;115H0,1[11CAll[1;1H[?25h[?25l[96m# 1) System packages (matches their Dockerfile)[m[2;1H[K[2;1H[?25h[?25lsudo apt-get update
-sudo apt-get install [38;5;224m-y[m [93m\[m[3;26H[K[4;1H[K[4;1H[?25h[?25l    libibverbs-dev libmemcached-dev [93m\[m
-    python3 python3-pip [93m\[m[5;26H[K[5;26H[?25h[?25l
-    cmake ninja-build [93m\[m[6;24H[K[7;1H    clang lld clang-format [93m\[m[7;29H[K[8;1H    vim t[8;10H[K[8;10H[?25h[?25lmux git memcached [93m\[m
-    libevent-dev libhugetlbfs-dev [93m\[m[9;36H[K[10;1H    lib[10;8H[K[10;8H[?25h[?25lgtest-dev libnuma-dev numactl libgflags-dev [93m\[m
-    openssh-serve[11;18H[K[11;18H[?25h[?25lr
-[96m# Ubuntu 18.04’[12;16Hs cmake is 3.10.2 by default :contentRefer[m[12;58H[K[12;58H[?25h[?25l[96mence[oaicite:4]{index=4}
-# Ubuntu 18.04’[13;16Hs clang default is[m[13;34H[K[13;34H[?25h[?25l[96m v6.0 :contentReference[oaicite:5]{index=5}[m[14;1H[K[15;1H[96m# 2) Build & ins[m[15;17H[K[15;17H[?25h[?25l[96mtall Google Test[m
-sudo cmake /usr/src/gtest [38;5;224m-B[m /usr/src/gtest/[16;45H[K[16;45H[?25h[?25lbuild
-sudo cmake [38;5;224m--build[m /usr/src/gtest/build[17;40H[K[18;1Hsudo cmake [38;5;224m--ins[m[18;17H[K[18;17H[?25h[?25l[38;5;224mtall[m /usr/src/gtest/build[19;1H[K[20;1H[96m# 3) Conan 1.x + profile[m[20;25H[K[21;1Hpip3 insta[21;11H[K[21;11H[?25h[?25lll [38;5;224m--user[m [93m"[m[95mconan<2.0[m[93m"[m
-~/.local/bin/conan profile new default [38;5;224m--[m[22;42H[K[22;42H[?25h[?25l[38;5;224mdetect[m
-~/.local/bin/conan profile update settings.compiler.libc[23;57H[K[23;57H[?25h[?25l[23;35H[1m[96msettings.compiler.libcxx[m=libstdc++[95m11[m default[24;1H[K[25;1H[96m# 4) Clone and build mu[m[25;24H[K[26;1Hgit clone https[26;16H[K[26;16H[?25h[?25l[1;28r[28;1H
-[1;29r[25;16H://github.com/LPD-EPFL/mu.git
-[93mcd[m mu[26;6H[K[27;1H./build.py [93m<[mTARGET[93m>[m[27;20H[K[29;115H[K[29;115H29,1[10CBot[28;1H[?25h[29;1H[K[28;1H[?25l[29;105H^[[28;1H[29;105H  [28;1H[29;115H29,0-1[8CBot[28;1H[?25h[?25l[29;105H:[28;1H[29;105H[K[29;1H:[?2004h[?25hw[?25l[?25hq[?25l[?25h[?25l[?2004l"test.sh" [New] 29L, 963C written
-[?2004l[?1l>[?25h[?1049l[23;0;0t[01;32malclev@node4[00m:[01;34m~/mu[00m$ ls
-[0m[01;32mbuild.py[0m  [01;34mconn[0m             [01;34mcrypto[0m  [01;34mdemo[0m        [01;34mextern[0m     [01;34mlogo[0m      [01;34mmemstore[0m  output.txt  [01;34mshared[0m  test.sh
-[01;34mconan[0m     [01;34mcrash-consensus[0m  [01;34mctrl[0m    Dockerfile  [01;32mformat.sh[0m  Makefile  [01;34mneb[0m       README.md   [01;34mtest[0m
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ bash test.sh 
-0% [Working]0% [Connecting to ubuntu-mirror-3.ps6.canonical.com] [Connecting to security.ubuntu.com (185.125.190.82)]                                                                                                         Hit:1 http://security.ubuntu.com/ubuntu bionic-security InRelease
-                                                                                                         0% [Waiting for headers]0% [1 InRelease gpgv 102 kB] [Waiting for headers]                                                  Hit:2 http://us.archive.ubuntu.com/ubuntu bionic InRelease
-                                                  0% [1 InRelease gpgv 102 kB]                            Hit:3 http://us.archive.ubuntu.com/ubuntu bionic-updates InRelease
-0% [1 InRelease gpgv 102 kB]                            0% [Waiting for headers]                        Hit:4 http://us.archive.ubuntu.com/ubuntu bionic-backports InRelease
-                        0% [Working]0% [2 InRelease gpgv 242 kB]                            0% [Working]0% [3 InRelease gpgv 102 kB]                            0% [Working]0% [4 InRelease gpgv 102 kB]                            20% [Working]             Reading package lists... 0%Reading package lists... 0%Reading package lists... 0%Reading package lists... 2%Reading package lists... 2%Reading package lists... 4%Reading package lists... 4%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 5%Reading package lists... 16%Reading package lists... 23%Reading package lists... 23%Reading package lists... 40%Reading package lists... 40%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 50%Reading package lists... 56%Reading package lists... 56%Reading package lists... 59%Reading package lists... 59%Reading package lists... 64%Reading package lists... 64%Reading package lists... 67%Reading package lists... 67%Reading package lists... 67%Reading package lists... 67%Reading package lists... 68%Reading package lists... 68%Reading package lists... 72%Reading package lists... 72%Reading package lists... 75%Reading package lists... 75%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 77%Reading package lists... 82%Reading package lists... 82%Reading package lists... 85%Reading package lists... 85%Reading package lists... 89%Reading package lists... 89%Reading package lists... 92%Reading package lists... 92%Reading package lists... 92%Reading package lists... 92%Reading package lists... 93%Reading package lists... 93%Reading package lists... 95%Reading package lists... 96%Reading package lists... 96%Reading package lists... 98%Reading package lists... 98%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... 99%Reading package lists... Done
-Reading package lists... 0%Reading package lists... 100%Reading package lists... Done
-Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree       
-Reading state information... 0%Reading state information... 0%Reading state information... Done
-libevent-dev is already the newest version (2.1.8-stable-4build1).
-libgflags-dev is already the newest version (2.2.1-1).
-libgtest-dev is already the newest version (1.8.0-6).
-libhugetlbfs-dev is already the newest version (2.19-0ubuntu1).
-ninja-build is already the newest version (1.8.2-1).
-cmake is already the newest version (3.10.2-1ubuntu2.18.04.2).
-git is already the newest version (1:2.17.1-1ubuntu0.18).
-libibverbs-dev is already the newest version (17.1-1ubuntu0.2).
-libmemcached-dev is already the newest version (1.0.18-4.2ubuntu0.18.04.1).
-libnuma-dev is already the newest version (2.0.11-2.1ubuntu0.1).
-memcached is already the newest version (1.5.6-0ubuntu1.2).
-numactl is already the newest version (2.0.11-2.1ubuntu0.1).
-python3 is already the newest version (3.6.7-1~18.04).
-tmux is already the newest version (2.6-3ubuntu0.3).
-vim is already the newest version (2:8.0.1453-1ubuntu1.13).
-clang is already the newest version (1:6.0-41~exp5~ubuntu1).
-clang-format is already the newest version (1:6.0-41~exp5~ubuntu1).
-lld is already the newest version (1:6.0-41~exp5~ubuntu1).
-python3-pip is already the newest version (9.0.1-2.3~ubuntu1.18.04.8).
-The following package was automatically installed and is no longer required:
-  ssl-cert
-Use 'sudo apt autoremove' to remove it.
-The following additional packages will be installed:
-  openssh-client openssh-sftp-server
-Suggested packages:
-  keychain libpam-ssh monkeysphere ssh-askpass molly-guard rssh
-The following packages will be upgraded:
-  openssh-client openssh-server openssh-sftp-server
-3 upgraded, 0 newly installed, 0 to remove and 295 not upgraded.
-Need to get 988 kB of archives.
-After this operation, 0 B of additional disk space will be used.
-0% [Working]            Get:1 http://us.archive.ubuntu.com/ubuntu bionic-updates/main amd64 openssh-sftp-server amd64 1:7.6p1-4ubuntu0.7 [45.5 kB]
-1% [1 openssh-sftp-server 14.2 kB/45.5 kB 31%]                                              10% [Working]             Get:2 http://us.archive.ubuntu.com/ubuntu bionic-updates/main amd64 openssh-server amd64 1:7.6p1-4ubuntu0.7 [332 kB]
-11% [2 openssh-server 2,604 B/332 kB 1%]                                        44% [Waiting for headers]                         Get:3 http://us.archive.ubuntu.com/ubuntu bionic-updates/main amd64 openssh-client amd64 1:7.6p1-4ubuntu0.7 [610 kB]
-44% [3 openssh-client 1,672 B/610 kB 0%]                                        100% [Working]              Fetched 988 kB in 1s (1,568 kB/s)
-Preconfiguring packages ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 122666 files and directories currently installed.)
-Preparing to unpack .../openssh-sftp-server_1%3a7.6p1-4ubuntu0.7_amd64.deb ...
-Unpacking openssh-sftp-server (1:7.6p1-4ubuntu0.7) over (1:7.6p1-4ubuntu0.5) ...
-Preparing to unpack .../openssh-server_1%3a7.6p1-4ubuntu0.7_amd64.deb ...
-Unpacking openssh-server (1:7.6p1-4ubuntu0.7) over (1:7.6p1-4ubuntu0.5) ...
-Preparing to unpack .../openssh-client_1%3a7.6p1-4ubuntu0.7_amd64.deb ...
-Unpacking openssh-client (1:7.6p1-4ubuntu0.7) over (1:7.6p1-4ubuntu0.5) ...
-Processing triggers for ufw (0.35-5) ...
-Processing triggers for ureadahead (0.100.0-20) ...
-Processing triggers for systemd (237-3ubuntu10.50) ...
-Processing triggers for man-db (2.8.3-2) ...
-Setting up openssh-client (1:7.6p1-4ubuntu0.7) ...
-Setting up openssh-sftp-server (1:7.6p1-4ubuntu0.7) ...
-Setting up openssh-server (1:7.6p1-4ubuntu0.7) ...
-CMake Error: The source directory "/usr/src/gtest/build" does not exist.
-Specify --help for usage, or press the help button on the CMake GUI.
-Error: /usr/src/gtest/build is not a directory
-CMake Error: The source directory "/usr/src/gtest/build" does not exist.
-Specify --help for usage, or press the help button on the CMake GUI.
-Collecting conan<2.0
-Collecting PyYAML<6.1,>=3.11 (from conan<2.0)
-Collecting PyJWT<3.0.0,>=2.4.0 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/1c/fb/b82e9601b00d88cf8bbee1f39b855ae773f9d5bcbcedb3801b2f72460696/PyJWT-2.4.0-py3-none-any.whl
-Collecting requests<3.0.0,>=2.25 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
-Collecting node-semver==0.6.1 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/08/51/6cf3a2b18ca35cbe4ad3c7538a7c3dc0cb24e71629fb16e729c137d06432/node_semver-0.6.1-py3-none-any.whl
-Collecting pluginbase>=0.5 (from conan<2.0)
-Collecting six<=1.16.0,>=1.10.0 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
-Collecting tqdm<5,>=4.28.1 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/47/bb/849011636c4da2e44f1253cd927cfb20ada4374d8b3a4e425416e84900cc/tqdm-4.64.1-py2.py3-none-any.whl
-Collecting Jinja2<4.0.0,>=3.0; python_version >= "3" (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/20/9a/e5d9ec41927401e41aea8af6d16e78b5e612bca4699d417f646a9610a076/Jinja2-3.0.3-py3-none-any.whl
-Collecting bottle<0.13,>=0.12.8 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/bb/1f/5977ea88c6a3df6199db97d320e5da816d415d1eb75a987a1f6823d5cc9d/bottle-0.12.25-py3-none-any.whl
-Collecting distro<=1.8.0,>=1.0.2; sys_platform == "linux" or sys_platform == "linux2" (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/f4/2c/c90a3adaf0ddb70afe193f5ebfb539612af57cffe677c3126be533df3098/distro-1.8.0-py3-none-any.whl
-Collecting python-dateutil<3,>=2.7.0 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl
-Collecting pygments<3.0,>=2.0 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/0b/42/d9d95cc461f098f204cd20c85642ae40fbff81f74c300341b8d0e0df14e0/Pygments-2.14.0-py3-none-any.whl
-Collecting urllib3<1.27,>=1.26.6 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/33/cf/8435d5a7159e2a9c83a95896ed596f68cf798005fe107cc655b5c5c14704/urllib3-1.26.20-py2.py3-none-any.whl
-Collecting patch-ng<1.18,>=1.17.4 (from conan<2.0)
-Collecting colorama<0.5.0,>=0.3.3 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/77/8b/7550e87b2d308a1b711725dfaddc19c695f8c5fa413c640b2be01662f4e6/colorama-0.4.5-py2.py3-none-any.whl
-Collecting fasteners>=0.14.1 (from conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/61/bf/fd60001b3abc5222d8eaa4a204cd8c0ae78e75adc688f33ce4bf25b7fafa/fasteners-0.19-py3-none-any.whl
-Collecting charset-normalizer~=2.0.0; python_version >= "3" (from requests<3.0.0,>=2.25->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/06/b3/24afc8868eba069a7f03650ac750a778862dc34941a4bebeb58706715726/charset_normalizer-2.0.12-py3-none-any.whl
-Collecting idna<4,>=2.5; python_version >= "3" (from requests<3.0.0,>=2.25->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl
-Collecting certifi>=2017.4.17 (from requests<3.0.0,>=2.25->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/4a/7e/3db2bd1b1f9e95f7cddca6d6e75e2f2bd9f51b1246e546d88addca0106bd/certifi-2025.4.26-py3-none-any.whl
-Collecting importlib-resources; python_version < "3.7" (from tqdm<5,>=4.28.1->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/24/1b/33e489669a94da3ef4562938cd306e8fa915e13939d7b8277cb5569cb405/importlib_resources-5.4.0-py3-none-any.whl
-Collecting MarkupSafe>=2.0 (from Jinja2<4.0.0,>=3.0; python_version >= "3"->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/fc/d6/57f9a97e56447a1e340f8574836d3b636e2c14de304943836bd645fa9c7e/MarkupSafe-2.0.1-cp36-cp36m-manylinux1_x86_64.whl
-Collecting zipp>=3.1.0; python_version < "3.10" (from importlib-resources; python_version < "3.7"->tqdm<5,>=4.28.1->conan<2.0)
-  Using cached https://files.pythonhosted.org/packages/bd/df/d4a4974a3e3957fd1c1fa3082366d7fff6e428ddb55f074bf64876f8e8ad/zipp-3.6.0-py3-none-any.whl
-Installing collected packages: PyYAML, PyJWT, urllib3, charset-normalizer, idna, certifi, requests, node-semver, pluginbase, six, zipp, importlib-resources, tqdm, MarkupSafe, Jinja2, bottle, distro, python-dateutil, pygments, patch-ng, colorama, fasteners, conan
-Successfully installed Jinja2-3.0.3 MarkupSafe-2.0.1 PyJWT-2.4.0 PyYAML-6.0.1 bottle-0.12.25 certifi-2025.4.26 charset-normalizer-2.0.12 colorama-0.4.5 conan-1.66.0 distro-1.8.0 fasteners-0.19 idna-3.10 importlib-resources-5.4.0 node-semver-0.6.1 patch-ng-1.17.4 pluginbase-1.0.1 pygments-2.14.0 python-dateutil-2.9.0.post0 requests-2.27.1 six-1.16.0 tqdm-4.64.1 urllib3-1.26.20 zipp-3.6.0
-[1m[31mERROR: Profile already exists[0m
-[0m[0mCloning into 'mu'...
-remote: Enumerating objects: 1985, done.[K
-remote: Counting objects:   0% (1/1985)[Kremote: Counting objects:   1% (20/1985)[Kremote: Counting objects:   2% (40/1985)[Kremote: Counting objects:   3% (60/1985)[Kremote: Counting objects:   4% (80/1985)[Kremote: Counting objects:   5% (100/1985)[Kremote: Counting objects:   6% (120/1985)[Kremote: Counting objects:   7% (139/1985)[Kremote: Counting objects:   8% (159/1985)[Kremote: Counting objects:   9% (179/1985)[Kremote: Counting objects:  10% (199/1985)[Kremote: Counting objects:  11% (219/1985)[Kremote: Counting objects:  12% (239/1985)[Kremote: Counting objects:  13% (259/1985)[Kremote: Counting objects:  14% (278/1985)[Kremote: Counting objects:  15% (298/1985)[Kremote: Counting objects:  16% (318/1985)[Kremote: Counting objects:  17% (338/1985)[Kremote: Counting objects:  18% (358/1985)[Kremote: Counting objects:  19% (378/1985)[Kremote: Counting objects:  20% (397/1985)[Kremote: Counting objects:  21% (417/1985)[Kremote: Counting objects:  22% (437/1985)[Kremote: Counting objects:  23% (457/1985)[Kremote: Counting objects:  24% (477/1985)[Kremote: Counting objects:  25% (497/1985)[Kremote: Counting objects:  26% (517/1985)[Kremote: Counting objects:  27% (536/1985)[Kremote: Counting objects:  28% (556/1985)[Kremote: Counting objects:  29% (576/1985)[Kremote: Counting objects:  30% (596/1985)[Kremote: Counting objects:  31% (616/1985)[Kremote: Counting objects:  32% (636/1985)[Kremote: Counting objects:  33% (656/1985)[Kremote: Counting objects:  34% (675/1985)[Kremote: Counting objects:  35% (695/1985)[Kremote: Counting objects:  36% (715/1985)[Kremote: Counting objects:  37% (735/1985)[Kremote: Counting objects:  38% (755/1985)[Kremote: Counting objects:  39% (775/1985)[Kremote: Counting objects:  40% (794/1985)[Kremote: Counting objects:  41% (814/1985)[Kremote: Counting objects:  42% (834/1985)[Kremote: Counting objects:  43% (854/1985)[Kremote: Counting objects:  44% (874/1985)[Kremote: Counting objects:  45% (894/1985)[Kremote: Counting objects:  46% (914/1985)[Kremote: Counting objects:  47% (933/1985)[Kremote: Counting objects:  48% (953/1985)[Kremote: Counting objects:  49% (973/1985)[Kremote: Counting objects:  50% (993/1985)[Kremote: Counting objects:  51% (1013/1985)[Kremote: Counting objects:  52% (1033/1985)[Kremote: Counting objects:  53% (1053/1985)[Kremote: Counting objects:  54% (1072/1985)[Kremote: Counting objects:  55% (1092/1985)[Kremote: Counting objects:  56% (1112/1985)[Kremote: Counting objects:  57% (1132/1985)[Kremote: Counting objects:  58% (1152/1985)[Kremote: Counting objects:  59% (1172/1985)[Kremote: Counting objects:  60% (1191/1985)[Kremote: Counting objects:  61% (1211/1985)[Kremote: Counting objects:  62% (1231/1985)[Kremote: Counting objects:  63% (1251/1985)[Kremote: Counting objects:  64% (1271/1985)[Kremote: Counting objects:  65% (1291/1985)[Kremote: Counting objects:  66% (1311/1985)[Kremote: Counting objects:  67% (1330/1985)[Kremote: Counting objects:  68% (1350/1985)[Kremote: Counting objects:  69% (1370/1985)[Kremote: Counting objects:  70% (1390/1985)[Kremote: Counting objects:  71% (1410/1985)[Kremote: Counting objects:  72% (1430/1985)[Kremote: Counting objects:  73% (1450/1985)[Kremote: Counting objects:  74% (1469/1985)[Kremote: Counting objects:  75% (1489/1985)[Kremote: Counting objects:  76% (1509/1985)[Kremote: Counting objects:  77% (1529/1985)[Kremote: Counting objects:  78% (1549/1985)[Kremote: Counting objects:  79% (1569/1985)[Kremote: Counting objects:  80% (1588/1985)[Kremote: Counting objects:  81% (1608/1985)[Kremote: Counting objects:  82% (1628/1985)[Kremote: Counting objects:  83% (1648/1985)[Kremote: Counting objects:  84% (1668/1985)[Kremote: Counting objects:  85% (1688/1985)[Kremote: Counting objects:  86% (1708/1985)[Kremote: Counting objects:  87% (1727/1985)[Kremote: Counting objects:  88% (1747/1985)[Kremote: Counting objects:  89% (1767/1985)[Kremote: Counting objects:  90% (1787/1985)[Kremote: Counting objects:  91% (1807/1985)[Kremote: Counting objects:  92% (1827/1985)[Kremote: Counting objects:  93% (1847/1985)[Kremote: Counting objects:  94% (1866/1985)[Kremote: Counting objects:  95% (1886/1985)[Kremote: Counting objects:  96% (1906/1985)[Kremote: Counting objects:  97% (1926/1985)[Kremote: Counting objects:  98% (1946/1985)[Kremote: Counting objects:  99% (1966/1985)[Kremote: Counting objects: 100% (1985/1985)[Kremote: Counting objects: 100% (1985/1985), done.[K
-remote: Compressing objects:   0% (1/667)[Kremote: Compressing objects:   1% (7/667)[Kremote: Compressing objects:   2% (14/667)[Kremote: Compressing objects:   3% (21/667)[Kremote: Compressing objects:   4% (27/667)[Kremote: Compressing objects:   5% (34/667)[Kremote: Compressing objects:   6% (41/667)[Kremote: Compressing objects:   7% (47/667)[Kremote: Compressing objects:   8% (54/667)[Kremote: Compressing objects:   9% (61/667)[Kremote: Compressing objects:  10% (67/667)[Kremote: Compressing objects:  11% (74/667)[Kremote: Compressing objects:  12% (81/667)[Kremote: Compressing objects:  13% (87/667)[Kremote: Compressing objects:  14% (94/667)[Kremote: Compressing objects:  15% (101/667)[Kremote: Compressing objects:  16% (107/667)[Kremote: Compressing objects:  17% (114/667)[Kremote: Compressing objects:  18% (121/667)[Kremote: Compressing objects:  19% (127/667)[Kremote: Compressing objects:  20% (134/667)[Kremote: Compressing objects:  21% (141/667)[Kremote: Compressing objects:  22% (147/667)[Kremote: Compressing objects:  23% (154/667)[Kremote: Compressing objects:  24% (161/667)[Kremote: Compressing objects:  25% (167/667)[Kremote: Compressing objects:  26% (174/667)[Kremote: Compressing objects:  27% (181/667)[Kremote: Compressing objects:  28% (187/667)[Kremote: Compressing objects:  29% (194/667)[Kremote: Compressing objects:  30% (201/667)[Kremote: Compressing objects:  31% (207/667)[Kremote: Compressing objects:  32% (214/667)[Kremote: Compressing objects:  33% (221/667)[Kremote: Compressing objects:  34% (227/667)[Kremote: Compressing objects:  35% (234/667)[Kremote: Compressing objects:  36% (241/667)[Kremote: Compressing objects:  37% (247/667)[Kremote: Compressing objects:  38% (254/667)[Kremote: Compressing objects:  39% (261/667)[Kremote: Compressing objects:  40% (267/667)[Kremote: Compressing objects:  41% (274/667)[Kremote: Compressing objects:  42% (281/667)[Kremote: Compressing objects:  43% (287/667)[Kremote: Compressing objects:  44% (294/667)[Kremote: Compressing objects:  45% (301/667)[Kremote: Compressing objects:  46% (307/667)[Kremote: Compressing objects:  47% (314/667)[Kremote: Compressing objects:  48% (321/667)[Kremote: Compressing objects:  49% (327/667)[Kremote: Compressing objects:  50% (334/667)[Kremote: Compressing objects:  51% (341/667)[Kremote: Compressing objects:  52% (347/667)[Kremote: Compressing objects:  53% (354/667)[Kremote: Compressing objects:  54% (361/667)[Kremote: Compressing objects:  55% (367/667)[Kremote: Compressing objects:  56% (374/667)[Kremote: Compressing objects:  57% (381/667)[Kremote: Compressing objects:  58% (387/667)[Kremote: Compressing objects:  59% (394/667)[Kremote: Compressing objects:  60% (401/667)[Kremote: Compressing objects:  61% (407/667)[Kremote: Compressing objects:  62% (414/667)[Kremote: Compressing objects:  63% (421/667)[Kremote: Compressing objects:  64% (427/667)[Kremote: Compressing objects:  65% (434/667)[Kremote: Compressing objects:  66% (441/667)[Kremote: Compressing objects:  67% (447/667)[Kremote: Compressing objects:  68% (454/667)[Kremote: Compressing objects:  69% (461/667)[Kremote: Compressing objects:  70% (467/667)[Kremote: Compressing objects:  71% (474/667)[Kremote: Compressing objects:  72% (481/667)[Kremote: Compressing objects:  73% (487/667)[Kremote: Compressing objects:  74% (494/667)[Kremote: Compressing objects:  75% (501/667)[Kremote: Compressing objects:  76% (507/667)[Kremote: Compressing objects:  77% (514/667)[Kremote: Compressing objects:  78% (521/667)[Kremote: Compressing objects:  79% (527/667)[Kremote: Compressing objects:  80% (534/667)[Kremote: Compressing objects:  81% (541/667)[Kremote: Compressing objects:  82% (547/667)[Kremote: Compressing objects:  83% (554/667)[Kremote: Compressing objects:  84% (561/667)[Kremote: Compressing objects:  85% (567/667)[Kremote: Compressing objects:  86% (574/667)[Kremote: Compressing objects:  87% (581/667)[Kremote: Compressing objects:  88% (587/667)[Kremote: Compressing objects:  89% (594/667)[Kremote: Compressing objects:  90% (601/667)[Kremote: Compressing objects:  91% (607/667)[Kremote: Compressing objects:  92% (614/667)[Kremote: Compressing objects:  93% (621/667)[Kremote: Compressing objects:  94% (627/667)[Kremote: Compressing objects:  95% (634/667)[Kremote: Compressing objects:  96% (641/667)[Kremote: Compressing objects:  97% (647/667)[Kremote: Compressing objects:  98% (654/667)[Kremote: Compressing objects:  99% (661/667)[Kremote: Compressing objects: 100% (667/667)[Kremote: Compressing objects: 100% (667/667), done.[K
-Receiving objects:   0% (1/1985)   Receiving objects:   1% (20/1985)   Receiving objects:   2% (40/1985)   Receiving objects:   3% (60/1985)   Receiving objects:   4% (80/1985)   Receiving objects:   5% (100/1985)   Receiving objects:   6% (120/1985)   Receiving objects:   7% (139/1985)   Receiving objects:   8% (159/1985)   Receiving objects:   9% (179/1985)   Receiving objects:  10% (199/1985)   Receiving objects:  11% (219/1985)   Receiving objects:  12% (239/1985)   Receiving objects:  13% (259/1985)   Receiving objects:  14% (278/1985)   Receiving objects:  15% (298/1985)   Receiving objects:  16% (318/1985)   Receiving objects:  17% (338/1985)   Receiving objects:  18% (358/1985), 1.57 MiB | 3.12 MiB/s   Receiving objects:  19% (378/1985), 1.57 MiB | 3.12 MiB/s   Receiving objects:  20% (397/1985), 1.57 MiB | 3.12 MiB/s   Receiving objects:  21% (417/1985), 1.57 MiB | 3.12 MiB/s   Receiving objects:  21% (424/1985), 4.24 MiB | 4.23 MiB/s   Receiving objects:  22% (437/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  23% (457/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  24% (477/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  25% (497/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  26% (517/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  27% (536/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  28% (556/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  29% (576/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  30% (596/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  31% (616/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  32% (636/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  33% (656/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  34% (675/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  35% (695/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  36% (715/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  37% (735/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  38% (755/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  39% (775/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  40% (794/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  41% (814/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  42% (834/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  43% (854/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  44% (874/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  45% (894/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  46% (914/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  47% (933/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  48% (953/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  49% (973/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  50% (993/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  51% (1013/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  52% (1033/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  53% (1053/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  54% (1072/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  55% (1092/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  56% (1112/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  57% (1132/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  58% (1152/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  59% (1172/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  60% (1191/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  61% (1211/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  62% (1231/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  63% (1251/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  64% (1271/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  65% (1291/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  66% (1311/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  67% (1330/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  68% (1350/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  69% (1370/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  70% (1390/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  71% (1410/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  72% (1430/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  73% (1450/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  74% (1469/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  75% (1489/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  76% (1509/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  77% (1529/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  78% (1549/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  79% (1569/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  80% (1588/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  81% (1608/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  82% (1628/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  83% (1648/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  84% (1668/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  85% (1688/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  86% (1708/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  87% (1727/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  88% (1747/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  89% (1767/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  90% (1787/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  91% (1807/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  92% (1827/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  93% (1847/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  94% (1866/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  95% (1886/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  96% (1906/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  97% (1926/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  98% (1946/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects:  99% (1966/1985), 7.05 MiB | 4.69 MiB/s   remote: Total 1985 (delta 1265), reused 1985 (delta 1265), pack-reused 0 (from 0)[K
-Receiving objects: 100% (1985/1985), 7.05 MiB | 4.69 MiB/s   Receiving objects: 100% (1985/1985), 9.55 MiB | 5.00 MiB/s, done.
-Resolving deltas:   0% (0/1265)   Resolving deltas:   1% (14/1265)   Resolving deltas:   2% (28/1265)   Resolving deltas:   4% (54/1265)   Resolving deltas:   5% (68/1265)   Resolving deltas:   6% (79/1265)   Resolving deltas:   7% (100/1265)   Resolving deltas:   8% (111/1265)   Resolving deltas:   9% (122/1265)   Resolving deltas:  10% (131/1265)   Resolving deltas:  11% (143/1265)   Resolving deltas:  12% (152/1265)   Resolving deltas:  13% (167/1265)   Resolving deltas:  14% (182/1265)   Resolving deltas:  15% (196/1265)   Resolving deltas:  16% (205/1265)   Resolving deltas:  18% (237/1265)   Resolving deltas:  19% (246/1265)   Resolving deltas:  20% (255/1265)   Resolving deltas:  21% (269/1265)   Resolving deltas:  22% (281/1265)   Resolving deltas:  23% (296/1265)   Resolving deltas:  24% (306/1265)   Resolving deltas:  25% (319/1265)   Resolving deltas:  26% (331/1265)   Resolving deltas:  27% (343/1265)   Resolving deltas:  28% (355/1265)   Resolving deltas:  30% (380/1265)   Resolving deltas:  31% (400/1265)   Resolving deltas:  32% (405/1265)   Resolving deltas:  33% (418/1265)   Resolving deltas:  34% (433/1265)   Resolving deltas:  35% (448/1265)   Resolving deltas:  36% (458/1265)   Resolving deltas:  37% (472/1265)   Resolving deltas:  38% (483/1265)   Resolving deltas:  39% (496/1265)   Resolving deltas:  40% (507/1265)   Resolving deltas:  41% (525/1265)   Resolving deltas:  42% (532/1265)   Resolving deltas:  43% (547/1265)   Resolving deltas:  44% (561/1265)   Resolving deltas:  45% (571/1265)   Resolving deltas:  46% (592/1265)   Resolving deltas:  47% (599/1265)   Resolving deltas:  48% (610/1265)   Resolving deltas:  53% (672/1265)   Resolving deltas:  55% (699/1265)   Resolving deltas:  56% (710/1265)   Resolving deltas:  57% (722/1265)   Resolving deltas:  58% (742/1265)   Resolving deltas:  59% (749/1265)   Resolving deltas:  60% (768/1265)   Resolving deltas:  61% (774/1265)   Resolving deltas:  62% (786/1265)   Resolving deltas:  63% (797/1265)   Resolving deltas:  64% (813/1265)   Resolving deltas:  65% (824/1265)   Resolving deltas:  68% (861/1265)   Resolving deltas:  69% (873/1265)   Resolving deltas:  70% (888/1265)   Resolving deltas:  71% (899/1265)   Resolving deltas:  72% (913/1265)   Resolving deltas:  74% (937/1265)   Resolving deltas:  76% (963/1265)   Resolving deltas:  77% (975/1265)   Resolving deltas:  78% (990/1265)   Resolving deltas:  79% (1000/1265)   Resolving deltas:  80% (1012/1265)   Resolving deltas:  81% (1030/1265)   Resolving deltas:  82% (1039/1265)   Resolving deltas:  83% (1051/1265)   Resolving deltas:  84% (1064/1265)   Resolving deltas:  85% (1076/1265)   Resolving deltas:  86% (1090/1265)   Resolving deltas:  87% (1101/1265)   Resolving deltas:  88% (1120/1265)   Resolving deltas:  89% (1126/1265)   Resolving deltas:  90% (1148/1265)   Resolving deltas:  92% (1164/1265)   Resolving deltas:  93% (1188/1265)   Resolving deltas:  94% (1192/1265)   Resolving deltas:  95% (1202/1265)   Resolving deltas:  96% (1224/1265)   Resolving deltas:  97% (1231/1265)   Resolving deltas:  98% (1242/1265)   Resolving deltas:  99% (1253/1265)   Resolving deltas: 100% (1265/1265)   Resolving deltas: 100% (1265/1265), done.
-test.sh: line 28: syntax error near unexpected token `newline'
-test.sh: line 28: `./build.py <TARGET>'
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ls
-[0m[01;32mbuild.py[0m  [01;34mconn[0m             [01;34mcrypto[0m  [01;34mdemo[0m        [01;34mextern[0m     [01;34mlogo[0m      [01;34mmemstore[0m  [01;34mneb[0m         README.md  [01;34mtest[0m
-[01;34mconan[0m     [01;34mcrash-consensus[0m  [01;34mctrl[0m    Dockerfile  [01;32mformat.sh[0m  Makefile  [01;34mmu[0m        output.txt  [01;34mshared[0m     test.sh
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ rm -rf mu/
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ls
-[0m[01;32mbuild.py[0m  [01;34mconn[0m             [01;34mcrypto[0m  [01;34mdemo[0m        [01;34mextern[0m     [01;34mlogo[0m      [01;34mmemstore[0m  output.txt  [01;34mshared[0m  test.sh
-[01;34mconan[0m     [01;34mcrash-consensus[0m  [01;34mctrl[0m    Dockerfile  [01;32mformat.sh[0m  Makefile  [01;34mneb[0m       README.md   [01;34mtest[0m
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ./build.py testing
-usage: build.py [-h] [-b [{debug,release,relwithdebinfo,minsizerel}]]
-                [-c [{gcc,clang}]]
-                [TARGET [TARGET ...]]
-build.py: error: argument TARGET: invalid choice: 'testing' (choose from 'all', 'clean', 'distclean', 'conn', 'crash-consensus', 'crypto', 'ctrl', 'demo', 'extern', 'memstore', 'neb', 'shared')
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ ./build.py testing[K[K[K[K[K[K[Kcrashc[K-consensus
-
-[1m[33mWARN: **************************************************[0m
-[1m[33mWARN: *** Conan 1 is legacy and on a deprecation path **[0m
-[1m[33mWARN: *********** Please upgrade to Conan 2 ************[0m
-[1m[33mWARN: **************************************************[0m
-[1m[33m[HOOK - attribute_checker.py] pre_export(): [0m[1m[37mWARN: Conanfile doesn't have 'url'. It is recommended to add it as attribute[0m
-[1m[35mExporting package recipe[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 7 '.hpp' files[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.cpp' file: logger.cpp[0m
-[1m[36mdory-shared/0.0.1 exports_sources: [0m[1m[37mCopied 1 '.txt' file: CMakeLists.txt[0m
-[1m[36mdory-shared/0.0.1: [0m[1m[37mThe stored package has not changed[0m
-[1m[36mdory-shared/0.0.1: [0m[1m[37mExported revision: 3b4d24a4109b81f64d33bc4a912e1ccd[0m
-[1m[36mConfiguration:[0m
-[settings]
-arch=x86_64
-arch_build=x86_64
-build_type=Release
-compiler=gcc
-compiler.cppstd=17
-compiler.libcxx=libstdc++11
-compiler.version=7
-os=Linux
-os_build=Linux
-[options]
-[build_requires]
-[env]
-
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Package binary is corrupted, removing: aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[35mInstalling package: dory-shared/0.0.1[0m
-[1m[33mRequirements[0m
-[1m[36m    dory-shared/0.0.1 from local cache - Cache[0m
-[1m[36m    fmt/6.2.1 from 'conancenter' - Cache[0m
-[1m[36m    spdlog/1.5.0 from 'conancenter' - Cache[0m
-[1m[33mPython requires[0m
-[1m[36m    dory-compiler-options/0.0.1@dory/stable[0m
-[1m[33mPackages[0m
-[1m[36m    dory-shared/0.0.1:22e2f8407a05fb875ab19d88165a8cd1e6f1112d - Build[0m
-[1m[36m    fmt/6.2.1:aa4b42a29a137462803bc7c56a64efa1039e98e4 - Build[0m
-[1m[36m    spdlog/1.5.0:a113cc3aacc02b2b4d973117c51a2562bf07710b - Build[0m
-
-[1m[36mInstalling (downloading, building) binaries...[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Build folder is dirty, removing it: /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mCopying sources to build folder[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mBuilding your package in /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mGenerator txt created conanbuildinfo.txt[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mCalling generate()[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Using the new toolchains and generators without specifying a build profile (e.g: -pr:b=default) is discouraged and might cause failures and unexpected behavior[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mPreset 'release' added to CMakePresets.json. Invoke it manually using 'cmake --preset release'[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mIf your CMake version is not compatible with CMakePresets (<3.19) call cmake like: 'cmake <path> -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake -DFMT_DOC=OFF -DFMT_TEST=OFF -DFMT_INSTALL=ON -DFMT_LIB_DIR=lib -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release'[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mAggregating env generators[0m
-[1m[35mfmt/6.2.1: [0m[1m[37mCalling build()[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mapply_conandata_patches(): No patches defined in conandata[0m
-[1m[36mfmt/6.2.1: [0m[1m[37mCMake command: cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/users/alclev/.conan/data/fmt/6.2.1/_/_/package/aa4b42a29a137462803bc7c56a64efa1039e98e4" -DFMT_DOC="OFF" -DFMT_TEST="OFF" -DFMT_INSTALL="ON" -DFMT_LIB_DIR="lib" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Release" "/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/src"[0m
--- CMake version: 3.10.2
--- Using Conan toolchain: /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake
-CMake Error at /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake:13 (message):
-  The 'CMakeToolchain' generator only works with CMake >= 3.15
-Call Stack (most recent call first):
-  /usr/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)
-  CMakeLists.txt:58 (project)
-
-
-CMake Error: CMake was unable to find a build program corresponding to "Unix Makefiles".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
-CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
--- Configuring incomplete, errors occurred!
-fmt/6.2.1: [1m[37m[0m
-[1m[31mfmt/6.2.1: [0m[1m[37mERROR: Package 'aa4b42a29a137462803bc7c56a64efa1039e98e4' build failed[0m
-[1m[33mfmt/6.2.1: [0m[1m[37mWARN: Build folder /users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release[0m
-[1m[31mERROR: fmt/6.2.1: Error in build() method, line 105
-	cmake.configure()
-	ConanException: Error 1 while executing cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/build/Release/generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/users/alclev/.conan/data/fmt/6.2.1/_/_/package/aa4b42a29a137462803bc7c56a64efa1039e98e4" -DFMT_DOC="OFF" -DFMT_TEST="OFF" -DFMT_INSTALL="ON" -DFMT_LIB_DIR="lib" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Release" "/users/alclev/.conan/data/fmt/6.2.1/_/_/build/aa4b42a29a137462803bc7c56a64efa1039e98e4/src"[0m
-[0mMakefile:58: recipe for target '.deps/shared-mangled.conandep' failed
-make: *** [.deps/shared-mangled.conandep] Error 1
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-169-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-
- * Canonical Livepatch is available for installation.
-   - Reduce system reboots and improve kernel security. Activate at:
-     https://ubuntu.com/livepatch
-New release '20.04.6 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-Last login: Mon Jul 21 16:58:26 2025 from 128.180.109.25
-[01;32malclev@node4[00m:[01;34m~[00m$ git log[K[K[K[K[K[K[Kls
-[0m[01;34mmu[0m  prepare_to_run.sh
-[01;32malclev@node4[00m:[01;34m~[00m$ cd mu/
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ git branch -l
-[?1h=* [32mmaster[m[m
-[K[?1l>[01;32malclev@node4[00m:[01;34m~/mu[00m$ git branch -l[Ka
-[?1h=* [32mmaster[m[m
-  [31mremotes/origin/HEAD[m -> origin/master[m
-  [31mremotes/origin/master[m[m
-[K[?1l>[01;32malclev@node4[00m:[01;34m~/mu[00m$ apt-cache madison libiverbs-dev=41.0-2ubuntu3
-N: Unable to locate package libiverbs-dev=41.0-2ubuntu3
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ apt-cache madison libibverbs-dev
-libibverbs-dev | 17.1-1ubuntu0.2 | http://us.archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages
-libibverbs-dev |     17.1-1 | http://us.archive.ubuntu.com/ubuntu bionic/main amd64 Packages
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ 
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ apt[K[K[Kapt-cache madison libibverbs-dev[K[K[K[K[K[K[K[K[K[K[K[K[K[Klibmemcached-dev
-libmemcached-dev | 1.0.18-4.2ubuntu0.18.04.1 | http://us.archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages
-libmemcached-dev | 1.0.18-4.2 | http://us.archive.ubuntu.com/ubuntu bionic/main amd64 Packages
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ conan info . --graph=deps.html
-
-[1m[31mERROR: Conanfile not found at /users/alclev/mu/conanfile.py or /users/alclev/mu/conanfile.txt[0m
-[0m[01;32malclev@node4[00m:[01;34m~/mu[00m$ 
-[01;32malclev@node4[00m:[01;34m~/mu[00m$ cd crash-consensus/
-[01;32malclev@node4[00m:[01;34m~/mu/crash-consensus[00m$ conan info . --graph=deps.html
-
-[1m[36mdory-connection/0.0.1: [0m[1m[37mNot found in local cache, looking in remotes...[0m
-[1m[36mdory-connection/0.0.1: [0m[1m[37mTrying with 'conancenter'...[0m
-[1m[31mERROR: Failed requirement 'dory-connection/0.0.1' from 'conanfile.py (dory-crash-consensus/0.0.1)'[0m
-[1m[31mERROR: Unable to find 'dory-connection/0.0.1' in remotes[0m
-[0m[01;32malclev@node4[00m:[01;34m~/mu/crash-consensus[00m$ 
-[01;32malclev@node4[00m:[01;34m~/mu/crash-consensus[00m$ ls
-conanfile.py  [0m[01;34mdemo[0m  [01;34mexperiments[0m  [01;34mlibgen[0m  README.md  [01;34msrc[0m
-[01;32malclev@node4[00m:[01;34m~/mu/crash-consensus[00m$ exi
-
-Command 'exi' not found, did you mean:
-
-  command 'exp' from deb alliance
-  command 'exif' from deb exif
-  command 'lxi' from deb lxi-tools
-  command 'exim' from deb exim4-daemon-heavy
-  command 'exim' from deb exim4-daemon-light
-  command 'axi' from deb afnix
-  command 'esi' from deb atm-tools
-  command 'ex' from deb vim
-  command 'ex' from deb vim-gtk3
-  command 'ex' from deb vim-tiny
-  command 'ex' from deb neovim
-  command 'ex' from deb nvi
-  command 'ex' from deb vim-athena
-  command 'ex' from deb vim-gtk
-  command 'ex' from deb vim-nox
-
-Try: apt install <deb name>
-
-[01;32malclev@node4[00m:[01;34m~/mu/crash-consensus[00m$ exit
-logout
-Connection to apt126.apt.emulab.net closed.
-Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-169-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-
- * Canonical Livepatch is available for installation.
-   - Reduce system reboots and improve kernel security. Activate at:
-     https://ubuntu.com/livepatch
-New release '20.04.6 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-Last login: Tue Jul 22 10:19:23 2025 from 128.180.109.25
-[01;32malclev@node4[00m:[01;34m~[00m$ hostname 
-node4.cas-paxos-v4.hyflowtm-pg0.apt.emulab.net
-[01;32malclev@node4[00m:[01;34m~[00m$ exit
-logout
-Connection to apt126.apt.emulab.net closed.
-Connection to apt126.apt.emulab.net closed by remote host.
-Connection to apt126.apt.emulab.net closed.
-Get:1 http://repos.emulab.net/emulab/ubuntu noble InRelease [6,176 B]
-Get:2 http://repos.emulab.net/emulab/ubuntu noble/main amd64 Packages [4,271 B]
-Get:3 http://us.archive.ubuntu.com/ubuntu noble InRelease [256 kB]
-Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
-Get:5 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
-Get:6 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
-Get:7 http://us.archive.ubuntu.com/ubuntu noble/main amd64 Packages [1,401 kB]
-Get:8 http://us.archive.ubuntu.com/ubuntu noble/main Translation-en [513 kB]
-Hit:9 http://us.archive.ubuntu.com/ubuntu noble/main amd64 Components
-Hit:10 http://us.archive.ubuntu.com/ubuntu noble/main amd64 c-n-f Metadata
-Get:11 http://us.archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [93.9 kB]
-Get:12 http://us.archive.ubuntu.com/ubuntu noble/restricted Translation-en [18.7 kB]
-Hit:13 http://us.archive.ubuntu.com/ubuntu noble/restricted amd64 c-n-f Metadata
-Get:14 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 Packages [15.0 MB]
-Get:15 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1,054 kB]
-Get:16 http://us.archive.ubuntu.com/ubuntu noble/universe Translation-en [5,982 kB]
-Hit:17 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 Components
-Hit:18 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 c-n-f Metadata
-Get:19 http://us.archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [269 kB]
-Get:20 http://us.archive.ubuntu.com/ubuntu noble/multiverse Translation-en [118 kB]
-Hit:21 http://us.archive.ubuntu.com/ubuntu noble/multiverse amd64 Components
-Hit:22 http://us.archive.ubuntu.com/ubuntu noble/multiverse amd64 c-n-f Metadata
-Get:23 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,313 kB]
-Get:24 http://us.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [263 kB]
-Get:25 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [164 kB]
-Hit:26 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 c-n-f Metadata
-Get:27 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1,645 kB]
-Get:28 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [359 kB]
-Get:29 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
-Hit:30 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 c-n-f Metadata
-Get:31 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,116 kB]
-Get:32 http://us.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [286 kB]
-Get:33 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [377 kB]
-Hit:34 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata
-Get:35 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [33.2 kB]
-Get:36 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [6,772 B]
-Get:37 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
-Hit:38 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 c-n-f Metadata
-Get:39 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [39.9 kB]
-Get:40 http://us.archive.ubuntu.com/ubuntu noble-backports/main Translation-en [9,152 B]
-Get:41 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [7,104 B]
-Hit:42 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 c-n-f Metadata
-Get:43 http://us.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B]
-Hit:44 http://us.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 c-n-f Metadata
-Get:45 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [28.0 kB]
-Get:46 http://us.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [17.1 kB]
-Get:47 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [28.3 kB]
-Hit:48 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 c-n-f Metadata
-Get:49 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
-Hit:50 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 c-n-f Metadata
-Get:51 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [183 kB]
-Get:52 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [21.6 kB]
-Hit:53 http://security.ubuntu.com/ubuntu noble-security/main amd64 c-n-f Metadata
-Get:54 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1,560 kB]
-Get:55 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [342 kB]
-Get:56 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
-Hit:57 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 c-n-f Metadata
-Get:58 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [879 kB]
-Get:59 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [194 kB]
-Get:60 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.2 kB]
-Hit:61 http://security.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata
-Get:62 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [18.5 kB]
-Get:63 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [4,288 B]
-Get:64 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [212 B]
-Hit:65 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 c-n-f Metadata
-Fetched 34.1 MB in 5s (7,377 kB/s)
-Reading package lists...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-python3 is already the newest version (3.12.3-0ubuntu2).
-python3 set to manually installed.
-vim is already the newest version (2:9.1.0016-1ubuntu7.8).
-vim set to manually installed.
-tmux is already the newest version (3.4-1ubuntu0.1).
-tmux set to manually installed.
-numactl is already the newest version (2.0.18-1build1).
-numactl set to manually installed.
-The following additional packages will be installed:
-  clang-18 clang-format-18 cmake-data git-man googletest ibverbs-providers
-  icu-devtools javascript-common lib32gcc-s1 lib32stdc++6 libc-bin
-  libc-dev-bin libc-devtools libc6 libc6-dev libc6-i386 libclang-common-18-dev
-  libclang-cpp18 libclang-rt-18-dev libclang1-18 libevent-2.1-7t64
-  libevent-extra-2.1-7t64 libevent-openssl-2.1-7t64 libevent-pthreads-2.1-7t64
-  libexpat1-dev libffi-dev libgc1 libgflags2.2 libhashkit-dev libhashkit2t64
-  libhugetlbfs0 libibverbs1 libicu-dev libjs-jquery libjs-sphinxdoc
-  libjs-underscore libjsoncpp25 libllvm18 libmemcached11t64
-  libmemcachedutil2t64 libncurses-dev libnl-3-dev libnl-route-3-dev
-  libobjc-13-dev libobjc4 libpfm4 libpython3-dev libpython3.12-dev
-  libpython3.12-minimal libpython3.12-stdlib libpython3.12t64 librhash0
-  libsasl2-dev libssl-dev libxml2-dev libz3-4 libz3-dev lld-18 llvm-18
-  llvm-18-dev llvm-18-linker-tools llvm-18-runtime llvm-18-tools locales
-  python3-dev python3-wheel python3.12 python3.12-dev python3.12-minimal
-  zlib1g-dev
-Suggested packages:
-  clang-18-doc wasi-libc cmake-doc cmake-format elpa-cmake-mode git-daemon-run
-  | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb git-cvs
-  git-mediawiki git-svn apache2 | lighttpd | httpd glibc-doc libnss-nis
-  libnss-nisplus icu-doc ncurses-doc libssl-doc pkg-config llvm-18-doc
-  libanyevent-perl libcache-memcached-perl libmemcached libyaml-perl
-  python3.12-venv python3.12-doc binfmt-support
-The following NEW packages will be installed:
-  clang clang-18 clang-format clang-format-18 cmake cmake-data googletest
-  icu-devtools javascript-common lib32gcc-s1 lib32stdc++6 libc6-i386
-  libclang-common-18-dev libclang-cpp18 libclang-rt-18-dev libclang1-18
-  libevent-2.1-7t64 libevent-dev libevent-extra-2.1-7t64
-  libevent-openssl-2.1-7t64 libevent-pthreads-2.1-7t64 libexpat1-dev
-  libffi-dev libgc1 libgflags-dev libgflags2.2 libgtest-dev libhashkit-dev
-  libhashkit2t64 libhugetlbfs-dev libhugetlbfs0 libibverbs-dev libicu-dev
-  libjs-jquery libjs-sphinxdoc libjs-underscore libjsoncpp25 libllvm18
-  libmemcached-dev libmemcached11t64 libmemcachedutil2t64 libncurses-dev
-  libnl-3-dev libnl-route-3-dev libnuma-dev libobjc-13-dev libobjc4 libpfm4
-  libpython3-dev libpython3.12-dev librhash0 libsasl2-dev libssl-dev
-  libxml2-dev libz3-4 libz3-dev lld lld-18 llvm-18 llvm-18-dev
-  llvm-18-linker-tools llvm-18-runtime llvm-18-tools memcached ninja-build
-  python3-dev python3-pip python3-wheel python3.12-dev zlib1g-dev
-The following packages will be upgraded:
-  git git-man ibverbs-providers libc-bin libc-dev-bin libc-devtools libc6
-  libc6-dev libibverbs1 libpython3.12-minimal libpython3.12-stdlib
-  libpython3.12t64 locales python3.12 python3.12-minimal
-15 upgraded, 70 newly installed, 0 to remove and 127 not upgraded.
-Need to get 204 MB of archives.
-After this operation, 965 MB of additional disk space will be used.
-Get:1 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-devtools amd64 2.39-0ubuntu8.5 [29.3 kB]
-Get:2 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6-dev amd64 2.39-0ubuntu8.5 [2,123 kB]
-Get:3 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-dev-bin amd64 2.39-0ubuntu8.5 [20.4 kB]
-Get:4 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6 amd64 2.39-0ubuntu8.5 [3,265 kB]
-Get:5 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-bin amd64 2.39-0ubuntu8.5 [682 kB]
-Get:6 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12t64 amd64 3.12.3-1ubuntu0.7 [2,355 kB]
-Get:7 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.7 [651 kB]
-Get:8 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.7 [2,070 kB]
-Get:9 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.7 [2,342 kB]
-Get:10 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.7 [836 kB]
-Get:11 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libevent-2.1-7t64 amd64 2.1.12-stable-9ubuntu2 [145 kB]
-Get:12 http://us.archive.ubuntu.com/ubuntu noble/main amd64 memcached amd64 1.6.24-1build3 [213 kB]
-Get:13 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 locales all 2.39-0ubuntu8.5 [4,229 kB]
-Get:14 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libibverbs1 amd64 50.0-2ubuntu0.2 [68.0 kB]
-Get:15 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 ibverbs-providers amd64 50.0-2ubuntu0.2 [381 kB]
-Get:16 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libllvm18 amd64 1:18.1.3-1ubuntu1 [27.5 MB]
-Get:17 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libclang-cpp18 amd64 1:18.1.3-1ubuntu1 [13.5 MB]
-Get:18 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libgc1 amd64 1:8.2.6-1build1 [90.3 kB]
-Get:19 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libobjc4 amd64 14.2.0-4ubuntu2~24.04 [47.0 kB]
-Get:20 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libobjc-13-dev amd64 13.3.0-6ubuntu2~24.04 [194 kB]
-Get:21 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libclang-common-18-dev amd64 1:18.1.3-1ubuntu1 [736 kB]
-Get:22 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 llvm-18-linker-tools amd64 1:18.1.3-1ubuntu1 [1,314 kB]
-Get:23 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libclang1-18 amd64 1:18.1.3-1ubuntu1 [7,803 kB]
-Get:24 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 clang-18 amd64 1:18.1.3-1ubuntu1 [80.0 kB]
-Get:25 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 clang amd64 1:18.0-59~exp2 [5,846 B]
-Get:26 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 clang-format-18 amd64 1:18.1.3-1ubuntu1 [53.8 kB]
-Get:27 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 clang-format amd64 1:18.0-59~exp2 [5,970 B]
-Get:28 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libjsoncpp25 amd64 1.9.5-6build1 [82.8 kB]
-Get:29 http://us.archive.ubuntu.com/ubuntu noble/main amd64 librhash0 amd64 1.4.3-3build1 [129 kB]
-Get:30 http://us.archive.ubuntu.com/ubuntu noble/main amd64 cmake-data all 3.28.3-1build7 [2,155 kB]
-Get:31 http://us.archive.ubuntu.com/ubuntu noble/main amd64 cmake amd64 3.28.3-1build7 [11.2 MB]
-Get:32 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git-man all 1:2.43.0-1ubuntu7.3 [1,100 kB]
-Get:33 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git amd64 1:2.43.0-1ubuntu7.3 [3,680 kB]
-Get:34 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 googletest all 1.14.0-1 [521 kB]
-Get:35 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 icu-devtools amd64 74.2-1ubuntu3.1 [212 kB]
-Get:36 http://us.archive.ubuntu.com/ubuntu noble/main amd64 javascript-common all 11+nmu1 [5,936 B]
-Get:37 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6-i386 amd64 2.39-0ubuntu8.5 [2,787 kB]
-Get:38 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 lib32gcc-s1 amd64 14.2.0-4ubuntu2~24.04 [92.3 kB]
-Get:39 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 lib32stdc++6 amd64 14.2.0-4ubuntu2~24.04 [814 kB]
-Get:40 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libclang-rt-18-dev amd64 1:18.1.3-1ubuntu1 [3,772 kB]
-Get:41 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libevent-extra-2.1-7t64 amd64 2.1.12-stable-9ubuntu2 [64.2 kB]
-Get:42 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libevent-pthreads-2.1-7t64 amd64 2.1.12-stable-9ubuntu2 [7,982 B]
-Get:43 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libevent-openssl-2.1-7t64 amd64 2.1.12-stable-9ubuntu2 [15.7 kB]
-Get:44 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libevent-dev amd64 2.1.12-stable-9ubuntu2 [274 kB]
-Get:45 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1-dev amd64 2.6.1-2ubuntu0.3 [140 kB]
-Get:46 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libgflags2.2 amd64 2.2.2-2build1 [74.5 kB]
-Get:47 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libgflags-dev amd64 2.2.2-2build1 [109 kB]
-Get:48 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libgtest-dev amd64 1.14.0-1 [268 kB]
-Get:49 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libhashkit2t64 amd64 1.1.4-1.1build3 [15.5 kB]
-Get:50 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libhashkit-dev amd64 1.1.4-1.1build3 [29.3 kB]
-Get:51 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libicu-dev amd64 74.2-1ubuntu3.1 [11.9 MB]
-Get:52 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libjs-jquery all 3.6.1+dfsg+~3.5.14-1 [328 kB]
-Get:53 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libjs-underscore all 1.13.4~dfsg+~1.11.4-3 [118 kB]
-Get:54 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libjs-sphinxdoc all 7.2.6-6 [149 kB]
-Get:55 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libmemcached11t64 amd64 1.1.4-1.1build3 [80.5 kB]
-Get:56 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libmemcachedutil2t64 amd64 1.1.4-1.1build3 [11.2 kB]
-Get:57 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libncurses-dev amd64 6.4+20240113-1ubuntu2 [384 kB]
-Get:58 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libnl-3-dev amd64 3.7.0-0.3build1.1 [99.5 kB]
-Get:59 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libnl-route-3-dev amd64 3.7.0-0.3build1.1 [216 kB]
-Get:60 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.1 [894 kB]
-Get:61 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-dev amd64 3.12.3-1ubuntu0.7 [5,680 kB]
-Get:62 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3-dev amd64 3.12.3-0ubuntu2 [10.3 kB]
-Get:63 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl-dev amd64 3.0.13-0ubuntu3.5 [2,408 kB]
-Get:64 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-dev amd64 2.1.28+dfsg1-5ubuntu3.1 [243 kB]
-Get:65 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libxml2-dev amd64 2.9.14+dfsg-1.3ubuntu3.3 [780 kB]
-Get:66 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 lld-18 amd64 1:18.1.3-1ubuntu1 [1,372 kB]
-Get:67 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 lld amd64 1:18.0-59~exp2 [5,494 B]
-Get:68 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 llvm-18-runtime amd64 1:18.1.3-1ubuntu1 [538 kB]
-Get:69 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libpfm4 amd64 4.13.0+git32-g0d4ed0e-1 [414 kB]
-Get:70 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 llvm-18 amd64 1:18.1.3-1ubuntu1 [25.3 MB]
-Get:71 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libffi-dev amd64 3.4.6-1build1 [62.8 kB]
-Get:72 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 llvm-18-tools amd64 1:18.1.3-1ubuntu1 [534 kB]
-Get:73 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libz3-4 amd64 4.8.12-3.1build1 [5,836 kB]
-Get:74 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libz3-dev amd64 4.8.12-3.1build1 [72.2 kB]
-Get:75 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 llvm-18-dev amd64 1:18.1.3-1ubuntu1 [45.1 MB]
-Get:76 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 ninja-build amd64 1.11.1-2 [129 kB]
-Get:77 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-dev amd64 3.12.3-1ubuntu0.7 [498 kB]
-Get:78 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-dev amd64 3.12.3-0ubuntu2 [26.7 kB]
-Get:79 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-wheel all 0.42.0-2 [53.1 kB]
-Get:80 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-pip all 24.0+dfsg-1ubuntu1.2 [1,317 kB]
-Get:81 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libhugetlbfs0 amd64 2.23-5build1 [49.7 kB]
-Get:82 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libhugetlbfs-dev amd64 2.23-5build1 [40.1 kB]
-Get:83 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 libibverbs-dev amd64 50.0-2ubuntu0.2 [686 kB]
-Get:84 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libmemcached-dev amd64 1.1.4-1.1build3 [193 kB]
-Get:85 http://us.archive.ubuntu.com/ubuntu noble/main amd64 libnuma-dev amd64 2.0.18-1build1 [37.0 kB]
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-dpkg-preconfigure: unable to re-open stdin: 
-Fetched 204 MB in 4s (53.5 MB/s)
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 111252 files and directories currently installed.)
-Preparing to unpack .../libc-devtools_2.39-0ubuntu8.5_amd64.deb ...
-Unpacking libc-devtools (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Preparing to unpack .../libc6-dev_2.39-0ubuntu8.5_amd64.deb ...
-Unpacking libc6-dev:amd64 (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Preparing to unpack .../libc-dev-bin_2.39-0ubuntu8.5_amd64.deb ...
-Unpacking libc-dev-bin (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Preparing to unpack .../libc6_2.39-0ubuntu8.5_amd64.deb ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-Unpacking libc6:amd64 (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Setting up libc6:amd64 (2.39-0ubuntu8.5) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 111252 files and directories currently installed.)
-Preparing to unpack .../libc-bin_2.39-0ubuntu8.5_amd64.deb ...
-Unpacking libc-bin (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Setting up libc-bin (2.39-0ubuntu8.5) ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 111252 files and directories currently installed.)
-Preparing to unpack .../00-libpython3.12t64_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking libpython3.12t64:amd64 (3.12.3-1ubuntu0.7) over (3.12.3-1ubuntu0.5) ...
-Preparing to unpack .../01-python3.12_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking python3.12 (3.12.3-1ubuntu0.7) over (3.12.3-1ubuntu0.5) ...
-Preparing to unpack .../02-libpython3.12-stdlib_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.7) over (3.12.3-1ubuntu0.5) ...
-Preparing to unpack .../03-python3.12-minimal_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking python3.12-minimal (3.12.3-1ubuntu0.7) over (3.12.3-1ubuntu0.5) ...
-Preparing to unpack .../04-libpython3.12-minimal_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.7) over (3.12.3-1ubuntu0.5) ...
-Selecting previously unselected package libevent-2.1-7t64:amd64.
-Preparing to unpack .../05-libevent-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb ...
-Unpacking libevent-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Selecting previously unselected package memcached.
-Preparing to unpack .../06-memcached_1.6.24-1build3_amd64.deb ...
-Unpacking memcached (1.6.24-1build3) ...
-Preparing to unpack .../07-locales_2.39-0ubuntu8.5_all.deb ...
-Unpacking locales (2.39-0ubuntu8.5) over (2.39-0ubuntu8.4) ...
-Preparing to unpack .../08-libibverbs1_50.0-2ubuntu0.2_amd64.deb ...
-Unpacking libibverbs1:amd64 (50.0-2ubuntu0.2) over (50.0-2build2) ...
-Preparing to unpack .../09-ibverbs-providers_50.0-2ubuntu0.2_amd64.deb ...
-Unpacking ibverbs-providers:amd64 (50.0-2ubuntu0.2) over (50.0-2build2) ...
-Selecting previously unselected package libllvm18:amd64.
-Preparing to unpack .../10-libllvm18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking libllvm18:amd64 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libclang-cpp18.
-Preparing to unpack .../11-libclang-cpp18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking libclang-cpp18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libgc1:amd64.
-Preparing to unpack .../12-libgc1_1%3a8.2.6-1build1_amd64.deb ...
-Unpacking libgc1:amd64 (1:8.2.6-1build1) ...
-Selecting previously unselected package libobjc4:amd64.
-Preparing to unpack .../13-libobjc4_14.2.0-4ubuntu2~24.04_amd64.deb ...
-Unpacking libobjc4:amd64 (14.2.0-4ubuntu2~24.04) ...
-Selecting previously unselected package libobjc-13-dev:amd64.
-Preparing to unpack .../14-libobjc-13-dev_13.3.0-6ubuntu2~24.04_amd64.deb ...
-Unpacking libobjc-13-dev:amd64 (13.3.0-6ubuntu2~24.04) ...
-Selecting previously unselected package libclang-common-18-dev:amd64.
-Preparing to unpack .../15-libclang-common-18-dev_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking libclang-common-18-dev:amd64 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package llvm-18-linker-tools.
-Preparing to unpack .../16-llvm-18-linker-tools_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking llvm-18-linker-tools (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libclang1-18.
-Preparing to unpack .../17-libclang1-18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking libclang1-18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package clang-18.
-Preparing to unpack .../18-clang-18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking clang-18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package clang.
-Preparing to unpack .../19-clang_1%3a18.0-59~exp2_amd64.deb ...
-Unpacking clang (1:18.0-59~exp2) ...
-Selecting previously unselected package clang-format-18.
-Preparing to unpack .../20-clang-format-18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking clang-format-18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package clang-format:amd64.
-Preparing to unpack .../21-clang-format_1%3a18.0-59~exp2_amd64.deb ...
-Unpacking clang-format:amd64 (1:18.0-59~exp2) ...
-Selecting previously unselected package libjsoncpp25:amd64.
-Preparing to unpack .../22-libjsoncpp25_1.9.5-6build1_amd64.deb ...
-Unpacking libjsoncpp25:amd64 (1.9.5-6build1) ...
-Selecting previously unselected package librhash0:amd64.
-Preparing to unpack .../23-librhash0_1.4.3-3build1_amd64.deb ...
-Unpacking librhash0:amd64 (1.4.3-3build1) ...
-Selecting previously unselected package cmake-data.
-Preparing to unpack .../24-cmake-data_3.28.3-1build7_all.deb ...
-Unpacking cmake-data (3.28.3-1build7) ...
-Selecting previously unselected package cmake.
-Preparing to unpack .../25-cmake_3.28.3-1build7_amd64.deb ...
-Unpacking cmake (3.28.3-1build7) ...
-Preparing to unpack .../26-git-man_1%3a2.43.0-1ubuntu7.3_all.deb ...
-Unpacking git-man (1:2.43.0-1ubuntu7.3) over (1:2.43.0-1ubuntu7.2) ...
-Preparing to unpack .../27-git_1%3a2.43.0-1ubuntu7.3_amd64.deb ...
-Unpacking git (1:2.43.0-1ubuntu7.3) over (1:2.43.0-1ubuntu7.2) ...
-Selecting previously unselected package googletest.
-Preparing to unpack .../28-googletest_1.14.0-1_all.deb ...
-Unpacking googletest (1.14.0-1) ...
-Selecting previously unselected package icu-devtools.
-Preparing to unpack .../29-icu-devtools_74.2-1ubuntu3.1_amd64.deb ...
-Unpacking icu-devtools (74.2-1ubuntu3.1) ...
-Selecting previously unselected package javascript-common.
-Preparing to unpack .../30-javascript-common_11+nmu1_all.deb ...
-Unpacking javascript-common (11+nmu1) ...
-Selecting previously unselected package libc6-i386.
-Preparing to unpack .../31-libc6-i386_2.39-0ubuntu8.5_amd64.deb ...
-Unpacking libc6-i386 (2.39-0ubuntu8.5) ...
-Selecting previously unselected package lib32gcc-s1.
-Preparing to unpack .../32-lib32gcc-s1_14.2.0-4ubuntu2~24.04_amd64.deb ...
-Unpacking lib32gcc-s1 (14.2.0-4ubuntu2~24.04) ...
-Selecting previously unselected package lib32stdc++6.
-Preparing to unpack .../33-lib32stdc++6_14.2.0-4ubuntu2~24.04_amd64.deb ...
-Unpacking lib32stdc++6 (14.2.0-4ubuntu2~24.04) ...
-Selecting previously unselected package libclang-rt-18-dev:amd64.
-Preparing to unpack .../34-libclang-rt-18-dev_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking libclang-rt-18-dev:amd64 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libevent-extra-2.1-7t64:amd64.
-Preparing to unpack .../35-libevent-extra-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb ...
-Unpacking libevent-extra-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Selecting previously unselected package libevent-pthreads-2.1-7t64:amd64.
-Preparing to unpack .../36-libevent-pthreads-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb ...
-Unpacking libevent-pthreads-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Selecting previously unselected package libevent-openssl-2.1-7t64:amd64.
-Preparing to unpack .../37-libevent-openssl-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb ...
-Unpacking libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Selecting previously unselected package libevent-dev.
-Preparing to unpack .../38-libevent-dev_2.1.12-stable-9ubuntu2_amd64.deb ...
-Unpacking libevent-dev (2.1.12-stable-9ubuntu2) ...
-Selecting previously unselected package libexpat1-dev:amd64.
-Preparing to unpack .../39-libexpat1-dev_2.6.1-2ubuntu0.3_amd64.deb ...
-Unpacking libexpat1-dev:amd64 (2.6.1-2ubuntu0.3) ...
-Selecting previously unselected package libgflags2.2.
-Preparing to unpack .../40-libgflags2.2_2.2.2-2build1_amd64.deb ...
-Unpacking libgflags2.2 (2.2.2-2build1) ...
-Selecting previously unselected package libgflags-dev.
-Preparing to unpack .../41-libgflags-dev_2.2.2-2build1_amd64.deb ...
-Unpacking libgflags-dev (2.2.2-2build1) ...
-Selecting previously unselected package libgtest-dev:amd64.
-Preparing to unpack .../42-libgtest-dev_1.14.0-1_amd64.deb ...
-Unpacking libgtest-dev:amd64 (1.14.0-1) ...
-Selecting previously unselected package libhashkit2t64:amd64.
-Preparing to unpack .../43-libhashkit2t64_1.1.4-1.1build3_amd64.deb ...
-Unpacking libhashkit2t64:amd64 (1.1.4-1.1build3) ...
-Selecting previously unselected package libhashkit-dev:amd64.
-Preparing to unpack .../44-libhashkit-dev_1.1.4-1.1build3_amd64.deb ...
-Unpacking libhashkit-dev:amd64 (1.1.4-1.1build3) ...
-Selecting previously unselected package libicu-dev:amd64.
-Preparing to unpack .../45-libicu-dev_74.2-1ubuntu3.1_amd64.deb ...
-Unpacking libicu-dev:amd64 (74.2-1ubuntu3.1) ...
-Selecting previously unselected package libjs-jquery.
-Preparing to unpack .../46-libjs-jquery_3.6.1+dfsg+~3.5.14-1_all.deb ...
-Unpacking libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
-Selecting previously unselected package libjs-underscore.
-Preparing to unpack .../47-libjs-underscore_1.13.4~dfsg+~1.11.4-3_all.deb ...
-Unpacking libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
-Selecting previously unselected package libjs-sphinxdoc.
-Preparing to unpack .../48-libjs-sphinxdoc_7.2.6-6_all.deb ...
-Unpacking libjs-sphinxdoc (7.2.6-6) ...
-Selecting previously unselected package libmemcached11t64:amd64.
-Preparing to unpack .../49-libmemcached11t64_1.1.4-1.1build3_amd64.deb ...
-Unpacking libmemcached11t64:amd64 (1.1.4-1.1build3) ...
-Selecting previously unselected package libmemcachedutil2t64:amd64.
-Preparing to unpack .../50-libmemcachedutil2t64_1.1.4-1.1build3_amd64.deb ...
-Unpacking libmemcachedutil2t64:amd64 (1.1.4-1.1build3) ...
-Selecting previously unselected package libncurses-dev:amd64.
-Preparing to unpack .../51-libncurses-dev_6.4+20240113-1ubuntu2_amd64.deb ...
-Unpacking libncurses-dev:amd64 (6.4+20240113-1ubuntu2) ...
-Selecting previously unselected package libnl-3-dev:amd64.
-Preparing to unpack .../52-libnl-3-dev_3.7.0-0.3build1.1_amd64.deb ...
-Unpacking libnl-3-dev:amd64 (3.7.0-0.3build1.1) ...
-Selecting previously unselected package libnl-route-3-dev:amd64.
-Preparing to unpack .../53-libnl-route-3-dev_3.7.0-0.3build1.1_amd64.deb ...
-Unpacking libnl-route-3-dev:amd64 (3.7.0-0.3build1.1) ...
-Selecting previously unselected package zlib1g-dev:amd64.
-Preparing to unpack .../54-zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.1_amd64.deb ...
-Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.1) ...
-Selecting previously unselected package libpython3.12-dev:amd64.
-Preparing to unpack .../55-libpython3.12-dev_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking libpython3.12-dev:amd64 (3.12.3-1ubuntu0.7) ...
-Selecting previously unselected package libpython3-dev:amd64.
-Preparing to unpack .../56-libpython3-dev_3.12.3-0ubuntu2_amd64.deb ...
-Unpacking libpython3-dev:amd64 (3.12.3-0ubuntu2) ...
-Selecting previously unselected package libssl-dev:amd64.
-Preparing to unpack .../57-libssl-dev_3.0.13-0ubuntu3.5_amd64.deb ...
-Unpacking libssl-dev:amd64 (3.0.13-0ubuntu3.5) ...
-Selecting previously unselected package libsasl2-dev.
-Preparing to unpack .../58-libsasl2-dev_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
-Unpacking libsasl2-dev (2.1.28+dfsg1-5ubuntu3.1) ...
-Selecting previously unselected package libxml2-dev:amd64.
-Preparing to unpack .../59-libxml2-dev_2.9.14+dfsg-1.3ubuntu3.3_amd64.deb ...
-Unpacking libxml2-dev:amd64 (2.9.14+dfsg-1.3ubuntu3.3) ...
-Selecting previously unselected package lld-18.
-Preparing to unpack .../60-lld-18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking lld-18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package lld:amd64.
-Preparing to unpack .../61-lld_1%3a18.0-59~exp2_amd64.deb ...
-Unpacking lld:amd64 (1:18.0-59~exp2) ...
-Selecting previously unselected package llvm-18-runtime.
-Preparing to unpack .../62-llvm-18-runtime_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking llvm-18-runtime (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libpfm4:amd64.
-Preparing to unpack .../63-libpfm4_4.13.0+git32-g0d4ed0e-1_amd64.deb ...
-Unpacking libpfm4:amd64 (4.13.0+git32-g0d4ed0e-1) ...
-Selecting previously unselected package llvm-18.
-Preparing to unpack .../64-llvm-18_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking llvm-18 (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libffi-dev:amd64.
-Preparing to unpack .../65-libffi-dev_3.4.6-1build1_amd64.deb ...
-Unpacking libffi-dev:amd64 (3.4.6-1build1) ...
-Selecting previously unselected package llvm-18-tools.
-Preparing to unpack .../66-llvm-18-tools_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking llvm-18-tools (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package libz3-4:amd64.
-Preparing to unpack .../67-libz3-4_4.8.12-3.1build1_amd64.deb ...
-Unpacking libz3-4:amd64 (4.8.12-3.1build1) ...
-Selecting previously unselected package libz3-dev:amd64.
-Preparing to unpack .../68-libz3-dev_4.8.12-3.1build1_amd64.deb ...
-Unpacking libz3-dev:amd64 (4.8.12-3.1build1) ...
-Selecting previously unselected package llvm-18-dev.
-Preparing to unpack .../69-llvm-18-dev_1%3a18.1.3-1ubuntu1_amd64.deb ...
-Unpacking llvm-18-dev (1:18.1.3-1ubuntu1) ...
-Selecting previously unselected package ninja-build.
-Preparing to unpack .../70-ninja-build_1.11.1-2_amd64.deb ...
-Unpacking ninja-build (1.11.1-2) ...
-Selecting previously unselected package python3.12-dev.
-Preparing to unpack .../71-python3.12-dev_3.12.3-1ubuntu0.7_amd64.deb ...
-Unpacking python3.12-dev (3.12.3-1ubuntu0.7) ...
-Selecting previously unselected package python3-dev.
-Preparing to unpack .../72-python3-dev_3.12.3-0ubuntu2_amd64.deb ...
-Unpacking python3-dev (3.12.3-0ubuntu2) ...
-Selecting previously unselected package python3-wheel.
-Preparing to unpack .../73-python3-wheel_0.42.0-2_all.deb ...
-Unpacking python3-wheel (0.42.0-2) ...
-Selecting previously unselected package python3-pip.
-Preparing to unpack .../74-python3-pip_24.0+dfsg-1ubuntu1.2_all.deb ...
-Unpacking python3-pip (24.0+dfsg-1ubuntu1.2) ...
-Selecting previously unselected package libhugetlbfs0:amd64.
-Preparing to unpack .../75-libhugetlbfs0_2.23-5build1_amd64.deb ...
-Unpacking libhugetlbfs0:amd64 (2.23-5build1) ...
-Selecting previously unselected package libhugetlbfs-dev:amd64.
-Preparing to unpack .../76-libhugetlbfs-dev_2.23-5build1_amd64.deb ...
-Unpacking libhugetlbfs-dev:amd64 (2.23-5build1) ...
-Selecting previously unselected package libibverbs-dev:amd64.
-Preparing to unpack .../77-libibverbs-dev_50.0-2ubuntu0.2_amd64.deb ...
-Unpacking libibverbs-dev:amd64 (50.0-2ubuntu0.2) ...
-Selecting previously unselected package libmemcached-dev:amd64.
-Preparing to unpack .../78-libmemcached-dev_1.1.4-1.1build3_amd64.deb ...
-Unpacking libmemcached-dev:amd64 (1.1.4-1.1build3) ...
-Selecting previously unselected package libnuma-dev:amd64.
-Preparing to unpack .../79-libnuma-dev_2.0.18-1build1_amd64.deb ...
-Unpacking libnuma-dev:amd64 (2.0.18-1build1) ...
-Setting up javascript-common (11+nmu1) ...
-Setting up libibverbs1:amd64 (50.0-2ubuntu0.2) ...
-Setting up ibverbs-providers:amd64 (50.0-2ubuntu0.2) ...
-Setting up libevent-pthreads-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Setting up libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.7) ...
-Setting up libevent-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Setting up libhugetlbfs0:amd64 (2.23-5build1) ...
-Setting up llvm-18-tools (1:18.1.3-1ubuntu1) ...
-Setting up libffi-dev:amd64 (3.4.6-1build1) ...
-Setting up locales (2.39-0ubuntu8.5) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-Generating locales (this might take a while)...
-  en_US.UTF-8... done
-Generation complete.
-Setting up googletest (1.14.0-1) ...
-Setting up python3-wheel (0.42.0-2) ...
-Setting up memcached (1.6.24-1build3) ...
-Created symlink /etc/systemd/system/multi-user.target.wants/memcached.service → /usr/lib/systemd/system/memcached.service.
-Setting up ninja-build (1.11.1-2) ...
-Setting up libz3-4:amd64 (4.8.12-3.1build1) ...
-Setting up libpfm4:amd64 (4.13.0+git32-g0d4ed0e-1) ...
-Setting up libssl-dev:amd64 (3.0.13-0ubuntu3.5) ...
-Setting up libjsoncpp25:amd64 (1.9.5-6build1) ...
-Setting up icu-devtools (74.2-1ubuntu3.1) ...
-Setting up python3-pip (24.0+dfsg-1ubuntu1.2) ...
-Setting up libclang-common-18-dev:amd64 (1:18.1.3-1ubuntu1) ...
-Setting up libgc1:amd64 (1:8.2.6-1build1) ...
-Setting up libevent-extra-2.1-7t64:amd64 (2.1.12-stable-9ubuntu2) ...
-Setting up libnl-3-dev:amd64 (3.7.0-0.3build1.1) ...
-Setting up librhash0:amd64 (1.4.3-3build1) ...
-Setting up libhashkit2t64:amd64 (1.1.4-1.1build3) ...
-Setting up libc6-i386 (2.39-0ubuntu8.5) ...
-Setting up git-man (1:2.43.0-1ubuntu7.3) ...
-Setting up cmake-data (3.28.3-1build7) ...
-Setting up libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
-Setting up libc-dev-bin (2.39-0ubuntu8.5) ...
-Setting up libhugetlbfs-dev:amd64 (2.23-5build1) ...
-Setting up libc-devtools (2.39-0ubuntu8.5) ...
-Setting up libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
-Setting up libllvm18:amd64 (1:18.1.3-1ubuntu1) ...
-Setting up libgflags2.2 (2.2.2-2build1) ...
-Setting up python3.12-minimal (3.12.3-1ubuntu0.7) ...
-Setting up libclang1-18 (1:18.1.3-1ubuntu1) ...
-Setting up libz3-dev:amd64 (4.8.12-3.1build1) ...
-Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.7) ...
-Setting up libgtest-dev:amd64 (1.14.0-1) ...
-Setting up python3.12 (3.12.3-1ubuntu0.7) ...
-Setting up libhashkit-dev:amd64 (1.1.4-1.1build3) ...
-Setting up libobjc4:amd64 (14.2.0-4ubuntu2~24.04) ...
-Setting up libmemcached11t64:amd64 (1.1.4-1.1build3) ...
-Setting up libpython3.12t64:amd64 (3.12.3-1ubuntu0.7) ...
-Setting up libnl-route-3-dev:amd64 (3.7.0-0.3build1.1) ...
-Setting up lib32gcc-s1 (14.2.0-4ubuntu2~24.04) ...
-Setting up lib32stdc++6 (14.2.0-4ubuntu2~24.04) ...
-Setting up libevent-dev (2.1.12-stable-9ubuntu2) ...
-Setting up libgflags-dev (2.2.2-2build1) ...
-Setting up git (1:2.43.0-1ubuntu7.3) ...
-Setting up libjs-sphinxdoc (7.2.6-6) ...
-Setting up llvm-18-linker-tools (1:18.1.3-1ubuntu1) ...
-Setting up libmemcachedutil2t64:amd64 (1.1.4-1.1build3) ...
-Setting up cmake (3.28.3-1build7) ...
-Setting up libc6-dev:amd64 (2.39-0ubuntu8.5) ...
-Setting up llvm-18-runtime (1:18.1.3-1ubuntu1) ...
-Setting up libclang-cpp18 (1:18.1.3-1ubuntu1) ...
-Setting up libicu-dev:amd64 (74.2-1ubuntu3.1) ...
-Setting up libclang-rt-18-dev:amd64 (1:18.1.3-1ubuntu1) ...
-Setting up libobjc-13-dev:amd64 (13.3.0-6ubuntu2~24.04) ...
-Setting up lld-18 (1:18.1.3-1ubuntu1) ...
-Setting up libncurses-dev:amd64 (6.4+20240113-1ubuntu2) ...
-Setting up clang-format-18 (1:18.1.3-1ubuntu1) ...
-Setting up lld:amd64 (1:18.0-59~exp2) ...
-Setting up clang-18 (1:18.1.3-1ubuntu1) ...
-Setting up libibverbs-dev:amd64 (50.0-2ubuntu0.2) ...
-Setting up libnuma-dev:amd64 (2.0.18-1build1) ...
-Setting up libxml2-dev:amd64 (2.9.14+dfsg-1.3ubuntu3.3) ...
-Setting up libsasl2-dev (2.1.28+dfsg1-5ubuntu3.1) ...
-Setting up libexpat1-dev:amd64 (2.6.1-2ubuntu0.3) ...
-Setting up clang (1:18.0-59~exp2) ...
-Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.1) ...
-Setting up llvm-18 (1:18.1.3-1ubuntu1) ...
-Setting up llvm-18-dev (1:18.1.3-1ubuntu1) ...
-Setting up clang-format:amd64 (1:18.0-59~exp2) ...
-Setting up libmemcached-dev:amd64 (1.1.4-1.1build3) ...
-Setting up libpython3.12-dev:amd64 (3.12.3-1ubuntu0.7) ...
-Setting up python3.12-dev (3.12.3-1ubuntu0.7) ...
-Setting up libpython3-dev:amd64 (3.12.3-0ubuntu2) ...
-Setting up python3-dev (3.12.3-0ubuntu2) ...
-Processing triggers for libc-bin (2.39-0ubuntu8.5) ...
-Processing triggers for systemd (255.4-1ubuntu8.6) ...
-Processing triggers for man-db (2.12.0-4build2) ...
-Processing triggers for install-info (7.1-3build2) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-
-Running kernel seems to be up-to-date.
-
-The processor microcode seems to be up-to-date.
-
-Restarting services...
- systemctl restart chrony.service cron.service multipathd.service packagekit.service polkit.service pubsubd.service rpcbind.service rsyslog.service smartmontools.service ssh.service systemd-journald.service systemd-networkd.service systemd-resolved.service systemd-udevd.service testbed.service udisks2.service
-
-Service restarts being deferred:
- /etc/needrestart/restart.d/dbus.service
- systemctl restart getty@tty1.service
- systemctl restart networkd-dispatcher.service
- systemctl restart serial-getty@ttyS0.service
- systemctl restart systemd-logind.service
- systemctl restart unattended-upgrades.service
-
-No containers need to be restarted.
-
-User sessions running outdated binaries:
- alclev @ session #7: sshd[3610,3659]
- alclev @ user manager service: systemd[3549]
-
-No VM guests are running outdated hypervisor (qemu) binaries on this host.
-yes
-^C^C^CThe authenticity of host 'amd163.utah.cloudlab.us (128.110.219.74)' can't be established.
-ECDSA key fingerprint is SHA256:bB4TBZMIEhrtJN2mb/Mzn8fvSRUBUC+UamxqkhCU7HA.
-This host key is known by the following other names/addresses:
-    ~/.ssh/known_hosts:2: [hashed name]
-    ~/.ssh/known_hosts:8: [hashed name]
-    ~/.ssh/known_hosts:11: [hashed name]
-    ~/.ssh/known_hosts:12: [hashed name]
-    ~/.ssh/known_hosts:13: [hashed name]
-    ~/.ssh/known_hosts:14: [hashed name]
-    ~/.ssh/known_hosts:15: [hashed name]
-    ~/.ssh/known_hosts:16: [hashed name]
-    (30 additional names omitted)
-Are you sure you want to continue connecting (yes/no/[fingerprint])? ^C

@@ -1,1 +1,0 @@
-cp crash-consensus/libgen/exported/libcrashconsensus.so ~/cas-paxos/lib/
