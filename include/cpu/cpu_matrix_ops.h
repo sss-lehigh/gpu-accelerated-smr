@@ -393,6 +393,7 @@ void launchInPlaceMatrixSub(float *d_A, const float *d_B, size_t rows, size_t co
   }
 }
 
+/// TODO: convert this to CPU (I don't know what's going on here)
 // GEMM using Shared Memory Tiling
 void sgemmSharedMemoryTiled(const float* __restrict__ A, 
                                              const float* __restrict__ B, 
@@ -447,6 +448,7 @@ void sgemmSharedMemoryTiled(const float* __restrict__ A,
 //   }
 }
 
+/// TODO: convert this to CPU (I don't know what's going on here)
 void launchSgemm(const float *d_A, const float *d_B, float *d_C, int M, int N, int K) {
   // Use a 2D block topology mapping directly to the tile size
 //   dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);

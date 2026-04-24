@@ -7,6 +7,7 @@
 #include "scheduler.h"
 #include "cpu.cpp"
 
+// used for command line parsing
 #define ARG_COLS 'c'
 #define ARG_HELP 'h'
 #define ARG_MATS 'm'
@@ -17,16 +18,18 @@
 
 
 
-uint64_t ROWS     = 10000;
-uint64_t COLS     = 10000;
-uint64_t SIZE     =     0;
-uint64_t num_ops  =  1000;
-uint64_t num_mats =     5;
+// values to be used in matrix/workload generation
+uint64_t ROWS     =    2;
+uint64_t COLS     =    2;
+uint64_t SIZE     =    2;
+uint64_t num_ops  = 1000;
+uint64_t num_mats =    5;
 
 std::string LOG_PATH = "dummy_smr.log";
 
 int main(int argc, char** argv) {
 
+    // Command line processing
     for (int i = 0; i < argc; i++) {
         if (argv[i][0] == "-") {
             switch (argv[i][1])
@@ -120,9 +123,10 @@ int main(int argc, char** argv) {
    
     std::cout << "CPU sequential" << std::endl << std::endl;
 
+    // cpu_executor is based on GpuExecutor
     cpu_executor cpu(ROWS, COLS);
 
-    
+
 
     try {
 
@@ -145,6 +149,9 @@ int main(int argc, char** argv) {
 
     DagGenerator builder;
 
+
+
+    // This is based on the code from driver.cpp and cpu_executor is based on GpuExecutor.
     try {
 
         std::cout << "[1/3] Initializing DAG Generator..." << std::endl;
@@ -157,7 +164,6 @@ int main(int argc, char** argv) {
         std::cout << "[2/3] Sorting DAG into parallel levels..." << std::endl;
         auto levels = Scheduler::get_levels(dag);
         
-
         std::cout << "[3/3] Executing on CPU..." << std::endl;
         cpu.run(dag, levels);
 
@@ -176,6 +182,8 @@ int main(int argc, char** argv) {
 
     GpuExecutor executor(ROWS, COLS);
     
+
+
     try {
 
         std::cout << "[1/2] Allocating VRAM and creating streams..." << std::endl;
@@ -184,6 +192,7 @@ int main(int argc, char** argv) {
 
         std::cout << "[2/2] Executing on GPU..." << std::endl;
         /// TODO: replace with vector of ops from consensus
+        /// TODO: @rishad write a sequential version for the GPU code because I don't know how.
         executor.run_seq(LOG_PATH);
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
@@ -199,6 +208,9 @@ int main(int argc, char** argv) {
 
     std::cout << "GPU parallel (using DAG)" << std::endl << std::endl;
 
+
+
+    // This is directly from driver.cpp (besides moving builder and executor) so it should work perfectly fine.
     try {
         std::cout << "[1/3] Rebuilding DAG..." << std::endl;
 
