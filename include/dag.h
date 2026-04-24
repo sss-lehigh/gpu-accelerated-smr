@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "workload.h"
+#include "kernels/common.cuh"
 
 // enum class OpType : uint8_t {
 //   SCALAR_ADD = 0,
@@ -106,31 +107,18 @@ class DagGenerator {
 
       if (op.mat_param.has_value()) {
         // Process matrix parameter
-
         // TODO: needs to adjust to read from args instead of file
+        const auto& mat = op.mat_param.value();
         
-        // uint64_t r, c;
-        // log.read(reinterpret_cast<char*>(&r), sizeof(uint64_t));
-        // log.read(reinterpret_cast<char*>(&c), sizeof(uint64_t));
+        node.rows = mat.num_rows;
+        node.cols = mat.num_cols;
+        
+        size_t n_elements = node.rows * node.cols;
+        size_t total_bytes = n_elements * sizeof(float);
 
-        // node.rows = r;
-        // node.cols = c;
-
-        // std::vector<float> float_data(r * c);
-        // log.read(reinterpret_cast<char*>(float_data.data()),
-        //          r * c * sizeof(float));
-
-        // cudaMalloc(&node.d_mat_param, r * c * sizeof(float));
-        // cudaMemcpy(node.d_mat_param, float_data.data(), r * c * sizeof(float),
-        //            cudaMemcpyHostToDevice);
-
-        // size_t n_rows = r*c;
-        // size_t total_bytes = n_rows*sizeof(float);
-
-        // node.mat_data.resize(r * c * sizeof(float));
-        // log.read(reinterpret_cast<char*>(node.mat_data.data()),
-        // node.mat_data.size());
-      }  // end iof
+        CUDA_CHECK(cudaMalloc(&node.d_mat_param, total_bytes));
+        CUDA_CHECK(cudaMemcpy(node.d_mat_param, mat.data(), total_bytes, cudaMemcpyHostToDevice));
+      }  // end if
 
       dag[op.id] = node;
     }  // end while
