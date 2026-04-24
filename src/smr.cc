@@ -4,6 +4,7 @@
 #include <random>
 #include <string>
 
+#include "cfg.h"
 #include "romulus/cfg.h"
 #include "romulus/common.h"
 #include "romulus/connection_manager.h"
@@ -97,9 +98,9 @@ int main(int argc, char* argv[]) {
       if (id == 0) {
         if(i >= kMaxBufSize){
           // take slice of last_offload_idx to last_offload_idx + kMaxBufSize
-          auto slice = std::vector<std::pair<uint32_t, uint8_t*>>(
-              proposals.begin() + last_offload_idx,
-              proposals.begin() + std::min(last_offload_idx + kMaxBufSize, (size_t)proposals.size()));
+          auto slice = std::vector<op>>(
+              ops.begin() + last_offload_idx,
+              ops.begin() + std::min(last_offload_idx + kMaxBufSize, (size_t)ops.size()));
           ROMULUS_INFO("Consensus buffer is full. Triggering offloading process...");
           dag_generator.build_dag(slice);
         }

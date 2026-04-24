@@ -82,7 +82,7 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   std::vector<std::pair<uint32_t, uint8_t*>> proposals;     \
   proposals.reserve(kNumProposals);                         \
   WorkloadGenerator wg;                                     \
-  auto ops = wg.generateOps(kNumProposals, kNumMatrices);   \
+  auto ops = wg.generate(kNumProposals, kNumMatrices);   \
   for (int i = 0; i < kNumProposals; ++i) {                 \
     auto& op = ops[i];                                      \
     uint32_t op_id = op.id;                                 \
