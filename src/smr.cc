@@ -4,7 +4,6 @@
 #include <random>
 #include <string>
 
-#include "cfg.h"
 #include "romulus/cfg.h"
 #include "romulus/common.h"
 #include "romulus/connection_manager.h"
@@ -17,10 +16,12 @@
 #include "util.h"
 
 #include "mu/mu_impl.h"
+#include "dag.h"
 
 
 #define PAXOS_NS paxos_st
 constexpr uint32_t kNumProposals = 8092;
+constexpr uint32_t kMaxBufSize = 1024;
 
 void signal_handler(int signum) {
   if (signum == SIGTSTP) {
@@ -86,12 +87,22 @@ int main(int argc, char* argv[]) {
       std::chrono::duration_cast<std::chrono::microseconds>(testtime);
   ROMULUS_STOPWATCH_BEGIN();
   size_t iterations = 0;
+  size_t last_offload_idx = 0;
+  DagGenerator dag_generator;
 
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
       // Fixed leader node0
       if (id == 0) {
+        if(i >= kMaxBufSize){
+          // take slice of last_offload_idx to last_offload_idx + kMaxBufSize
+          auto slice = std::vector<std::pair<uint32_t, uint8_t*>>(
+              proposals.begin() + last_offload_idx,
+              proposals.begin() + std::min(last_offload_idx + kMaxBufSize, (size_t)proposals.size()));
+          ROMULUS_INFO("Consensus buffer is full. Triggering offloading process...");
+          dag_generator.build_dag(slice);
+        }
         exec();
         busy_wait(sleep);
       }
