@@ -4,16 +4,17 @@
 //dag builder, scheduler, executor 
 #include "dag.h"
 #include "scheduler.h"
-#include "gpu.cu"
+#include "gpu.cuh"
+#include "state.h"
 
-const uint64_t ROWS = 10000;
-const uint64_t COLS = 10000;
 const std::string LOG_PATH = "dummy_smr.log";
 
 int main(int argc, char* argv[]) {
     try {
         std::cout << "[1/4] Initializing DAG Generator..." << std::endl;
         DagGenerator builder;
+        State<float> initstate;
+        initstate.populate_random_state_matrix(1, 100);
 
         builder.build_dag(LOG_PATH);
         auto& dag = builder.get_dag();
@@ -26,7 +27,7 @@ int main(int argc, char* argv[]) {
 
         std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
         GpuExecutor executor(ROWS, COLS);
-        executor.load_state(init_state); 
+        executor.load_state(initstate); 
 
         std::cout << "[4/4] Executing on GPU..." << std::endl;
         executor.run(dag, levels);

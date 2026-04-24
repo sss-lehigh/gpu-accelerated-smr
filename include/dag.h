@@ -4,6 +4,7 @@
 #include <set>
 #include <vector>
 #include <fstream>
+#include <cuda_runtime.h>
 
 #include "workload.h"
 

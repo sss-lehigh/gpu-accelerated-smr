@@ -6,6 +6,9 @@
 
 #include "logging.h"
 
+const uint64_t ROWS = 10;
+const uint64_t COLS = 10;
+
 /// A dense matrix, implemented as a 1D array
 ///
 /// DenseMat is just a data type with some accessor methods.  It does not
