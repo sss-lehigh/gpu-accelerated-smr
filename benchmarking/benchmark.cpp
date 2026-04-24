@@ -78,9 +78,9 @@ int main(int argc, char** argv) {
 
             default:
                 break;
-            }
+            } // end switch
         }
-    }
+    } // end of command line for loop
 
     if (SIZE) {
         ROWS = SIZE;
@@ -88,6 +88,8 @@ int main(int argc, char** argv) {
     }
 
     std::srand(std::time(nullptr)); 
+
+    /// TODO: Maybe replace with consensus stuff?
     WorkloadGenerator generator;
 
     std::cout << "Generate " << num_mats << " matrices..." << std::endl;
