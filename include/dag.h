@@ -40,7 +40,15 @@ private:
             || type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
     } //end heavy operation 
 
-public: 
+public:
+    ~DagGenerator() {
+        for (auto& pair : dag) {
+            if (pair.second.d_mat_param != nullptr) {
+                cudaFree(pair.second.d_mat_param);
+                pair.second.d_mat_param = nullptr;
+            }
+        }
+    }
     void build_dag(const std::string& path) {
         std::ifstream log(path, std::ios::binary);
         SerializedOp sop; 
