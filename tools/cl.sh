@@ -253,10 +253,10 @@ elif [[ "$cmd" == "reset-all" && "$count" -eq 1 ]]; then
 	reset-all
 elif [[ "$cmd" == "do-all" && "$count" -eq 2 ]]; then
 	do_all "$2"
-elif [[ "$cmd" == "retrieve-results" && "$count" -eq 1 ]]; then
-	# TODO
-elif [[ "$cmd" == "launch-experiment" && "$count" -eq 2 ]]; then
-	# TODO
+# elif [[ "$cmd" == "retrieve-results" && "$count" -eq 1 ]]; then
+# 	# TODO
+# elif [[ "$cmd" == "launch-experiment" && "$count" -eq 2 ]]; then
+# 	# TODO
 else
 	usage
 fi
