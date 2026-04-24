@@ -39,8 +39,8 @@ class DagGenerator {
 
   bool heavy_op(OpType type) {
     return type == OpType::MAT_MULT || type == OpType::MAT_ADD ||
-           type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT ||
-           type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
+        type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT ||
+        type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
   }  // end heavy operation
 
  public:
@@ -123,7 +123,7 @@ class DagGenerator {
       dag[op.id] = node;
     }  // end while
   }  // end bukld dag
-
+  
   const std::map<uint64_t, DagNode>& get_dag() const {
     return dag;
   }  // end dag getter

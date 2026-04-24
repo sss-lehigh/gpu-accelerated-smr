@@ -1,7 +1,5 @@
 # GPU-Accelerated SMR
 
-
-
 Link for cuda installation guide: [Cuda Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
 
 # Summarizing the instructions for Ubuntu 24.04 LTS:
@@ -54,3 +52,8 @@ reboot
 
 ## Post-installation Action
 ### Mandatory Actions
+**Environment Setup**
+```bash
+export PATH=/usr/local/cuda-13.0/bin${PATH:+:${PATH}}
+export PATH=/opt/nvidia/nsight-compute${PATH:+:${PATH}}
+```
