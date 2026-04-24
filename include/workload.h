@@ -71,6 +71,16 @@ class WorkloadGenerator {
     return default_mat;
   }
 
+  DenseMat<float> generateMatrix(uint64_t dim) {
+    auto default_mat = DenseMat<float>(dim, dim);
+    for (uint64_t i = 0; i < dim; ++i) {
+      for (uint64_t j = 0; j < dim; ++j) {
+        default_mat.set(i + 1, j + 1, static_cast<float>(rand() % MAX_RANDOM_VALUE));
+      }
+    }
+    return default_mat;
+  }
+
   std::vector<op> generate(uint64_t num_ops, uint64_t num_mats = 1) {
     for (uint64_t i = 0; i < num_ops; ++i) {
       op new_op;

@@ -22,7 +22,7 @@
 
 #define PAXOS_NS paxos_st
 constexpr uint32_t kNumProposals = 8092;
-constexpr uint32_t kMaxBufSize = 1024;
+constexpr uint32_t kMaxBufSize = 512;
 
 void signal_handler(int signum) {
   if (signum == SIGTSTP) {
@@ -90,23 +90,24 @@ int main(int argc, char* argv[]) {
   // size_t iterations = 0;
   size_t last_offload_idx = 0;
   DagGenerator dag_generator;
-
+  uint32_t fuo = 0;
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
       // Fixed leader node0
-      if (id == 0) {
-        if(i >= kMaxBufSize){
+      if (id == static_cast<int>(system_size - 1)) {
+        ROMULUS_INFO("FUO {}", fuo);
+        if(fuo >= kMaxBufSize){
+          ROMULUS_INFO("Consensus buffer is full. Triggering offloading process...");
           // take slice of last_offload_idx to last_offload_idx + kMaxBufSize
           auto slice = std::vector<op>(
               ops.begin() + last_offload_idx,
               ops.begin() + std::min(last_offload_idx + kMaxBufSize, (size_t)ops.size()));
-          ROMULUS_INFO("Consensus buffer is full. Triggering offloading process...");
-
-          // dag_generator.build_dag(slice);
+          dag_generator.build_dag(slice);
+          fuo = 0;
         }
         exec();
-        busy_wait(sleep);
+        fuo++;
       }
     }
   }
