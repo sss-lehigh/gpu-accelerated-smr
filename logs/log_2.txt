@@ -1,0 +1,75 @@
+romulus::DEBUG is false
+[INFO] Node 3 of 4 is apt141
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=apt141
+[INFO] !> [CONF] host id=2
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_4.csv
+[INFO] !> [CONF] testtime=5_s
+[INFO] !> [CONF] device name=mlx4_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=IB
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] policy=OTO
+[INFO] !> [CONF] duration=100_ms
+[INFO] !> [CONF] system_size=4
+[INFO] !> [CONF] output file=mu_stats_4.csv
+[INFO] Initializing Mu
+[INFO] remote: 1
+[INFO] remote: 2
+[INFO] remote: 4
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx4_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 67)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-3-for-1, 43:25b:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-replication-3-for-1
+Set (K, V) = (qp-replication-3-for-2, 43:25c:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-replication-3-for-2
+Set (K, V) = (qp-replication-3-for-4, 43:25d:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-replication-3-for-4
+Set (K, V) = (qp-replication-3-ready(announce), ready(announce))
+RC: SUCCESS
+Set (K, V) = (qp-leader-election-3-for-1, 43:25e:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-leader-election-3-for-1
+Set (K, V) = (qp-leader-election-3-for-2, 43:25f:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-leader-election-3-for-2
+Set (K, V) = (qp-leader-election-3-for-4, 43:260:7a707cecc040:7b333333:38010100)
+RC: SUCCESS
+[CE:info] Publishing qp qp-leader-election-3-for-4
+Set (K, V) = (qp-leader-election-3-ready(announce), ready(announce))
+RC: SUCCESS
+[CE:info] Loopback connection was added
+[CONS:info] Scratchpad memory :: slot size: 1048576 bytes, total size: 41943040 bytes.
+[CONS:info] Log allocation... OK
+[CONS:info] Log (address: 0x7a707f6cc040, size: 2025009971 bytes)
+[CE:info] Connected with qp-replication-1-for-3
+[CE:info] Connected with qp-replication-2-for-3
+[CE:info] Connected with qp-replication-4-for-3
+Set (K, V) = (qp-replication-3-ready(connect), ready(connect))
+RC: SUCCESS
+[CE:info] Connected with qp-leader-election-1-for-3
+[CE:info] Connected with qp-leader-election-2-for-3
+[CE:info] Connected with qp-leader-election-4-for-3
+Set (K, V) = (qp-leader-election-3-ready(connect), ready(connect))
+RC: SUCCESS
+[CE:info] Loopback connection was established
+[CONS:info] Waiting (5 sec) for all threads to start
+Giving permissions to 1
+[INFO] Starting latency test
+[INFO] Experiment is finished. Cleaning up...
+^C
