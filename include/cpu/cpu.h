@@ -100,6 +100,7 @@ public:
                             launchSgemm(d_out, node.d_mat_param, d_temp_result, rows, cols, cols);
 
                             break;
+                        }
 
                         default:
                             break;
