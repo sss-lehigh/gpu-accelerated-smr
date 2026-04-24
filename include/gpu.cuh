@@ -92,21 +92,6 @@ public:
 
         // Only synchronize ONCE at the very end of the entire DAG execution
         CUDA_CHECK(cudaDeviceSynchronize());
-
-        /* for (const auto &level : levels)
-        {
-            int s_idx = 0; //to allocate tasks to all 8 gpu streams 
-            for (uint64_t op_id : level) {
-                const DagNode& node = dag.at(op_id);
-                cudaStream_t stream = streams[s_idx%8]; //determine which stream to launch on 
-                
-                launch(node, stream);
-                s_idx++;
-            } //end for 
-            
-            //sync for next lvl
-            cudaDeviceSynchronize();
-        } // end for */
     } //end run 
 
 private:
