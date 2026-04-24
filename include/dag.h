@@ -40,6 +40,7 @@ private:
             || type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
     } //end heavy operation 
 
+<<<<<<< Updated upstream
 public:
     ~DagGenerator() {
         for (auto& pair : dag) {
@@ -52,60 +53,64 @@ public:
     void build_dag(const std::string& path) {
         std::ifstream log(path, std::ios::binary);
         SerializedOp sop; 
+=======
+public: 
+    void build_dag(const std::vector<op>& log_slice) {
+>>>>>>> Stashed changes
 
-        while (log.read(reinterpret_cast<char*>(&sop), sizeof(SerializedOp))) {
-            uint64_t targ_mat = sop.dest_mat_id_1;
+        for (auto &op : log_slice) {
+            uint64_t targ_mat = op.dest_mat_id_1;
 
             if (last_write.count(targ_mat)) {
                 uint64_t prev_op = last_write[targ_mat]; 
                 DagNode& prev = dag[prev_op]; 
 
                 //merge scalar ops 
-                if (sop.type == prev.op.type && (sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_SUB || sop.type == OpType::SCALAR_MULT) && last_write.count(targ_mat)) {
+                if (op.type == prev.op.type && (op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_SUB || op.type == OpType::SCALAR_MULT) && last_write.count(targ_mat)) {
                     // [KAP325] I've assumed that when we do scalar subtrctions numbers are passed in as positves 
                     if (prev.op.type == OpType::SCALAR_ADD || prev.op.type == OpType::SCALAR_SUB) {
-                        prev.op.scalar_param += sop.scalar_param; 
+                        prev.op.scalar_param += op.scalar_param; 
                     } //end if 
 
                     if (prev.op.type == OpType::SCALAR_MULT) {
-                        prev.op.scalar_param *= sop.scalar_param; 
+                        prev.op.scalar_param *= op.scalar_param; 
                     } //end if 
 
-                    last_write[sop.id] = prev_op; 
+                    last_write[op.id] = prev_op; 
                     continue; 
                 } //end if 
 
                 //kernel fuxzion 
-                if ((sop.type == OpType::SCALAR_ADD || sop.type == OpType::SCALAR_MULT) && heavy_op(prev.op.type)) {
+                if ((op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_MULT) && heavy_op(prev.op.type)) {
                     uint64_t prev_op = last_write[targ_mat]; 
                     DagNode& prev = dag[prev_op]; 
 
-                    int val = (sop.type == OpType::SCALAR_SUB) ? -sop.scalar_param : sop.scalar_param;
+                    int val = (op.type == OpType::SCALAR_SUB) ? -op.scalar_param : op.scalar_param;
                     prev.fused_scalar += val; 
                     prev.has_fused_scalar = true; 
-                    last_write[sop.id] = prev_op; 
+                    last_write[op.id] = prev_op; 
                     continue; 
                 } //end if 
             } //end if 
 
             DagNode node; 
-            node.op = sop; 
+            node.op = op; 
             node.has_fused_scalar = false;
             node.fused_scalar = 0;
 
-            if (last_write.count(sop.dest_mat_id_1)) {
-                node.deps.insert(last_write[sop.dest_mat_id_1]); 
+            if (last_write.count(op.dest_mat_id_1)) {
+                node.deps.insert(last_write[op.dest_mat_id_1]); 
             } //end if 
 
-            if (sop.type == OpType::MAT_ADD || sop.type == OpType::MAT_SUB || sop.type == OpType::MAT_MULT) {
-                if (last_write.count(sop.dest_mat_id_2)) {
-                    node.deps.insert(last_write[sop.dest_mat_id_2]); 
+            if (op.type == OpType::MAT_ADD || op.type == OpType::MAT_SUB || op.type == OpType::MAT_MULT) {
+                if (last_write.count(op.dest_mat_id_2)) {
+                    node.deps.insert(last_write[op.dest_mat_id_2]); 
                 } //end if 
             } //end if 
 
-            last_write[sop.dest_mat_id_1] = sop.id; 
+            last_write[op.dest_mat_id_1] = op.id; 
 
-            if (sop.has_mat_param) {
+            if (op.has_mat_param) {
                 uint64_t r, c;
                 log.read(reinterpret_cast<char*>(&r), sizeof(uint64_t));
                 log.read(reinterpret_cast<char*>(&c), sizeof(uint64_t));
@@ -126,7 +131,7 @@ public:
                 // log.read(reinterpret_cast<char*>(node.mat_data.data()), node.mat_data.size());
             } //end iof 
 
-            dag[sop.id] = node; 
+            dag[op.id] = node; 
         } //end while 
     } //end bukld dag 
 
