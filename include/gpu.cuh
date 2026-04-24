@@ -111,27 +111,27 @@ public:
 
 private:
     void launch(const DagNode& node, cudaStream_t stream, int stream_idx) {
-        float* d_out = device_mats[node.op.dest_mat_id_1];
+        float* d_out = device_mats[node.operation.dest_mat_id_1.value()];
 
         if (node.has_fused_scalar) {
             launchFusedScalarMultiplyAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
         } else {
-            switch (node.op.type) {
+            switch (node.operation.type) {
                 case OpType::SCALAR_ADD:
-                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchAddScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_SUB:
-                    launchSubtractScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchSubtractScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_MULT:
-                    launchMultiplyScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchMultiplyScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::MAT_MULT: 
                 {
-                    float *d_mat_B = device_mats[node.op.dest_mat_id_2];
+                    float *d_mat_B = device_mats[node.operation.dest_mat_id_2.value()];
                     float *d_temp_result = stream_workspace[stream_idx]; // use pre allocated buffer
                     size_t size = rows*cols*sizeof(float);
 

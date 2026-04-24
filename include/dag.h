@@ -23,7 +23,7 @@
 // };
 
 struct DagNode {
-  op op;
+  op operation;
   // std::vector<float> mat_data;
   float* d_mat_param = nullptr;
   std::set<uint64_t> deps;
@@ -53,19 +53,19 @@ class DagGenerator {
         DagNode& prev = dag[prev_op];
 
         // merge scalar ops
-        if (op.type == prev.op.type &&
+        if (op.type == prev.operation.type &&
             (op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_SUB ||
              op.type == OpType::SCALAR_MULT) &&
             last_write.count(targ_mat)) {
           // [KAP325] I've assumed that when we do scalar subtrctions numbers
           // are passed in as positves
-          if (prev.op.type == OpType::SCALAR_ADD ||
-              prev.op.type == OpType::SCALAR_SUB) {
-            prev.op.scalar_param.value() += op.scalar_param.value();
+          if (prev.operation.type == OpType::SCALAR_ADD ||
+              prev.operation.type == OpType::SCALAR_SUB) {
+            prev.operation.scalar_param.value() += op.scalar_param.value();
           }  // end if
 
-          if (prev.op.type == OpType::SCALAR_MULT) {
-            prev.op.scalar_param.value() *= op.scalar_param.value();
+          if (prev.operation.type == OpType::SCALAR_MULT) {
+            prev.operation.scalar_param.value() *= op.scalar_param.value();
           }  // end if
 
           last_write[op.id] = prev_op;
@@ -74,7 +74,7 @@ class DagGenerator {
 
         // kernel fuxzion
         if ((op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_MULT) &&
-            heavy_op(prev.op.type)) {
+            heavy_op(prev.operation.type)) {
           uint64_t prev_op = last_write[targ_mat];
           DagNode& prev = dag[prev_op];
 
@@ -88,7 +88,7 @@ class DagGenerator {
       }  // end if
 
       DagNode node;
-      node.op = op;
+      node.operation = op;
       node.has_fused_scalar = false;
       node.fused_scalar = 0;
 
