@@ -1,0 +1,38 @@
+[settings]
+    arch=x86_64
+    build_type=Debug
+    compiler=gcc
+    compiler.cppstd=17
+    compiler.libcxx=libstdc++11
+    compiler.version=7
+    os=Linux
+
+[requires]
+    dory-external/0.0.1
+
+[options]
+    lto=True
+    shared=False
+
+[full_settings]
+    arch=x86_64
+    build_type=Debug
+    compiler=gcc
+    compiler.cppstd=17
+    compiler.libcxx=libstdc++11
+    compiler.version=7
+    os=Linux
+
+[full_requires]
+    dory-external/0.0.1:3b414b6f1701e2c06d0d214fcdf14d6d1e03d36d
+
+[full_options]
+    lto=True
+    shared=False
+    dory-external:shared=False
+
+[recipe_hash]
+
+
+[env]
+

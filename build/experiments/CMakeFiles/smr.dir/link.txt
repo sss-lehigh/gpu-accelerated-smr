@@ -1,0 +1,1 @@
+/usr/bin/clang++-18 -O3 -DNDEBUG CMakeFiles/smr.dir/smr.cc.o -o smr 

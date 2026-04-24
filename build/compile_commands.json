@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/alclev/gpu-accelerated-smr/build/experiments",
+  "command": "/usr/bin/clang++-18  -I/home/alclev/gpu-accelerated-smr/include -O3 -DNDEBUG -std=gnu++20 -O3 -U LOG_LEVEL -D LOG_LEVEL=RELEASE -Wall -Wextra -Wwrite-strings -Werror -o CMakeFiles/smr.dir/smr.cc.o -c /home/alclev/gpu-accelerated-smr/experiments/smr.cc",
+  "file": "/home/alclev/gpu-accelerated-smr/experiments/smr.cc",
+  "output": "experiments/CMakeFiles/smr.dir/smr.cc.o"
+}
+]

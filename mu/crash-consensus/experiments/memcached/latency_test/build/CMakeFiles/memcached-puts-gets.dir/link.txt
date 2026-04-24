@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG "CMakeFiles/memcached-puts-gets.dir/memcached_latency_puts_gets.c.o" -o memcached-puts-gets  -pthread 

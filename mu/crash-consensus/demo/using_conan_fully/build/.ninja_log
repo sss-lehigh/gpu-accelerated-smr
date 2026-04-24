@@ -1,0 +1,8 @@
+# ninja log v5
+1	351	1776201645	src/CMakeFiles/fifo.dir/fifo.cpp.o	acaf27e801c9d337
+351	431	1776201645	bin/fifo	109883cf9801e38a
+0	480	1776201646	src/CMakeFiles/stats.dir/stats.cpp.o	7579d71e01783be1
+0	590	1776201646	src/CMakeFiles/main-dt.dir/main-dt.cpp.o	c9c81ecf362457c
+480	610	1776201646	bin/stats	65a29d9a1a4c4607
+0	800	1776201646	src/CMakeFiles/main-st.dir/main-st.cpp.o	7bac0dd92548494c
+0	895	1776201646	src/CMakeFiles/main-st-lat.dir/main-st-lat.cpp.o	ec674c237ff56d42

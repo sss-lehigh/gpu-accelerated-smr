@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG "CMakeFiles/memcached-puts-only.dir/memcached_latency_puts.c.o" -o memcached-puts-only  -pthread 
