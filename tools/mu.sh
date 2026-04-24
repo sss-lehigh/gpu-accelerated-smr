@@ -1,4 +1,4 @@
-EXE_PATH="experiments/caspaxos"
+
 
 function make_screen {
 	echo 'startup_message off' >>$1
@@ -90,22 +90,18 @@ EOF
 	rm "$tmp_screen"
 }
 
-function reset_mu() {
+function send_libs() {
 	for m in ${MACHINES[*]}; do
-		scp "lib/libcrashconsensus.so" "${USER}@${m}.${DOMAIN}:libcrashconsensus.so" &
+		scp "lib/libcrashconsensus.so" "${USER}@${m}.${DOMAIN}:~/" &
+		scp "lib/memcached" "${USER}@${m}.${DOMAIN}:~/" &
+		scp "lib/libevent-2.1.so.6" "${USER}@${m}.${DOMAIN}:~/" &
+		scp "lib/libcudart.so.12" "${USER}@${m}.${DOMAIN}:~/" &
 	done
-	
-	MISSING_FILES=$(ssh ${USER}@${MACHINES[0]}.${DOMAIN} "test -f ~/memcached && test -f ~/libevent-2.1.so.6 && echo false || echo true")
+	wait
+}
 
-
-	if [[ "$MISSING_FILES" == "true" ]]; then
-		echo "Critical files do not exist on remote. Sending over now..."
-		# Set up memcached on node0
-		scp "lib/memcached" "${USER}@${MACHINES[0]}.${DOMAIN}:memcached"
-		scp "lib/libevent-2.1.so.6" "${USER}@${MACHINES[0]}.${DOMAIN}:~/"
-	fi
-
-	# Reset the memcached server
+function reset-memcached() {
+# Reset the memcached server
 	ssh ${USER}@${MACHINES[0]}.${DOMAIN} "sudo pkill memcached"
 	sleep 1
 	# Launch the memcached server
@@ -113,9 +109,25 @@ function reset_mu() {
 	ssh ${USER}@${MACHINES[0]}.${DOMAIN} "nohup env LD_LIBRARY_PATH=/users/${USER} ./memcached ${MEMCACHED_ARGS} > memcached.log 2>&1 &"
 }
 
+function do_all {
+	for i in "${!MACHINES[@]}"; do
+		ssh ${USER}@${MACHINES[$i]}.${DOMAIN} "$1" &
+	done
+	wait
+}
+
+function reset-all() {
+	last_valid_index=$((${#MACHINES[@]} - 1)) # The 0-indexed number of nodes
+	for i in $(seq 0 ${last_valid_index}); do
+		ssh ${USER}@${MACHINES[$i]}.${DOMAIN} "sudo killall -9 -u $USER" &
+	done
+	wait
+	echo "Nodes have been reset."
+}
+
 cmd="$1"
 count=$#
-
+EXE_PATH="src/smr"
 cd $(git rev-parse --show-toplevel)
 source config/cloudlab.conf
 
@@ -137,10 +149,14 @@ if [[ "$cmd" == "build" && "$count" -eq 1 ]]; then
 elif [[ "$cmd" == "run" && "$count" -eq 1 ]]; then
 	run_mu "$EXE_PATH"
 elif [[ "$cmd" == "reset" && "$count" -eq 1 ]]; then
-	reset_mu
+	reset-all
 elif [[ "$cmd" == "run-debug" && "$count" -eq 1 ]]; then
 	run_mu_debug "$EXE_PATH"
+elif [[ "$cmd" == "send-libs" && "$count" -eq 1 ]]; then
+	send_libs
+elif [[ "$cmd" == "reset-memcached" && "$count" -eq 1 ]]; then
+	reset-memcached
 else
-	echo "Usage: $0 [build|run|reset|run-debug]"
+	echo "Usage: $0 [build|run|reset|run-debug|send-libs|reset-memcached]"
 	exit 1
 fi

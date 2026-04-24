@@ -16,7 +16,10 @@ int main(int argc, char* argv[]) {
         State<float> initstate;
         initstate.populate_random_state_matrix(1, 100);
 
-        builder.build_dag(LOG_PATH);
+        WorkloadGenerator wg;
+        std::vector<op> ops = wg.generate(100, 5); 
+
+        builder.build_dag(ops);
         auto& dag = builder.get_dag();
         std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
 

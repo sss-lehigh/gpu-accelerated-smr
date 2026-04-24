@@ -92,46 +92,31 @@ public:
 
         // Only synchronize ONCE at the very end of the entire DAG execution
         CUDA_CHECK(cudaDeviceSynchronize());
-
-        /* for (const auto &level : levels)
-        {
-            int s_idx = 0; //to allocate tasks to all 8 gpu streams 
-            for (uint64_t op_id : level) {
-                const DagNode& node = dag.at(op_id);
-                cudaStream_t stream = streams[s_idx%8]; //determine which stream to launch on 
-                
-                launch(node, stream);
-                s_idx++;
-            } //end for 
-            
-            //sync for next lvl
-            cudaDeviceSynchronize();
-        } // end for */
     } //end run 
 
 private:
     void launch(const DagNode& node, cudaStream_t stream, int stream_idx) {
-        float* d_out = device_mats[node.op.dest_mat_id_1];
+        float* d_out = device_mats[node.operation.dest_mat_id_1.value()];
 
         if (node.has_fused_scalar) {
             launchFusedScalarMultiplyAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
         } else {
-            switch (node.op.type) {
+            switch (node.operation.type) {
                 case OpType::SCALAR_ADD:
-                    launchAddScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchAddScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_SUB:
-                    launchSubtractScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchSubtractScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::SCALAR_MULT:
-                    launchMultiplyScalar(d_out, (float)node.op.scalar_param, rows, cols, stream);
+                    launchMultiplyScalar(d_out, (float)node.operation.scalar_param.value(), rows, cols, stream);
                     break;
 
                 case OpType::MAT_MULT: 
                 {
-                    float *d_mat_B = device_mats[node.op.dest_mat_id_2];
+                    float *d_mat_B = device_mats[node.operation.dest_mat_id_2.value()];
                     float *d_temp_result = stream_workspace[stream_idx]; // use pre allocated buffer
                     size_t size = rows*cols*sizeof(float);
 

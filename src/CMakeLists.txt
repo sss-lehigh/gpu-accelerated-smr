@@ -1,9 +1,12 @@
+find_package(CUDAToolkit REQUIRED)
+
 add_executable(smr smr.cc)
 
 target_link_libraries(smr
   PRIVATE
     ${PROJECT_NAME} 
     ${CMAKE_SOURCE_DIR}/lib/libcrashconsensus.so
+    CUDA::cudart
 )
 
 message(STATUS "Building with Mu enabled...")

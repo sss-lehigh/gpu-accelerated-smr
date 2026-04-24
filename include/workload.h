@@ -39,8 +39,8 @@ struct op {
   std::optional<uint64_t> dest_mat_id_2;
   // Will only be populated if we have a "new" prefix, indicating that this
   // will have additional matrix as the parameter instead of index
-  std::optional<int> scalar_param;
-  std::optional<DenseMat<int>> mat_param;
+  std::optional<float> scalar_param;
+  std::optional<DenseMat<float>> mat_param;
 };
 
 struct SerializedOp {
@@ -48,7 +48,7 @@ struct SerializedOp {
   OpType type;
   uint64_t dest_mat_id_1;
   uint64_t dest_mat_id_2;
-  int32_t scalar_param;
+  float scalar_param;
   bool has_mat_param;
   // uint64_t rows;
   // uint64_t cols;
@@ -61,11 +61,11 @@ class WorkloadGenerator {
  public:
   WorkloadGenerator() = default;
 
-  DenseMat<int> generateMatrix() {
-    auto default_mat = DenseMat<int>(MATRIX_DIM, MATRIX_DIM);
+  DenseMat<float> generateMatrix() {
+    auto default_mat = DenseMat<float>(MATRIX_DIM, MATRIX_DIM);
     for (uint64_t i = 0; i < MATRIX_DIM; ++i) {
       for (uint64_t j = 0; j < MATRIX_DIM; ++j) {
-        default_mat.set(i + 1, j + 1, rand() % MAX_RANDOM_VALUE);
+        default_mat.set(i + 1, j + 1, static_cast<float>(rand() % MAX_RANDOM_VALUE));
       }
     }
     return default_mat;
@@ -79,18 +79,18 @@ class WorkloadGenerator {
       if (op_type_rand < SCALAR_ADD_PERC) {
         new_op.type = OpType::SCALAR_ADD;
         new_op.dest_mat_id_1 = rand() % num_mats;
-        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        new_op.scalar_param = static_cast<float>(rand() % MAX_RANDOM_VALUE);
         // rest of parameters are ignored...
       } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC) {
         new_op.type = OpType::SCALAR_SUB;
         new_op.dest_mat_id_1 = rand() % num_mats;
-        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        new_op.scalar_param = static_cast<float>(rand() % MAX_RANDOM_VALUE);
         // rest of parameters are ignored...
       } else if (op_type_rand <
                  SCALAR_ADD_PERC + SCALAR_SUB_PERC + SCALAR_MULT_PERC) {
         new_op.type = OpType::SCALAR_MULT;
         new_op.dest_mat_id_1 = rand() % num_mats;
-        new_op.scalar_param = rand() % MAX_RANDOM_VALUE;
+        new_op.scalar_param = static_cast<float>(rand() % MAX_RANDOM_VALUE);
         // rest of parameters are ignored...
       } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC +
                                     SCALAR_MULT_PERC + MAT_ADD_PERC) {

@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "workload.h"
+#include "kernels/common.cuh"
 
 // enum class OpType : uint8_t {
 //   SCALAR_ADD = 0,
@@ -22,7 +23,7 @@
 // };
 
 struct DagNode {
-  SerializedOp op;
+  op operation;
   // std::vector<float> mat_data;
   float* d_mat_param = nullptr;
   std::set<uint64_t> deps;
@@ -45,26 +46,26 @@ class DagGenerator {
  public:
   void build_dag(const std::vector<op>& log_slice) {
     for (auto& op : log_slice) {
-      uint64_t targ_mat = op.dest_mat_id_1;
+      uint64_t targ_mat = op.dest_mat_id_1.value();
 
       if (last_write.count(targ_mat)) {
         uint64_t prev_op = last_write[targ_mat];
         DagNode& prev = dag[prev_op];
 
         // merge scalar ops
-        if (op.type == prev.op.type &&
+        if (op.type == prev.operation.type &&
             (op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_SUB ||
              op.type == OpType::SCALAR_MULT) &&
             last_write.count(targ_mat)) {
           // [KAP325] I've assumed that when we do scalar subtrctions numbers
           // are passed in as positves
-          if (prev.op.type == OpType::SCALAR_ADD ||
-              prev.op.type == OpType::SCALAR_SUB) {
-            prev.op.scalar_param += op.scalar_param;
+          if (prev.operation.type == OpType::SCALAR_ADD ||
+              prev.operation.type == OpType::SCALAR_SUB) {
+            prev.operation.scalar_param.value() += op.scalar_param.value();
           }  // end if
 
-          if (prev.op.type == OpType::SCALAR_MULT) {
-            prev.op.scalar_param *= op.scalar_param;
+          if (prev.operation.type == OpType::SCALAR_MULT) {
+            prev.operation.scalar_param.value() *= op.scalar_param.value();
           }  // end if
 
           last_write[op.id] = prev_op;
@@ -73,12 +74,12 @@ class DagGenerator {
 
         // kernel fuxzion
         if ((op.type == OpType::SCALAR_ADD || op.type == OpType::SCALAR_MULT) &&
-            heavy_op(prev.op.type)) {
+            heavy_op(prev.operation.type)) {
           uint64_t prev_op = last_write[targ_mat];
           DagNode& prev = dag[prev_op];
 
-          int val = (op.type == OpType::SCALAR_SUB) ? -op.scalar_param
-                                                    : op.scalar_param;
+          int val = (op.type == OpType::SCALAR_SUB) ? -op.scalar_param.value()
+                                                    : op.scalar_param.value();
           prev.fused_scalar += val;
           prev.has_fused_scalar = true;
           last_write[op.id] = prev_op;
@@ -87,46 +88,37 @@ class DagGenerator {
       }  // end if
 
       DagNode node;
-      node.op = op;
+      node.operation = op;
       node.has_fused_scalar = false;
       node.fused_scalar = 0;
 
-      if (last_write.count(op.dest_mat_id_1)) {
-        node.deps.insert(last_write[op.dest_mat_id_1]);
+      if (last_write.count(op.dest_mat_id_1.value())) {
+        node.deps.insert(last_write[op.dest_mat_id_1.value()]);
       }  // end if
 
       if (op.type == OpType::MAT_ADD || op.type == OpType::MAT_SUB ||
           op.type == OpType::MAT_MULT) {
-        if (last_write.count(op.dest_mat_id_2)) {
-          node.deps.insert(last_write[op.dest_mat_id_2]);
+        if (last_write.count(op.dest_mat_id_2.value())) {
+          node.deps.insert(last_write[op.dest_mat_id_2.value()]);
         }  // end if
       }  // end if
 
-      last_write[op.dest_mat_id_1] = op.id;
+      last_write[op.dest_mat_id_1.value()] = op.id;
 
-      if (op.has_mat_param) {
-        uint64_t r, c;
-        log.read(reinterpret_cast<char*>(&r), sizeof(uint64_t));
-        log.read(reinterpret_cast<char*>(&c), sizeof(uint64_t));
+      if (op.mat_param.has_value()) {
+        // Process matrix parameter
+        // TODO: needs to adjust to read from args instead of file
+        const auto& mat = op.mat_param.value();
+        
+        node.rows = mat.num_rows;
+        node.cols = mat.num_cols;
+        
+        size_t n_elements = node.rows * node.cols;
+        size_t total_bytes = n_elements * sizeof(float);
 
-        node.rows = r;
-        node.cols = c;
-
-        std::vector<float> float_data(r * c);
-        log.read(reinterpret_cast<char*>(float_data.data()),
-                 r * c * sizeof(float));
-
-        cudaMalloc(&node.d_mat_param, r * c * sizeof(float));
-        cudaMemcpy(node.d_mat_param, float_data.data(), r * c * sizeof(float),
-                   cudaMemcpyHostToDevice);
-
-        // size_t n_rows = r*c;
-        // size_t total_bytes = n_rows*sizeof(float);
-
-        // node.mat_data.resize(r * c * sizeof(float));
-        // log.read(reinterpret_cast<char*>(node.mat_data.data()),
-        // node.mat_data.size());
-      }  // end iof
+        CUDA_CHECK(cudaMalloc(&node.d_mat_param, total_bytes));
+        CUDA_CHECK(cudaMemcpy(node.d_mat_param, mat.data(), total_bytes, cudaMemcpyHostToDevice));
+      }  // end if
 
       dag[op.id] = node;
     }  // end while
