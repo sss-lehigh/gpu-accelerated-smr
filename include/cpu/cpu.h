@@ -14,6 +14,10 @@ public:
         
     } //end constructor 
 
+
+    /// TODO: make this multi-threaded.
+    ///       Should be easy enough to make each thread have a queue, and push the node to the end of that queue
+    ///       to loop on for launch()
     void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
         for (const auto& level : levels) {
             for (uint64_t op_id : level) {
