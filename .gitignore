@@ -6,3 +6,4 @@ include/smr_engine
 build/
 mu/*
 logs/
+.vscode/

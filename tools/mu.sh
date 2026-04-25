@@ -268,6 +268,6 @@ elif [[ "$cmd" == "experiment" && "$count" -eq 2 ]]; then
 	fi
 
 else
-	echo "Usage: $0 [build|run|reset|run-debug|send-libs|reset-memcached]"
+	echo "Usage: $0 [build|run|reset|run-debug|send-libs|reset-memcached|experiment [1|2|3|4] ]"
 	exit 1
 fi
