@@ -63,8 +63,7 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   auto leader_fixed = args->bget(romulus::STABLE_LEADER);              \
   auto cpu_enabled = args->bget(romulus::CPU_ENABLED);                 \
   auto gpu_enabled = args->bget(romulus::GPU_ENABLED);                 \
-  auto is_serial = args->bget(romulus::IS_SERIAL);                     \
-  auto use_dag = args->bget(romulus::USE_DAG);
+  auto mode = args->sget(romulus::MODE);
 
 #define FILL_PROPOSALS()                                \
   std::vector<std::pair<uint32_t, uint8_t*>> proposals; \

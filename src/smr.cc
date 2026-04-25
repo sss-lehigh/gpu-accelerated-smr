@@ -3,6 +3,7 @@
 #include <functional>
 #include <random>
 #include <string>
+#include <barrier>
 
 #include "cfg.h"
 #include "dag.h"
@@ -63,8 +64,9 @@ int main(int argc, char* argv[]) {
   ROMULUS_INFO("!> [CONF] policy={}", policy);
   ROMULUS_INFO("!> [CONF] duration={}_ms", duration.count());
   ROMULUS_INFO("!> [CONF] system_size={}", system_size);
-  ROMULUS_INFO("!> [CONF] output file={}", output_file);
-
+  ROMULUS_INFO("!> [CONF] cpu_enabled={}", cpu_enabled);
+  ROMULUS_INFO("!> [CONF] gpu_enabled={}", gpu_enabled);
+  ROMULUS_INFO("!> [CONF] mode={}", mode);
   INIT_CONSENSUS(transport_flag, buf_size, mach_map);
   FILL_PROPOSALS();
 
@@ -75,10 +77,39 @@ int main(int argc, char* argv[]) {
   std::function<void(void)> reset = RESET;
 
   init();
+  std::atomic<bool> handler_running = true;
+  std::barrier commit_barrier(2);
+  ROMULUS_INFO("Initialization is finished. Launching commit thread...");
+  auto commit_handler = std::thread([&]() {
+    PinToCore(1);
+
+    while (handler_running.load(std::memory_order_relaxed) == true) {
+      // Wait for the main thread to signal that a batch of proposals has been sent
+      commit_barrier.arrive_and_wait();
+      // Need to do a quick check after all that wait time
+      if (handler_running.load(std::memory_order_relaxed) == false) {
+        break;
+      }
+      // TODO: CPU + SERIAL execution
+      if(cpu_enabled && (mode == "SERIAL")) {
+        // ...
+      }
+      // TODO: CPU + DAG execution
+      if(cpu_enabled && (mode == "DAG")){
+        // ...
+      }
+      // TODO: GPU + SERIAL execution
+      if(gpu_enabled && (mode == "SERIAL")) {
+        // ...
+      }
+      // TODO: GPU + DAG execution
+      if(gpu_enabled && (mode == "DAG")) {
+        // ...
+      }
+    }
+  });
 
   ROMULUS_INFO("Starting latency test");
-
-  
   // size_t iterations = 0;
   size_t last_offload_idx = 0;
   DagGenerator dag_generator;
@@ -91,18 +122,24 @@ int main(int argc, char* argv[]) {
       std::chrono::duration_cast<std::chrono::microseconds>(testtime);
   ROMULUS_STOPWATCH_BEGIN();
   size_t iterations = 0;
-
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
       // Fixed leader node0
       if (id == 0) {
+        if (fuo >= buf_size) {
+          // Signal the commit handler to process the batch of proposals
+          commit_barrier.arrive_and_wait();
+          // Reset offset for the next batch
+          fuo = 0;
+        }
         exec();
-        fuo++;
+        ++fuo;
       }
     }
   }
-
+  handler_running.store(false, std::memory_order_relaxed);
+  commit_handler.join();
   init();  // sync
 
   ROMULUS_INFO("Experiment is finished. Cleaning up...");
