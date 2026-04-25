@@ -239,6 +239,34 @@ elif [[ "$cmd" == "send-libs" && "$count" -eq 1 ]]; then
 	send_libs
 elif [[ "$cmd" == "reset-memcached" && "$count" -eq 1 ]]; then
 	reset-memcached
+elif [[ "$cmd" == "experiment" && "$count" -eq 2 ]]; then
+	# expecting $2 to be 1 2 3 or 4
+	# check to make sure $2 is valid by check > 1 and < 5
+	if [[ "$2" -gt 0 && "$2" -lt 5 ]]; then
+		# switch on $2
+		case "$2" in
+			1)
+				source experiments/num_nodes.sh
+				;;
+			2)
+				source experiments/matrix_size.sh
+				;;
+			3)
+				source experiments/num_state_mat.sh
+				;;
+			4)
+				source experiments/buf_sz.sh
+				;;
+		esac
+	else
+		echo "Usage: $0 experiment [1|2|3|4]"
+		echo "1: Vary number of nodes"
+		echo "2: Vary matrix size"
+		echo "3: Vary number of state machines"
+		echo "4: Vary buffer size"
+		exit 1
+	fi
+
 else
 	echo "Usage: $0 [build|run|reset|run-debug|send-libs|reset-memcached]"
 	exit 1
