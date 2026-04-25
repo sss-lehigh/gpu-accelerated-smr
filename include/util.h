@@ -83,6 +83,7 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   proposals.reserve(kNumProposals);                     \
   WorkloadGenerator wg;                                 \
   auto ops = wg.generate(kNumProposals, kNumMatrices);  \
+  wg.print(0, 10);                                      \
   for (int i = 0; i < (int)kNumProposals; ++i) {        \
     auto* buf = new uint8_t[sizeof(uint64_t)];          \
     std::memcpy(buf, &i, sizeof(uint64_t));             \
@@ -90,13 +91,13 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   }
 
 namespace {  // namespace anonymous
-  
-  inline void PinToCore(size_t core_id) {
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(core_id, &cpuset);
-    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
-  }
+
+inline void PinToCore(size_t core_id) {
+  cpu_set_t cpuset;
+  CPU_ZERO(&cpuset);
+  CPU_SET(core_id, &cpuset);
+  pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
+}
 
 template <typename Rep, typename Period>
 inline std::chrono::duration<Rep, Period> DoBackoff(

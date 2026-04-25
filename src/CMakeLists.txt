@@ -1,4 +1,5 @@
 find_package(CUDAToolkit REQUIRED)
+find_package(OpenMP REQUIRED)
 
 add_executable(smr smr.cc)
 
@@ -7,6 +8,7 @@ target_link_libraries(smr
     ${PROJECT_NAME} 
     ${CMAKE_SOURCE_DIR}/lib/libcrashconsensus.so
     CUDA::cudart
+    OpenMP::OpenMP_CXX
 )
 
 message(STATUS "Building with Mu enabled...")
