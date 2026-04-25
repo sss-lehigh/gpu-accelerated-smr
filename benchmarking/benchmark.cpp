@@ -4,7 +4,7 @@
 
 #include <chrono>
 
-#include "cpu.cpp"
+#include "cpu.h"
 #include "dag.h"
 #include "gpu.cu"
 #include "scheduler.h"
