@@ -5,7 +5,7 @@
 # Experiment: End-to-End Performance vs. System Size
 
 OUTFILE="results/num_nodes.csv"
-echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,is_serial,use_dag,lat_avg,lat_50p,lat_99p,lat_99_9p,throughput' >"$OUTFILE"
+echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,lat_avg,lat_50p,lat_99p,lat_99_9p,throughput' >"$OUTFILE"
 
 # Fixed: 
 # 
