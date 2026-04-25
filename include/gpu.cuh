@@ -143,6 +143,9 @@ private:
                     CUDA_CHECK(cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream));
                     break;
                 }
+                case OpType::ELEMAT_MULT:
+                    launchInPlaceElementwiseMatrixMult(d_out, node.d_mat_param, rows, cols, stream);
+                    break;
 
                 default:
                     break;
