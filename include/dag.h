@@ -40,7 +40,8 @@ class DagGenerator {
   bool heavy_op(OpType type) {
     return type == OpType::MAT_MULT || type == OpType::MAT_ADD ||
            type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT ||
-           type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB;
+           type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB ||
+           type == OpType::ELEMAT_MULT;
   }  // end heavy operation
 
  public:
