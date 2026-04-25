@@ -1,7 +1,8 @@
 include/*.log
 include/log_gen
 include/*.txt
-include/smr_engine*
+include/smr_engine
+include/cpu_smr_engine
 
 build/
 mu/*
