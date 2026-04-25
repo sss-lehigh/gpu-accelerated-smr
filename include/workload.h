@@ -9,13 +9,14 @@
 
 #define SCALAR_ADD_PERC 20
 #define SCALAR_SUB_PERC 20
-#define SCALAR_MULT_PERC 20
+#define SCALAR_MULT_PERC 10
 #define MAT_ADD_PERC 10
 #define MAT_SUB_PERC 10
 #define MAT_MULT_PERC 5
 #define NEW_MAT_ADD_PERC 5
 #define NEW_MAT_SUB_PERC 5
 #define NEW_MAT_MULT_PERC 5
+#define ELE_MAT_MULT 10
 
 #define MATRIX_DIM 2
 #define MAX_RANDOM_VALUE 1000
@@ -29,7 +30,8 @@ enum class OpType : uint8_t {
   MAT_MULT = 5,
   NEW_MAT_ADD = 6,
   NEW_MAT_SUB = 7,
-  NEW_MAT_MULT = 8
+  NEW_MAT_MULT = 8, 
+  ELEMAT_MULT = 9
 };
 
 struct op {
@@ -138,8 +140,16 @@ class WorkloadGenerator {
         new_op.dest_mat_id_1 = rand() % num_mats;
         new_op.mat_param = generateMatrix();
         // rest of parameters are ignored...
-      } else {
+      } else if (op_type_rand < SCALAR_ADD_PERC + SCALAR_SUB_PERC +
+                                    SCALAR_MULT_PERC + MAT_ADD_PERC +
+                                    MAT_SUB_PERC + MAT_MULT_PERC +
+                                    NEW_MAT_ADD_PERC + NEW_MAT_SUB_PERC + NEW_MAT_MULT_PERC) {
         new_op.type = OpType::NEW_MAT_MULT;
+        new_op.dest_mat_id_1 = rand() % num_mats;
+        new_op.mat_param = generateMatrix();
+        // rest of parameters are ignored...
+      } else {
+        new_op.type = OpType::ELEMAT_MULT;
         new_op.dest_mat_id_1 = rand() % num_mats;
         new_op.mat_param = generateMatrix();
         // rest of parameters are ignored...
@@ -247,6 +257,13 @@ class WorkloadGenerator {
 
         case OpType::NEW_MAT_MULT: {
           ROMULUS_INFO("Type: NEW_MAT_MULT, Matrix ID: {}, Incoming Matrix: {}",
+                       current_op.dest_mat_id_1.value(),
+                       current_op.mat_param->ToString());
+          break;
+        }
+
+        case OpType::ELEMAT_MULT: {
+          ROMULUS_INFO("Type: ELEMAT_MULT, Matrix ID: {}, Incoming Matrix: {}",
                        current_op.dest_mat_id_1.value(),
                        current_op.mat_param->ToString());
           break;

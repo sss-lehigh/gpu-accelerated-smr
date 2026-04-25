@@ -28,7 +28,7 @@ constexpr const char* MULTIPAX_OPT = "--multipax-opt";
 
 inline auto EXTRA_ARGS = {
     STR_ARG(HOSTNAME, "Hostname of this node."),
-    U64_ARG_OPT(TESTTIME, "Experiment duration in seconds", 5),
+    U64_ARG_OPT(TESTTIME, "Experiment duration in seconds", 30),
     U64_ARG_OPT(LOOP, "Number of iterations between runtime checks.", 1000),
     U64_ARG_OPT(CAPACITY, "Capacity of the replicated log.", (1ULL << 12)),
     U64_ARG_OPT(BUF_SIZE, "Buffer size for remote writes.", 64),
