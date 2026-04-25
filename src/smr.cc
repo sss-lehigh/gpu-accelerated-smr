@@ -5,6 +5,8 @@
 #include <string>
 
 #include "cfg.h"
+#include "dag.h"
+#include "mu/mu_impl.h"
 #include "romulus/cfg.h"
 #include "romulus/common.h"
 #include "romulus/connection_manager.h"
@@ -16,13 +18,9 @@
 #include "state.h"
 #include "util.h"
 
-#include "mu/mu_impl.h"
-#include "dag.h"
-
-
 #define PAXOS_NS paxos_st
 constexpr uint32_t kNumProposals = 8092;
-constexpr uint32_t kMaxBufSize = 1024;
+constexpr uint32_t kMaxBufSize = 512;
 
 void signal_handler(int signum) {
   if (signum == SIGTSTP) {
@@ -38,10 +36,7 @@ int main(int argc, char* argv[]) {
   sa.sa_flags = 0;
   sigaction(SIGTSTP, &sa, nullptr);
 
-  cpu_set_t cpuset;
-  CPU_ZERO(&cpuset);
-  CPU_SET(0, &cpuset);
-  pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
+  PinToCore(0);
 
   ROMULUS_STOPWATCH_DECLARE();
   romulus::INIT();
@@ -83,30 +78,38 @@ int main(int argc, char* argv[]) {
   init();
 
   ROMULUS_INFO("Starting latency test");
+
   
-  auto testtime_us =
-      std::chrono::duration_cast<std::chrono::microseconds>(testtime);
-  ROMULUS_STOPWATCH_BEGIN();
   // size_t iterations = 0;
   size_t last_offload_idx = 0;
   DagGenerator dag_generator;
+  uint32_t fuo = 0;
 
+  std::cout << "Wait some time" << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(2 + system_size - id));
+
+  auto testtime_us =
+      std::chrono::duration_cast<std::chrono::microseconds>(testtime);
+  ROMULUS_STOPWATCH_BEGIN();
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
       // Fixed leader node0
       if (id == 0) {
-        if(i >= kMaxBufSize){
+        ROMULUS_INFO("FUO {}, is_leader {}", fuo, mu.isLeader() ?  "true" : "false");
+        if (fuo >= kMaxBufSize) {
+          ROMULUS_INFO(
+              "Consensus buffer is full. Triggering offloading process...");
           // take slice of last_offload_idx to last_offload_idx + kMaxBufSize
           auto slice = std::vector<op>(
               ops.begin() + last_offload_idx,
-              ops.begin() + std::min(last_offload_idx + kMaxBufSize, (size_t)ops.size()));
-          ROMULUS_INFO("Consensus buffer is full. Triggering offloading process...");
-
-          // dag_generator.build_dag(slice);
+              ops.begin() +
+                  std::min(last_offload_idx + kMaxBufSize, (size_t)ops.size()));
+          dag_generator.build_dag(slice);
+          fuo = 0;
         }
         exec();
-        busy_wait(sleep);
+        fuo++;
       }
     }
   }

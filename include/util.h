@@ -78,19 +78,25 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   }                                                                          \
   [[maybe_unused]] auto multipax_opt = args->bget(romulus::MULTIPAX_OPT);
 
-#define FILL_PROPOSALS()                                    \
-  std::vector<std::pair<uint32_t, uint8_t*>> proposals;     \
-  proposals.reserve(kNumProposals);                         \
-  WorkloadGenerator wg;                                     \
-  auto ops = wg.generate(kNumProposals, kNumMatrices);      \
-  for (int i = 0; i < (int)kNumProposals; ++i) {            \
-    auto& op = ops[i];                                      \
-    uint32_t op_id = op.id;                                 \
-    proposals.emplace_back(op_id, new uint8_t[sizeof(op)]); \
-    std::memcpy(proposals.back().second, &op, sizeof(op));  \
+#define FILL_PROPOSALS()                                \
+  std::vector<std::pair<uint32_t, uint8_t*>> proposals; \
+  proposals.reserve(kNumProposals);                     \
+  WorkloadGenerator wg;                                 \
+  auto ops = wg.generate(kNumProposals, kNumMatrices);  \
+  for (int i = 0; i < (int)kNumProposals; ++i) {        \
+    auto* buf = new uint8_t[sizeof(uint64_t)];          \
+    std::memcpy(buf, &i, sizeof(uint64_t));             \
+    proposals.emplace_back(sizeof(uint64_t), buf);      \
   }
 
 namespace {  // namespace anonymous
+  
+  inline void PinToCore(size_t core_id) {
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(core_id, &cpuset);
+    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);
+  }
 
 template <typename Rep, typename Period>
 inline std::chrono::duration<Rep, Period> DoBackoff(
