@@ -30,7 +30,8 @@ int main(int argc, char* argv[]) {
 
         std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
         GpuExecutor executor(ROWS, COLS);
-        executor.load_state(initstate); 
+        executor.load_state(initstate);
+        executor.prepare_dag(dag); 
 
         std::cout << "[4/4] Executing on GPU..." << std::endl;
         executor.run(dag, levels);

@@ -8,6 +8,7 @@
 #include "kernels/common.cuh"
 #include "DenseMat.h"
 #include "state.h"
+#include "dag.h"
 
 class GpuExecutor {
 private:
@@ -18,6 +19,9 @@ private:
 
     // Map to store CUDA events for dependency tracking
     std::unordered_map<uint64_t, cudaEvent_t> node_events;
+
+    // Map to store pre-allocated VRAM pointers for node parameters
+    std::unordered_map<uint64_t, float*> d_op_params;
 
 public:
     GpuExecutor(uint64_t r, uint64_t c) : rows(r), cols(c) {
@@ -46,6 +50,11 @@ public:
         for (auto& pair : node_events) {
             cudaEventDestroy(pair.second);
         }
+
+        // Clean up the parameter matrices stored in VRAM
+        for (auto& pair : d_op_params) {
+            cudaFree(pair.second);
+        }
     } // end destructor
 
     void load_state(const State<float>& initial_state) {
@@ -58,6 +67,25 @@ public:
 
         CUDA_CHECK(cudaDeviceSynchronize());
     } //end load state
+
+    // Preparation Phase
+    void prepare_dag(const std::map<uint64_t, DagNode>& dag) {
+        for (const auto& pair : dag) {
+            const DagNode& node = pair.second;
+            
+            // If the node has host data, allocate VRAM and transfer it now
+            if (node.h_mat_param != nullptr) {
+                float* d_ptr;
+                size_t bytes = node.rows * node.cols * sizeof(float);
+                
+                CUDA_CHECK(cudaMalloc(&d_ptr, bytes));
+                CUDA_CHECK(cudaMemcpy(d_ptr, node.h_mat_param, bytes, cudaMemcpyHostToDevice));
+                
+                d_op_params[node.operation.id] = d_ptr; 
+            }
+        }
+        CUDA_CHECK(cudaDeviceSynchronize());
+    }
 
     void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
         // Pre create events for every node in the DAG
@@ -99,7 +127,7 @@ private:
         float* d_out = device_mats[node.operation.dest_mat_id_1.value()];
 
         if (node.has_fused_scalar) {
-            launchFusedScalarMultiplyAndAdd(d_out, 1.0f, (float)node.fused_scalar, rows, cols, stream);
+            launchFusedScalarMultiplyAndAdd(d_out, node.fused_alpha, node.fused_beta, rows, cols, stream);
         } else {
             switch (node.operation.type) {
                 case OpType::SCALAR_ADD:
@@ -127,25 +155,35 @@ private:
                 }
 
                 case OpType::NEW_MAT_ADD:
-                    launchInPlaceMatrixAdd(d_out, node.d_mat_param, rows, cols, stream); 
+                {
+                    float* d_param = d_op_params[node.operation.id];
+                    launchInPlaceMatrixAdd(d_out, d_param, rows, cols, stream); 
                     break; 
+                }
 
                 case OpType::NEW_MAT_SUB:
-                    launchInPlaceMatrixSub(d_out, node.d_mat_param, rows, cols, stream); 
+                {
+                    float* d_param = d_op_params[node.operation.id];
+                    launchInPlaceMatrixSub(d_out, d_param, rows, cols, stream); 
                     break;
+                }
 
                 case OpType::NEW_MAT_MULT:
                 {
+                    float* d_param = d_op_params[node.operation.id];
                     float* d_temp_result = stream_workspace[stream_idx]; 
                     size_t size = rows * cols * sizeof(float);
 
-                    launchSgemm(d_out, node.d_mat_param, d_temp_result, rows, cols, cols, stream);
+                    launchSgemm(d_out, d_param, d_temp_result, rows, cols, cols, stream);
                     CUDA_CHECK(cudaMemcpyAsync(d_out, d_temp_result, size, cudaMemcpyDeviceToDevice, stream));
                     break;
                 }
                 case OpType::ELEMAT_MULT:
-                    launchInPlaceElementwiseMatrixMult(d_out, node.d_mat_param, rows, cols, stream);
+                {
+                    float* d_param = d_op_params[node.operation.id];
+                    launchInPlaceElementwiseMatrixMult(d_out, d_param, rows, cols, stream);
                     break;
+                }
 
                 default:
                     break;
