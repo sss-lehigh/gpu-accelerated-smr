@@ -2,10 +2,12 @@
 
 #pragma once
 
+#include <chrono>
+
+#include "cpu.cpp"
 #include "dag.h"
 #include "gpu.cu"
 #include "scheduler.h"
-#include "cpu.cpp"
 
 // used for command line parsing
 #define ARG_COLS 'c'
@@ -131,8 +133,10 @@ int main(int argc, char** argv) {
     try {
 
         std::cout << "Executing on CPU..."
+        auto cpu_seq_start = std::chrono::steady_clock::now();
         /// TODO: replace with vector of ops from consensus
         cpu.run_seq(LOG_PATH);
+        auto cpu_seq_end   = std::chrono::steady_clock::now();
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
 
@@ -165,7 +169,10 @@ int main(int argc, char** argv) {
         auto levels = Scheduler::get_levels(dag);
         
         std::cout << "[3/3] Executing on CPU..." << std::endl;
+
+        auto cpu_par_start = std::chrono::steady_clock::now();
         cpu.run(dag, levels);
+        auto cpu_par_end   = std::chrono::steady_clock::now();
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
 
@@ -193,7 +200,9 @@ int main(int argc, char** argv) {
         std::cout << "[2/2] Executing on GPU..." << std::endl;
         /// TODO: replace with vector of ops from consensus
         /// TODO: @rishad write a sequential version for the GPU code because I don't know how.
+        auto gpu_seq_start = std::chrono::steady_clock::now();
         executor.run_seq(LOG_PATH);
+        auto gpu_seq_end   = std::chrono::steady_clock::now();
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
 
@@ -223,7 +232,9 @@ int main(int argc, char** argv) {
         auto levels = Scheduler::get_levels(dag);
 
         std::cout << "[3/3] Executing on GPU..." << std::endl;
+        auto gpu_par_start = std::chrono::steady_clock::now();
         executor.run(dag, levels);
+        auto gpu_par_end   = std::chrono::steady_clock::now();
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
 
@@ -231,6 +242,20 @@ int main(int argc, char** argv) {
         std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
         return EXIT_FAILURE;
     } //end try catch 
+
+    std::cout << std::endl;
+
+    std::chrono::duration<double> cpu_seq = cpu_seq_end - cpu_seq_start;
+    std::chrono::duration<double> cpu_par = cpu_par_end - cpu_par_start;
+    std::chrono::duration<double> gpu_seq = gpu_seq_end - gpu_seq_start;
+    std::chrono::duration<double> gpu_par = gpu_par_end - gpu_par_start;
+
+    std::cout << "cpu seq. time: " << std::chrono::milliseconds(cpu_seq).count() << " ms" << std::endl;
+    std::cout << "cpu par. time: " << std::chrono::milliseconds(cpu_par).count() << " ms" << std::endl;
+    std::cout << "gpu seq. time: " << std::chrono::milliseconds(gpu_seq).count() << " ms" << std::endl;
+    std::cout << "gpu par. time: " << std::chrono::milliseconds(gpu_par).count() << " ms" << std::endl;
+
+    std::cout << std::endl;
 
     return EXIT_SUCCESS;
 } //end main 
