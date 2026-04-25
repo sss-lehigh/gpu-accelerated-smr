@@ -119,7 +119,7 @@ function run_mu {
 		CMD="${ENV_ARGS} ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}"
 		echo "$CMD"
 		cat >>"$tmp_screen" <<EOF
-screen -t node${i} ssh ${USER}@${host}.${DOMAIN} ${CMD}
+screen -t node${i} ssh ${USER}@${host}.${DOMAIN} ${CMD} ${EXTRA_ARGS}
 logfile logs/log_${i}.txt
 log on
 EOF
@@ -161,7 +161,7 @@ function run_mu_debug {
 		CMD="${ENV_ARGS} ${GDB_ARGS} ./${EXE_NAME} --hostname ${host} --node-id ${i} ${ARGS}"
 		echo "$CMD"
 		cat >>"$tmp_screen" <<EOF
-screen -t node${i} ssh ${USER}@${host}.${DOMAIN} ${CMD}; bash
+screen -t node${i} ssh ${USER}@${host}.${DOMAIN} ${CMD} ${EXTRA_ARGS}; bash
 logfile gdb-logs/gdb_${i}.log
 log on
 EOF

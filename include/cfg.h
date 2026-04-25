@@ -10,8 +10,11 @@ constexpr const char* CAPACITY = "--capacity";
 constexpr const char* BUF_SIZE = "--buf-size";
 constexpr const char* SLEEP = "--sleep";
 constexpr const char* STABLE_LEADER = "--stable-leader";
-constexpr const char* DURATION = "--duration";
-constexpr const char* MULTIPAX_OPT = "--multipax-opt";
+constexpr const char* CPU_ENABLED = "--cpu-enabled";
+constexpr const char* GPU_ENABLED = "--gpu-enabled";
+constexpr const char* MODE = "--mode";
+constexpr const char* NUM_STATE_MAT = "--num-state-mat";
+constexpr const char* MAT_SIZE = "--mat-size";
 
 
 // Cloudlab notes:
@@ -35,7 +38,11 @@ inline auto EXTRA_ARGS = {
     U64_ARG_OPT(SLEEP, "Sleep interval between proposals in ms", 10),
     BOOL_ARG_OPT(STABLE_LEADER,
                  "If true, only a single node proposes commands."),
-    U64_ARG_OPT(DURATION, "Duration of leadership in rotating policy in ms.",
-                100),
-    BOOL_ARG_OPT(MULTIPAX_OPT, "Enable the multipaxos optimization")};
+    BOOL_ARG_OPT(CPU_ENABLED, "If true, CPU groups are enabled."),
+    BOOL_ARG_OPT(GPU_ENABLED, "If true, GPU groups are enabled."),
+    ENUM_ARG_OPT(MODE, "Execution mode (SERIAL | DAG)", "DAG", {"SERIAL", "DAG"}),
+    BOOL_ARG_OPT(IS_SERIAL, "If true, use serial-based execution."),
+    BOOL_ARG_OPT(USE_DAG, "If true, use DAG-based execution."),
+    U64_ARG_OPT(NUM_STATE_MAT, "Number of state matrices.", 5),
+    U64_ARG_OPT(MAT_SIZE, "Size of each matrix.", 512)};
 };  // namespace romulus
