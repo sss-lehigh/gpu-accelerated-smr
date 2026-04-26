@@ -131,7 +131,24 @@ int main(int argc, char* argv[]) {
       }
       // TODO: GPU + SERIAL execution
       if(gpu_enabled && (mode == "SERIAL")) {
-        // ...
+        builder.build_dag(ops);
+        auto& dag = builder.get_dag();
+        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
+
+        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
+        auto levels = Scheduler::get_levels(dag);
+        
+        Scheduler::print(levels); 
+
+        std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
+        GpuExecutor executor(ROWS, COLS);
+        executor.load_state(initstate);
+        executor.prepare_dag(dag); 
+
+        std::cout << "[4/4] Executing on GPU..." << std::endl;
+        executor.run_sequential(dag, levels); // sequential execution of DAGs
+
+        std::cout << "SUCCESS: Workload completed." << std::endl;
       }
       // TODO: GPU + DAG execution
       if(gpu_enabled && (mode == "DAG")) {
