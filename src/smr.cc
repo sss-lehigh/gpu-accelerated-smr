@@ -4,6 +4,7 @@
 #include <random>
 #include <string>
 #include <barrier>
+#include <iostream>
 
 #include "cfg.h"
 #include "dag.h"
@@ -18,6 +19,8 @@
 #include "romulus/util.h"
 #include "state.h"
 #include "util.h"
+#include "gpu.cuh"
+#include "cpu/cpu.h"
 
 #define PAXOS_NS paxos_st
 constexpr uint32_t kNumProposals = 8092;
@@ -61,8 +64,8 @@ int main(int argc, char* argv[]) {
   ROMULUS_INFO("!> [CONF] buf_size={}", buf_size);
   ROMULUS_INFO("!> [CONF] sleep={}_ms", sleep.count());
   ROMULUS_INFO("!> [CONF] leader_fixed={}", leader_fixed);
-  ROMULUS_INFO("!> [CONF] policy={}", policy);
-  ROMULUS_INFO("!> [CONF] duration={}_ms", duration.count());
+  // ROMULUS_INFO("!> [CONF] policy={}", policy);
+  // ROMULUS_INFO("!> [CONF] duration={}_ms", duration.count());
   ROMULUS_INFO("!> [CONF] system_size={}", system_size);
   ROMULUS_INFO("!> [CONF] cpu_enabled={}", cpu_enabled);
   ROMULUS_INFO("!> [CONF] gpu_enabled={}", gpu_enabled);
@@ -95,6 +98,10 @@ int main(int argc, char* argv[]) {
   std::atomic<bool> handler_running = true;
   std::barrier commit_barrier(2);
   ROMULUS_INFO("Initialization is finished. Launching commit thread...");
+
+  // Initialize executors ONCE to avoid allocation overhead during timing
+  CpuExecutor cpu_exec(ROWS, COLS);
+  GpuExecutor gpu_exec(ROWS, COLS);
   
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
@@ -106,92 +113,37 @@ int main(int argc, char* argv[]) {
       if (handler_running.load(std::memory_order_relaxed) == false) {
         break;
       }
+
+      // Build and schedule the dag
+      builder.build_dag(ops);
+      auto& dag = builder.get_dag();
+      auto levels = Scheduler::get_levels(dag);
+
       // TODO: CPU + SERIAL execution
-      if(cpu_enabled && (mode == "SERIAL")) {
-        builder.build_dag(ops);
-        auto& dag = builder.get_dag();
-        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
-
-        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
-        auto levels = Scheduler::get_levels(dag);
-        Scheduler::print(levels); 
-
-        std::cout << "[3/4] Initializing CPU Executor and Workspaces..." << std::endl;
-        CpuExecutor executor(ROWS, COLS);
-        executor.load_state(initstate); 
-
-        std::cout << "[4/4] Executing on CPU (Multi-threaded OpenMP)..." << std::endl;
-        executor.run_sequential(dag);
-
-        std::cout << "SUCCESS: CPU Workload completed." << std::endl;
-      }
-      // TODO: CPU + DAG execution
-      if(cpu_enabled && (mode == "DAG")){
-        builder.build_dag(ops);
-        auto& dag = builder.get_dag();
-        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
-
-        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
-        auto levels = Scheduler::get_levels(dag);
-        Scheduler::print(levels); 
-
-        std::cout << "[3/4] Initializing CPU Executor and Workspaces..." << std::endl;
-        CpuExecutor executor(ROWS, COLS);
-        executor.load_state(initstate); 
-
-        std::cout << "[4/4] Executing on CPU (Multi-threaded OpenMP)..." << std::endl;
-        executor.run(dag, levels);
-
-        std::cout << "SUCCESS: CPU Workload completed." << std::endl;
-      }
-      // TODO: GPU + SERIAL execution
-      if(gpu_enabled && (mode == "SERIAL")) {
-        builder.build_dag(ops);
-        auto& dag = builder.get_dag();
-        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
-
-        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
-        auto levels = Scheduler::get_levels(dag);
-        
-        Scheduler::print(levels); 
-
-        std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
-        GpuExecutor executor(ROWS, COLS);
-        executor.load_state(initstate);
-        executor.prepare_dag(dag); 
-
-        std::cout << "[4/4] Executing on GPU..." << std::endl;
-        executor.run_sequential(dag); // sequential execution of DAGs
-
-        std::cout << "SUCCESS: Workload completed." << std::endl;
-      }
-      // TODO: GPU + DAG execution
-      if(gpu_enabled && (mode == "DAG")) {
-        builder.build_dag(ops);
-        auto& dag = builder.get_dag();
-        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
-
-        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
-        auto levels = Scheduler::get_levels(dag);
-        
-        Scheduler::print(levels); 
-
-        std::cout << "[3/4] Allocating VRAM and creating streams..." << std::endl;
-        GpuExecutor executor(ROWS, COLS);
-        executor.load_state(initstate);
-        executor.prepare_dag(dag); 
-
-        std::cout << "[4/4] Executing on GPU..." << std::endl;
-        executor.run(dag, levels);
-
-        std::cout << "SUCCESS: Workload completed." << std::endl;        
+      if(cpu_enabled) {
+        cpu_exec.load_state(initstate);
+        if (mode == "SERIAL") {
+          cpu_exec.run_sequential(dag);
+        } else {
+          cpu_exec.run(dag, levels);
+        }
+      } else if (gpu_enabled) {
+        gpu_exec.load_state(initstate);
+        gpu_exec.prepare_dag(dag);
+        if (mode == "SERIAL") {
+            gpu_exec.run_sequential(dag);
+        } else {
+            gpu_exec.run(dag, levels);
+        }
+        // Ensure GPU is finished before the next barrier
+        cudaDeviceSynchronize(); 
       }
     }
   });
 
   ROMULUS_INFO("Starting latency test");
   // size_t iterations = 0;
-  size_t last_offload_idx = 0;
+  // size_t last_offload_idx = 0; // turning off this variable to avoid -werror
   DagGenerator dag_generator;
   uint32_t fuo = 0;
 
@@ -201,7 +153,7 @@ int main(int argc, char* argv[]) {
   auto testtime_us =
       std::chrono::duration_cast<std::chrono::microseconds>(testtime);
   ROMULUS_STOPWATCH_BEGIN();
-  size_t iterations = 0;
+  // size_t iterations = 0; // turning off iterations variable for now (causing -werror)
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
@@ -227,12 +179,12 @@ int main(int argc, char* argv[]) {
   done();  // cleanup
 
   if (id == (int)system_size - 1) {
+    std::ofstream outfile(output_file);
     calc(outfile);
     calc = CALC_THROUGHPUT;
     calc(outfile);
+    outfile.close();
   }
-
-  outfile.close();
 
   for (auto& p : proposals) {
     delete[] p.second;
