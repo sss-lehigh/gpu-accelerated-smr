@@ -108,7 +108,22 @@ int main(int argc, char* argv[]) {
       }
       // TODO: CPU + SERIAL execution
       if(cpu_enabled && (mode == "SERIAL")) {
-        // ...
+        builder.build_dag(ops);
+        auto& dag = builder.get_dag();
+        std::cout << "Done. Nodes in DAG: " << dag.size() << std::endl;
+
+        std::cout << "[2/4] Sorting DAG into parallel levels..." << std::endl;
+        auto levels = Scheduler::get_levels(dag);
+        Scheduler::print(levels); 
+
+        std::cout << "[3/4] Initializing CPU Executor and Workspaces..." << std::endl;
+        CpuExecutor executor(ROWS, COLS);
+        executor.load_state(initstate); 
+
+        std::cout << "[4/4] Executing on CPU (Multi-threaded OpenMP)..." << std::endl;
+        executor.run_sequential(dag);
+
+        std::cout << "SUCCESS: CPU Workload completed." << std::endl;
       }
       // TODO: CPU + DAG execution
       if(cpu_enabled && (mode == "DAG")){
@@ -146,7 +161,7 @@ int main(int argc, char* argv[]) {
         executor.prepare_dag(dag); 
 
         std::cout << "[4/4] Executing on GPU..." << std::endl;
-        executor.run_sequential(dag, levels); // sequential execution of DAGs
+        executor.run_sequential(dag); // sequential execution of DAGs
 
         std::cout << "SUCCESS: Workload completed." << std::endl;
       }

@@ -77,6 +77,21 @@ public:
     } 
   }
 
+  // Sequential Execution Baseline (CPU)
+  void run_sequential(const std::map<uint64_t, DagNode>& dag) {
+    // Guarantee that the single operation gets 100% of the physical cores 
+    // to execute its internal SIMD loops.
+    omp_set_num_threads(omp_get_max_threads());
+
+    // Iterate in ascending op_id order
+    for (const auto& pair : dag) {
+      const DagNode& node = pair.second;
+      
+      // Execute sequentially on the main thread, using workspace 0
+      launch(node, 0);
+    }
+  }
+
 private:
   void launch(const DagNode& node, int thread_idx) {
     float* d_out = host_mats[node.operation.dest_mat_id_1.value()];
