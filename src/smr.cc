@@ -1,13 +1,15 @@
+#include <barrier>
 #include <csignal>
 #include <filesystem>
 #include <functional>
+#include <iostream>
 #include <random>
 #include <string>
-#include <barrier>
-#include <iostream>
 
 #include "cfg.h"
+#include "cpu/cpu.h"
 #include "dag.h"
+#include "gpu.cuh"
 #include "mu/mu_impl.h"
 #include "romulus/cfg.h"
 #include "romulus/common.h"
@@ -19,8 +21,6 @@
 #include "romulus/util.h"
 #include "state.h"
 #include "util.h"
-#include "gpu.cuh"
-#include "cpu/cpu.h"
 
 #define PAXOS_NS paxos_st
 constexpr uint32_t kNumProposals = 8092;
@@ -101,12 +101,13 @@ int main(int argc, char* argv[]) {
 
   // Track how far into the master 'ops' array we have committed
   size_t current_commit_idx = 0;
-  
+
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
 
     while (handler_running.load(std::memory_order_relaxed) == true) {
-      // Wait for the main thread to signal that a batch of proposals has been sent
+      // Wait for the main thread to signal that a batch of proposals has been
+      // sent
       commit_barrier.arrive_and_wait();
       // Need to do a quick check after all that wait time
       if (handler_running.load(std::memory_order_relaxed) == false) {
@@ -122,43 +123,55 @@ int main(int argc, char* argv[]) {
         // Slice the next 'buf_size' operations from the master 'ops' array
         size_t batch_end = std::min(current_commit_idx + buf_size, ops.size());
         for (size_t i = current_commit_idx; i < batch_end; ++i) {
-            current_batch_ops.push_back(ops[i]);
+          current_batch_ops.push_back(ops[i]);
         }
 
         // Update the tracker for the next batch
         current_commit_idx = batch_end;
 
-        // If we ran out of proposals in the master list, loop back around 
+        // If we ran out of proposals in the master list, loop back around
         if (current_commit_idx >= ops.size()) {
-            current_commit_idx = 0; 
+          current_commit_idx = 0;
         }
 
-        // Reset the DAG Generator to clear memory and dependencies from the previous batch
+        // Reset the DAG Generator to clear memory and dependencies from the
+        // previous batch
         builder.reset();
 
         // Build the new DAG
         builder.build_dag(current_batch_ops);
         auto& dag = builder.get_dag();
         auto levels = Scheduler::get_levels(dag);
-
+        bool is_serial = (mode == "SERIAL");
         // Execute the Dynamic Batch
-        if (cpu_enabled) {
-          if (mode == "SERIAL") {
-            cpu_exec.run_sequential(dag);
-          } else {
-            cpu_exec.run(dag, levels);
-          }
-        } else if (gpu_enabled) {
-          gpu_exec.prepare_dag(dag); 
-          
-          if (mode == "SERIAL") {
-            gpu_exec.run_sequential(dag);
-          } else {
-            gpu_exec.run(dag, levels);
-          }
-          // Ensure GPU is finished before returning to the next barrier
-          cudaDeviceSynchronize(); 
+        if (cpu_enabled && is_serial) {
+          ROMULUS_INFO("[Commit handler] Running on CPU in SERIAL mode");
+          cpu_exec.run_sequential(dag);
         }
+        if (cpu_enabled && !is_serial) {
+          ROMULUS_INFO("[Commit handler] Running on CPU in DAG mode");
+          cpu_exec.run(dag, levels);
+        }
+        // at this point it must be a gpu execution
+        gpu_exec.prepare_dag(dag);
+        if (gpu_enabled && is_serial) {
+          ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
+          gpu_exec.run_sequential(dag);
+        }
+        if (gpu_enabled && !is_serial) {
+          ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
+          gpu_exec.run(dag, levels);
+        }
+
+        if (is_serial) {
+          ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
+          gpu_exec.run_sequential(dag);
+        } else {
+          ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
+          gpu_exec.run(dag, levels);
+        }
+        // Ensure GPU is finished before returning to the next barrier
+        cudaDeviceSynchronize();
       }
     }
   });
@@ -175,13 +188,16 @@ int main(int argc, char* argv[]) {
   auto testtime_us =
       std::chrono::duration_cast<std::chrono::microseconds>(testtime);
   ROMULUS_STOPWATCH_BEGIN();
-  // size_t iterations = 0; // turning off iterations variable for now (causing -werror)
+  // size_t iterations = 0; // turning off iterations variable for now (causing
+  // -werror)
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
       // Fixed leader node0
       if (id == 0) {
         if (fuo >= buf_size) {
+          ROMULUS_INFO("Flushing buffer ({} bytes) to commit handler...",
+                       fuo * sizeof(op));
           // Signal the commit handler to process the batch of proposals
           commit_barrier.arrive_and_wait();
           // Reset offset for the next batch
@@ -193,7 +209,8 @@ int main(int argc, char* argv[]) {
     }
   }
   handler_running.store(false, std::memory_order_relaxed);
-  commit_barrier.arrive_and_drop(); // Wake up the commit thread to exit cleanly
+  commit_barrier
+      .arrive_and_drop();  // Wake up the commit thread to exit cleanly
   commit_handler.join();
   init();  // sync
 

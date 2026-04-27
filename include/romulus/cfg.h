@@ -20,8 +20,8 @@ inline auto ARGS = {
     STR_ARG_OPT(REGISTRY_IP,
                 "IP address of machine hosting Memcached instance.",
                 "10.10.1.1"),
-    ENUM_ARG_OPT(TRANSPORT_TYPE, "RDMA transport type.", "IB", {"IB", "RoCE"}),
-    STR_ARG_OPT(DEV_NAME, "Name of the RDMA device.", "mlx4_0"), // mlx5_0
+    ENUM_ARG_OPT(TRANSPORT_TYPE, "RDMA transport type.", "RoCE", {"IB", "RoCE"}),
+    STR_ARG_OPT(DEV_NAME, "Name of the RDMA device.", "mlx5_0"), // mlx5_0
     U64_ARG_OPT(DEV_PORT, "Device port.", 1),
     U64_ARG_OPT(NUM_QP, "Number of QP's to use.", 1),
     ENUM_ARG_OPT(POLICY, "Policy for how threads select QP's", "OTO", {"OTO", "RR", "RAND"}),

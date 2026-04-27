@@ -36,7 +36,7 @@ function install_deps {
 	last_valid_index=$((${#MACHINES[@]} - 1)) # The 0-indexed number of nodes
 
 	# Names of packages that we need to install on CloudLab
-	package_deps="librdmacm-dev ibverbs-utils libnuma-dev gdb libgtest-dev libibverbs-dev libmemcached-dev memcached libevent-dev libhugetlbfs-dev numactl libgflags-dev libssl-dev"
+	package_deps="librdmacm-dev ibverbs-utils libnuma-dev gdb libgtest-dev libibverbs-dev libmemcached-dev memcached libevent-dev libhugetlbfs-dev numactl libgflags-dev libssl-dev libomp-dev cuda-drivers-560"
 	# First-time SSH
 	cl_first_connect
 
@@ -176,7 +176,6 @@ function send_libs() {
 		scp "lib/libcrashconsensus.so" "${USER}@${m}.${DOMAIN}:~/" &
 		scp "lib/memcached" "${USER}@${m}.${DOMAIN}:~/" &
 		scp "lib/libevent-2.1.so.6" "${USER}@${m}.${DOMAIN}:~/" &
-		scp "lib/libcudart.so.12" "${USER}@${m}.${DOMAIN}:~/" &
 	done
 	wait
 }
@@ -239,6 +238,8 @@ elif [[ "$cmd" == "send-libs" && "$count" -eq 1 ]]; then
 	send_libs
 elif [[ "$cmd" == "reset-memcached" && "$count" -eq 1 ]]; then
 	reset-memcached
+elif [[ "$cmd" == "do-all" && "$count" -eq 2 ]]; then
+	do_all "$2"
 elif [[ "$cmd" == "experiment" && "$count" -eq 2 ]]; then
 	# expecting $2 to be 1 2 3 or 4
 	# check to make sure $2 is valid by check > 1 and < 5
