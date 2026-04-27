@@ -113,49 +113,52 @@ int main(int argc, char* argv[]) {
         break;
       }
 
-      // Fetch the REAL batch corresponding to what MU just committed
-      std::vector<op> current_batch_ops;
-      current_batch_ops.reserve(buf_size);
+      // Only the leader is allowed to process the DAG
+      if (id == 0) {
+        // Fetch the REAL batch corresponding to what MU just committed
+        std::vector<op> current_batch_ops;
+        current_batch_ops.reserve(buf_size);
 
-      // Slice the next 'buf_size' operations from the master 'ops' array
-      size_t batch_end = std::min(current_commit_idx + buf_size, ops.size());
-      for (size_t i = current_commit_idx; i < batch_end; ++i) {
-          current_batch_ops.push_back(ops[i]);
-      }
-
-      // Update the tracker for the next batch
-      current_commit_idx = batch_end;
-
-      // If we ran out of proposals in the master list, loop back around 
-      if (current_commit_idx >= ops.size()) {
-          current_commit_idx = 0; 
-      }
-
-      // Reset the DAG Generator to clear memory and dependencies from the previous batch
-      builder.reset();
-
-      // Build the new DAG
-      builder.build_dag(current_batch_ops);
-      auto& dag = builder.get_dag();
-      auto levels = Scheduler::get_levels(dag);
-
-      // Execute the Dynamic Batch
-      if (cpu_enabled) {
-        if (mode == "SERIAL") {
-          cpu_exec.run_sequential(dag);
-        } else {
-          cpu_exec.run(dag, levels);
+        // Slice the next 'buf_size' operations from the master 'ops' array
+        size_t batch_end = std::min(current_commit_idx + buf_size, ops.size());
+        for (size_t i = current_commit_idx; i < batch_end; ++i) {
+            current_batch_ops.push_back(ops[i]);
         }
-      } else if (gpu_enabled) {
-        gpu_exec.prepare_dag(dag); 
-        
-        if (mode == "SERIAL") {
-          gpu_exec.run_sequential(dag);
-        } else {
-          gpu_exec.run(dag, levels);
+
+        // Update the tracker for the next batch
+        current_commit_idx = batch_end;
+
+        // If we ran out of proposals in the master list, loop back around 
+        if (current_commit_idx >= ops.size()) {
+            current_commit_idx = 0; 
         }
-        // Ensure GPU is finished before returning to the next barrier
-        cudaDeviceSynchronize(); 
+
+        // Reset the DAG Generator to clear memory and dependencies from the previous batch
+        builder.reset();
+
+        // Build the new DAG
+        builder.build_dag(current_batch_ops);
+        auto& dag = builder.get_dag();
+        auto levels = Scheduler::get_levels(dag);
+
+        // Execute the Dynamic Batch
+        if (cpu_enabled) {
+          if (mode == "SERIAL") {
+            cpu_exec.run_sequential(dag);
+          } else {
+            cpu_exec.run(dag, levels);
+          }
+        } else if (gpu_enabled) {
+          gpu_exec.prepare_dag(dag); 
+          
+          if (mode == "SERIAL") {
+            gpu_exec.run_sequential(dag);
+          } else {
+            gpu_exec.run(dag, levels);
+          }
+          // Ensure GPU is finished before returning to the next barrier
+          cudaDeviceSynchronize(); 
+        }
       }
     }
   });
