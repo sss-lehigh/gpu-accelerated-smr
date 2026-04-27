@@ -139,4 +139,19 @@ class DagGenerator {
   const std::map<uint64_t, DagNode>& get_dag() const {
     return dag;
   }
+
+  // reset the dag
+  void reset() {
+    // Free all dynamically allocated host memory for the current batch
+    for (auto& pair : dag) {
+      if (pair.second.h_mat_param != nullptr) {
+        delete[] pair.second.h_mat_param;
+        pair.second.h_mat_param = nullptr;
+      }
+    }
+    
+    // Clear the dependency tracker and the DAG container
+    dag.clear();
+    last_write.clear();
+  }
 };  // end class
