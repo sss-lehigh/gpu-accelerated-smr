@@ -71,7 +71,7 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   WorkloadGenerator wg;                                 \
   auto ops = wg.generate(kNumProposals, kNumMatrices);  \
   wg.print(0, 10);                                      \
-  for (int i = 0; i < (int)kNumProposals; ++i) {        \
+  for (u_int64_t i = 0; i < (int)kNumProposals; ++i) {  \
     auto* buf = new uint8_t[sizeof(uint64_t)];          \
     std::memcpy(buf, &i, sizeof(uint64_t));             \
     proposals.emplace_back(sizeof(uint64_t), buf);      \

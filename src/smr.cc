@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
   init();
 
   // Initializing every components
-  WorkloadGenerator wg;
+  // WorkloadGenerator wg;
   DagGenerator builder;
 
   // Initialize the State Machine exactly once
@@ -98,6 +98,9 @@ int main(int argc, char* argv[]) {
   std::atomic<bool> handler_running = true;
   std::barrier commit_barrier(2);
   ROMULUS_INFO("Initialization is finished. Launching commit thread...");
+
+  // Track how far into the master 'ops' array we have committed
+  size_t current_commit_idx = 0;
   
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
@@ -110,8 +113,23 @@ int main(int argc, char* argv[]) {
         break;
       }
 
-      // Simulate fetching a brand new dynamic batch of operations from the MU buffer
-      std::vector<op> current_batch_ops = wg.generate(100, 5);
+      // Fetch the REAL batch corresponding to what MU just committed
+      std::vector<op> current_batch_ops;
+      current_batch_ops.reserve(buf_size);
+
+      // Slice the next 'buf_size' operations from the master 'ops' array
+      size_t batch_end = std::min(current_commit_idx + buf_size, ops.size());
+      for (size_t i = current_commit_idx; i < batch_end; ++i) {
+          current_batch_ops.push_back(ops[i]);
+      }
+
+      // Update the tracker for the next batch
+      current_commit_idx = batch_end;
+
+      // If we ran out of proposals in the master list, loop back around 
+      if (current_commit_idx >= ops.size()) {
+          current_commit_idx = 0; 
+      }
 
       // Reset the DAG Generator to clear memory and dependencies from the previous batch
       builder.reset();
@@ -145,7 +163,7 @@ int main(int argc, char* argv[]) {
   ROMULUS_INFO("Starting latency test");
   // size_t iterations = 0;
   // size_t last_offload_idx = 0; // turning off this variable to avoid -werror
-  DagGenerator dag_generator;
+  // DagGenerator dag_generator;
   uint32_t fuo = 0;
 
   std::cout << "Wait some time" << std::endl;

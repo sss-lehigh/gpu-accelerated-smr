@@ -41,8 +41,6 @@ inline auto EXTRA_ARGS = {
     BOOL_ARG_OPT(CPU_ENABLED, "If true, CPU groups are enabled."),
     BOOL_ARG_OPT(GPU_ENABLED, "If true, GPU groups are enabled."),
     ENUM_ARG_OPT(MODE, "Execution mode (SERIAL | DAG)", "DAG", {"SERIAL", "DAG"}),
-    BOOL_ARG_OPT(IS_SERIAL, "If true, use serial-based execution."),
-    BOOL_ARG_OPT(USE_DAG, "If true, use DAG-based execution."),
     U64_ARG_OPT(NUM_STATE_MAT, "Number of state matrices.", 5),
     U64_ARG_OPT(MAT_SIZE, "Size of each matrix.", 512)};
 };  // namespace romulus

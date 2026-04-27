@@ -162,7 +162,7 @@ uint64_t count = 0;
     ROMULUS_INFO("Dumping counts and runtimes:");                            \
     for (uint32_t i = 0; i < runtimes.size(); ++i) {                         \
       ROMULUS_INFO("!> [THRU] count={} runtime={}", counts[i], runtimes[i]); \
-      avg_throughput += (counts[i] / runtimes[i]);                           \
+      avg_throughput += (static_cast<double>(counts[i]) / runtimes[i]);      \
     }                                                                        \
     total_count = std::accumulate(counts.begin(), counts.end(), 0);          \
     avg_throughput /= runtimes.size();                                       \
@@ -170,3 +170,5 @@ uint64_t count = 0;
     ROMULUS_INFO("!> [THRU] throughput={:4.2f}ops/us", avg_throughput);      \
     ROMULUS_INFO("!> [THRU] count={}", total_count);                         \
   };
+
+  
