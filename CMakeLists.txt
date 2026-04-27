@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(gpu-accelerated-smr LANGUAGES CXX VERSION 1.0.0)
+project(gpu-accelerated-smr LANGUAGES CXX CUDA VERSION 1.0.0)
 
 # Options
 option(DOCS "Set to build documentation" OFF)
@@ -28,7 +28,12 @@ else()
 endif()
 
 # Set global compiler flags
-add_compile_options(-Wall -Wextra -Wwrite-strings -Werror)
+add_compile_options(
+  $<$<COMPILE_LANGUAGE:CXX>:-Wall>
+  $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
+  $<$<COMPILE_LANGUAGE:CXX>:-Wwrite-strings>
+  $<$<COMPILE_LANGUAGE:CXX>:-Werror>
+)
 #######################################################################################################################
 # Setup
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
