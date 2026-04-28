@@ -122,16 +122,16 @@ function run_mu {
 	mkdir logs
 
 	# Start background process to do wait for pattern then kill processes
-	(
-		wait_for_pattern "[PARSE]" logs/log_0.txt
-		echo "Pattern found for buffer size ${buf_size}. Killing processes..."
-		sleep 1
+	# (
+	# 	wait_for_pattern "[PARSE]" logs/log_0.txt
+	# 	echo "Pattern found for buffer size ${buf_size}. Killing processes..."
+	# 	sleep 1
 
-		# Kill everyone else because they will hang
-		echo "Resetting..."
-		reset-all
-		reset-memcached
-	) &
+	# 	# Kill everyone else because they will hang
+	# 	echo "Resetting..."
+	# 	reset-all
+	# 	reset-memcached
+	# ) &
 	
 	# Set up a screen script for running the program on all MACHINES
 	tmp_screen="$(mktemp)" || exit 1
@@ -145,10 +145,10 @@ function run_mu {
 		host="${MACHINES[$i]}"
 		ENV_ARGS="EXPER_PORT=${STARTING_PORT} SID=$((i + 1)) IDS=${IDS} DORY_REGISTRY_IP=${DORY_REGISTRY_IP} LD_LIBRARY_PATH=~/"
 		# gdb -ex \"catch throw\" -ex \"r\" --args
-		CMD="sudo env ${ENV_ARGS} perf record -e cycles:u -F 50 -g ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}; sudo perf annotate --stdio > perf_report.txt"
+		CMD="sudo env ${ENV_ARGS} perf record -e cycles -g ./${EXE_NAME} --hostname ${host} --node-id ${i} ${ARGS} ${EXTRA_ARGS}; sudo perf annotate --stdio > perf_annotate.txt"
 		echo "$CMD"
 		cat >>"$tmp_screen" <<EOF
-screen -t node${i} ssh -t ${USER}@${host}.${DOMAIN} "${CMD}" ${EXTRA_ARGS}
+screen -t node${i} ssh -t ${USER}@${host}.${DOMAIN} "${CMD}"
 logfile logs/log_${i}.txt
 log on
 EOF

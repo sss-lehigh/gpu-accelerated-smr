@@ -74,13 +74,14 @@ std::vector<double> commit_latencies;
 #define DONE_LATENCY []() {};
 
 #define CALC_LATENCY                                                           \
-  [&](std::tuple<double, double, double, double>* result) {                    \
+  [&](std::tuple<double, double, double, double>* result,                      \
+      std::vector<double>& latencies) {                                        \
     double latency_avg = 0.0;                                                  \
     double latency_stddev = 0.0;                                               \
     double latency_50p = 0.0;                                                  \
     double latency_99p = 0.0;                                                  \
     double latency_99_9p = 0.0;                                                \
-    [[maybe_unused]] double latency_max = 0.0;                                                  \
+    [[maybe_unused]] double latency_max = 0.0;                                 \
     int latency_max_idx = 0;                                                   \
     if (latencies.size() > 0) {                                                \
       latency_avg = std::accumulate(latencies.begin(), latencies.end(), 0.0);  \

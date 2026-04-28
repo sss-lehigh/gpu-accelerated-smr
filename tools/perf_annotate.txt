@@ -1,0 +1,2711 @@
+ Percent |	Source code & Disassembly of smr for cycles (34869 samples, percent: local period)
+--------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         : 3     Disassembly of section .text:
+         :
+         : 5     0000000000010bc0 <main>:
+    0.00 :   10bc0:  push   %rbp
+    0.00 :   10bc1:  push   %r15
+    0.00 :   10bc3:  push   %r14
+    0.00 :   10bc5:  push   %r13
+    0.00 :   10bc7:  push   %r12
+    0.00 :   10bc9:  push   %rbx
+    0.00 :   10bca:  sub    $0xc28,%rsp
+    0.00 :   10bd1:  mov    %rsi,%rbx
+    0.00 :   10bd4:  mov    %edi,%r14d
+    0.00 :   10bd7:  lea    0x8e0(%rsp),%rdi
+    0.00 :   10bdf:  xorpd  %xmm0,%xmm0
+    0.00 :   10be3:  movupd %xmm0,0x960(%rsp)
+    0.00 :   10bec:  movupd %xmm0,0x950(%rsp)
+    0.00 :   10bf5:  movupd %xmm0,0x940(%rsp)
+    0.00 :   10bfe:  movupd %xmm0,0x930(%rsp)
+    0.00 :   10c07:  movupd %xmm0,0x920(%rsp)
+    0.00 :   10c10:  movupd %xmm0,0x910(%rsp)
+    0.00 :   10c19:  movupd %xmm0,0x900(%rsp)
+    0.00 :   10c22:  movupd %xmm0,0x8f0(%rsp)
+    0.00 :   10c2b:  movupd %xmm0,0x8e0(%rsp)
+    0.00 :   10c34:  lea    -0xab(%rip),%rax        # 10b90 <signal_handler(int)>
+    0.00 :   10c3b:  mov    %rax,0x8d8(%rsp)
+    0.00 :   10c43:  call   7740 <sigemptyset@plt>
+    0.00 :   10c48:  movl   $0x0,0x960(%rsp)
+    0.00 :   10c53:  lea    0x8d8(%rsp),%rsi
+    0.00 :   10c5b:  mov    $0x14,%edi
+    0.00 :   10c60:  xor    %edx,%edx
+    0.00 :   10c62:  call   7750 <sigaction@plt>
+    0.00 :   10c67:  xorpd  %xmm0,%xmm0
+    0.00 :   10c6b:  movupd %xmm0,0x9d8(%rsp)
+    0.00 :   10c74:  movupd %xmm0,0x9c8(%rsp)
+    0.00 :   10c7d:  movupd %xmm0,0x9b8(%rsp)
+    0.00 :   10c86:  movupd %xmm0,0x9a8(%rsp)
+    0.00 :   10c8f:  movupd %xmm0,0x998(%rsp)
+    0.00 :   10c98:  movupd %xmm0,0x988(%rsp)
+    0.00 :   10ca1:  movupd %xmm0,0x978(%rsp)
+    0.00 :   10caa:  movq   $0x0,0x9e8(%rsp)
+    0.00 :   10cb6:  movq   $0x10,0x970(%rsp)
+    0.00 :   10cc2:  call   7660 <pthread_self@plt>
+    0.00 :   10cc7:  lea    0x970(%rsp),%rdx
+    0.00 :   10ccf:  mov    $0x80,%esi
+    0.00 :   10cd4:  mov    %rax,0xf8(%rsp)
+    0.00 :   10cdc:  mov    %rax,%rdi
+    0.00 :   10cdf:  call   7610 <pthread_setaffinity_np@plt>
+    0.00 :   10ce4:  lea    0x22dc2(%rip),%rdi        # 33aad <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x13fc>
+    0.00 :   10ceb:  call   7950 <puts@plt>
+    0.00 :   10cf0:  mov    $0x60,%edi
+    0.00 :   10cf5:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   10cfa:  movabs $0x100000001,%rcx
+    0.00 :   10d04:  mov    %rcx,0x8(%rax)
+    0.00 :   10d08:  lea    0x33cb1(%rip),%rcx        # 449c0 <vtable for std::_Sp_counted_ptr_inplace<romulus::ArgMap, std::allocator<void>, (__gnu_cxx::_Lock_policy)2>+0x10>
+    0.00 :   10d0f:  mov    %rcx,(%rax)
+    0.00 :   10d12:  lea    0x10(%rax),%r15
+    0.00 :   10d16:  lea    0x18(%rax),%rcx
+    0.00 :   10d1a:  xorpd  %xmm0,%xmm0
+    0.00 :   10d1e:  movupd %xmm0,0x20(%rax)
+    0.00 :   10d23:  movupd %xmm0,0x30(%rax)
+    0.00 :   10d28:  movupd %xmm0,0x40(%rax)
+    0.00 :   10d2d:  movupd %xmm0,0x10(%rax)
+    0.00 :   10d32:  movupd %xmm0,0x50(%rax)
+    0.00 :   10d37:  lea    0x50(%rax),%rdx
+    0.00 :   10d3b:  mov    %rcx,0x28(%rax)
+    0.00 :   10d3f:  mov    %rcx,0x30(%rax)
+    0.00 :   10d43:  mov    %rdx,0x40(%rax)
+    0.00 :   10d47:  mov    %rax,0x458(%rsp)
+    0.00 :   10d4f:  mov    %r15,0x450(%rsp)
+    0.00 :   10d57:  lea    0x351f2(%rip),%rsi        # 45f50 <romulus::ARGS>
+    0.00 :   10d5e:  mov    %r15,%rdi
+    0.00 :   10d61:  call   17060 <romulus::ArgMap::import(std::initializer_list<romulus::Arg> const&)>
+    0.00 :   10d66:  lea    0x3496b(%rip),%rsi        # 456d8 <romulus::EXTRA_ARGS>
+    0.00 :   10d6d:  mov    %r15,%rdi
+    0.00 :   10d70:  call   17060 <romulus::ArgMap::import(std::initializer_list<romulus::Arg> const&)>
+    0.00 :   10d75:  mov    %r15,%rdi
+    0.00 :   10d78:  mov    %r14d,%esi
+    0.00 :   10d7b:  mov    %rbx,%rdx
+    0.00 :   10d7e:  call   17590 <romulus::ArgMap::parse(int, char**)>
+    0.00 :   10d83:  lea    0x760(%rsp),%r14
+    0.00 :   10d8b:  mov    %r14,0x750(%rsp)
+    0.00 :   10d93:  movabs $0x692d65646f6e2d2d,%rax
+    0.00 :   10d9d:  mov    %rax,0x760(%rsp)
+    0.00 :   10da5:  movw   $0x64,0x768(%rsp)
+    0.00 :   10daf:  movq   $0x9,0x758(%rsp)
+    0.00 :   10dbb:  lea    0x750(%rsp),%rsi
+    0.00 :   10dc3:  mov    %r15,0x30(%rsp)
+    0.00 :   10dc8:  mov    %r15,%rdi
+    0.00 :   10dcb:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   10dd0:  mov    %rax,%rbx
+    0.00 :   10dd3:  mov    0x750(%rsp),%rdi
+    0.00 :   10ddb:  cmp    %r14,%rdi
+    0.00 :   10dde:  je     10de5 <main+0x225>
+    0.00 :   10de0:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   10de5:  mov    %ebx,0x8(%rsp)
+    0.00 :   10de9:  lea    0x740(%rsp),%r14
+    0.00 :   10df1:  mov    %r14,0x730(%rsp)
+    0.00 :   10df9:  movabs $0x65746f6d65722d2d,%rax
+    0.00 :   10e03:  mov    %rax,0x740(%rsp)
+    0.00 :   10e0b:  movw   $0x73,0x748(%rsp)
+    0.00 :   10e15:  movq   $0x9,0x738(%rsp)
+    0.00 :   10e21:  lea    0x828(%rsp),%rdi
+    0.00 :   10e29:  lea    0x730(%rsp),%rdx
+    0.00 :   10e31:  mov    0x30(%rsp),%rsi
+    0.00 :   10e36:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   10e3b:  mov    0x730(%rsp),%rdi
+    0.00 :   10e43:  cmp    %r14,%rdi
+    0.00 :   10e46:  je     10e4d <main+0x28d>
+    0.00 :   10e48:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   10e4d:  lea    0x970(%rsp),%rdi
+    0.00 :   10e55:  lea    0x828(%rsp),%rsi
+    0.00 :   10e5d:  mov    $0x18,%edx
+    0.00 :   10e62:  call   7af0 <std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::basic_stringstream(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::_Ios_Openmode)@plt>
+    0.00 :   10e67:  lea    0x400(%rsp),%rax
+    0.00 :   10e6f:  mov    %rax,0x3f0(%rsp)
+    0.00 :   10e77:  movq   $0x0,0x3f8(%rsp)
+    0.00 :   10e83:  movb   $0x0,0x400(%rsp)
+    0.00 :   10e8b:  xorpd  %xmm0,%xmm0
+    0.00 :   10e8f:  movapd %xmm0,0x70(%rsp)
+    0.00 :   10e95:  movq   $0x0,0x80(%rsp)
+    0.00 :   10ea1:  lea    0x970(%rsp),%rbx
+    0.00 :   10ea9:  lea    0x3f0(%rsp),%r14
+    0.00 :   10eb1:  jmp    10ed7 <main+0x317>
+    0.00 :   10eb3:  data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   10ec0:  movzbl 0x0(%rbp),%eax
+    0.00 :   10ec4:  mov    %al,(%r15)
+    0.00 :   10ec7:  mov    %r13,0x8(%r12)
+    0.00 :   10ecc:  movb   $0x0,(%r15,%r13,1)
+    0.00 :   10ed1:  addq   $0x20,0x78(%rsp)
+    0.00 :   10ed7:  mov    %rbx,%rdi
+    0.00 :   10eda:  mov    %r14,%rsi
+    0.00 :   10edd:  mov    $0x2c,%edx
+    0.00 :   10ee2:  call   7030 <std::basic_istream<char, std::char_traits<char> >& std::getline<char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, char)@plt>
+    0.00 :   10ee7:  mov    (%rax),%rcx
+    0.00 :   10eea:  mov    -0x18(%rcx),%rcx
+    0.00 :   10eee:  testb  $0x5,0x20(%rax,%rcx,1)
+    0.00 :   10ef3:  jne    10f95 <main+0x3d5>
+    0.00 :   10ef9:  mov    0x78(%rsp),%r12
+    0.00 :   10efe:  cmp    0x80(%rsp),%r12
+    0.00 :   10f06:  je     10f80 <main+0x3c0>
+    0.00 :   10f08:  lea    0x10(%r12),%r15
+    0.00 :   10f0d:  mov    %r15,(%r12)
+    0.00 :   10f11:  mov    0x3f0(%rsp),%rbp
+    0.00 :   10f19:  mov    0x3f8(%rsp),%r13
+    0.00 :   10f21:  cmp    $0x10,%r13
+    0.00 :   10f25:  jb     10f4d <main+0x38d>
+    0.00 :   10f27:  test   %r13,%r13
+    0.00 :   10f2a:  js     13c81 <main+0x30c1>
+    0.00 :   10f30:  mov    %r13,%rdi
+    0.00 :   10f33:  inc    %rdi
+    0.00 :   10f36:  js     13c4b <main+0x308b>
+    0.00 :   10f3c:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   10f41:  mov    %rax,%r15
+    0.00 :   10f44:  mov    %rax,(%r12)
+    0.00 :   10f48:  mov    %r13,0x10(%r12)
+    0.00 :   10f4d:  test   %r13,%r13
+    0.00 :   10f50:  je     10ec7 <main+0x307>
+    0.00 :   10f56:  cmp    $0x1,%r13
+    0.00 :   10f5a:  je     10ec0 <main+0x300>
+    0.00 :   10f60:  mov    %r15,%rdi
+    0.00 :   10f63:  mov    %rbp,%rsi
+    0.00 :   10f66:  mov    %r13,%rdx
+    0.00 :   10f69:  call   70a0 <memcpy@plt>
+    0.00 :   10f6e:  jmp    10ec7 <main+0x307>
+    0.00 :   10f73:  data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   10f80:  lea    0x70(%rsp),%rdi
+    0.00 :   10f85:  mov    %r12,%rsi
+    0.00 :   10f88:  mov    %r14,%rdx
+    0.00 :   10f8b:  call   23f40 <void std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&>(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)>
+    0.00 :   10f90:  jmp    10ed7 <main+0x317>
+    0.00 :   10f95:  movslq 0x8(%rsp),%rsi
+    0.00 :   10f9a:  mov    0x70(%rsp),%r14
+    0.00 :   10f9f:  mov    0x78(%rsp),%rbx
+    0.00 :   10fa4:  mov    %rbx,%r15
+    0.00 :   10fa7:  sub    %r14,%r15
+    0.00 :   10faa:  mov    %r15,%rax
+    0.00 :   10fad:  sar    $0x5,%rax
+    0.00 :   10fb1:  mov    %rax,0x48(%rsp)
+    0.00 :   10fb6:  cmp    %rsi,%rax
+    0.00 :   10fb9:  jbe    13c99 <main+0x30d9>
+    0.00 :   10fbf:  shl    $0x5,%rsi
+    0.00 :   10fc3:  lea    0x130(%rsp),%rbp
+    0.00 :   10fcb:  mov    %rbp,0x120(%rsp)
+    0.00 :   10fd3:  mov    (%r14,%rsi,1),%r13
+    0.00 :   10fd7:  mov    0x8(%r14,%rsi,1),%r12
+    0.00 :   10fdc:  cmp    $0x10,%r12
+    0.00 :   10fe0:  jb     1100f <main+0x44f>
+    0.00 :   10fe2:  test   %r12,%r12
+    0.00 :   10fe5:  js     13cbb <main+0x30fb>
+    0.00 :   10feb:  mov    %r12,%rdi
+    0.00 :   10fee:  inc    %rdi
+    0.00 :   10ff1:  js     13c55 <main+0x3095>
+    0.00 :   10ff7:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   10ffc:  mov    %rax,%rbp
+    0.00 :   10fff:  mov    %rax,0x120(%rsp)
+    0.00 :   11007:  mov    %r12,0x130(%rsp)
+    0.00 :   1100f:  test   %r12,%r12
+    0.00 :   11012:  je     11032 <main+0x472>
+    0.00 :   11014:  cmp    $0x1,%r12
+    0.00 :   11018:  jne    11024 <main+0x464>
+    0.00 :   1101a:  movzbl 0x0(%r13),%eax
+    0.00 :   1101f:  mov    %al,0x0(%rbp)
+    0.00 :   11022:  jmp    11032 <main+0x472>
+    0.00 :   11024:  mov    %rbp,%rdi
+    0.00 :   11027:  mov    %r13,%rsi
+    0.00 :   1102a:  mov    %r12,%rdx
+    0.00 :   1102d:  call   70a0 <memcpy@plt>
+    0.00 :   11032:  mov    %r12,0x128(%rsp)
+    0.00 :   1103a:  movb   $0x0,0x0(%rbp,%r12,1)
+    0.00 :   11040:  xorpd  %xmm0,%xmm0
+    0.00 :   11044:  movapd %xmm0,0xc0(%rsp)
+    0.00 :   1104d:  movq   $0x0,0xd0(%rsp)
+    0.00 :   11059:  cmp    %r14,%rbx
+    0.00 :   1105c:  je     1107d <main+0x4bd>
+    0.00 :   1105e:  mov    0x48(%rsp),%r12
+    0.00 :   11063:  mov    %r12,%rax
+    0.00 :   11066:  shr    $0x3a,%rax
+    0.00 :   1106a:  jne    13c50 <main+0x3090>
+    0.00 :   11070:  mov    %r15,%rdi
+    0.00 :   11073:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   11078:  mov    %rax,%rdx
+    0.00 :   1107b:  jmp    11084 <main+0x4c4>
+    0.00 :   1107d:  xor    %edx,%edx
+    0.00 :   1107f:  mov    0x48(%rsp),%r12
+    0.00 :   11084:  mov    %rdx,0xc0(%rsp)
+    0.00 :   1108c:  mov    %rdx,0xc8(%rsp)
+    0.00 :   11094:  mov    %r12,%rax
+    0.00 :   11097:  shl    $0x5,%rax
+    0.00 :   1109b:  add    %rdx,%rax
+    0.00 :   1109e:  mov    %rax,0xd0(%rsp)
+    0.00 :   110a6:  mov    %r14,%rdi
+    0.00 :   110a9:  mov    %rbx,%rsi
+    0.00 :   110ac:  call   16150 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::__do_uninit_copy<__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*>(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, __gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*)>
+    0.00 :   110b1:  mov    %rax,0xc8(%rsp)
+    0.00 :   110b9:  movslq 0x8(%rsp),%rsi
+    0.00 :   110be:  shl    $0x5,%rsi
+    0.00 :   110c2:  add    0xc0(%rsp),%rsi
+    0.00 :   110ca:  lea    0xc0(%rsp),%rdi
+    0.00 :   110d2:  call   24200 <std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_erase(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >)>
+    0.00 :   110d7:  lea    0x650(%rsp),%r14
+    0.00 :   110df:  mov    %r14,0x640(%rsp)
+    0.00 :   110e7:  movabs $0x7473696765722d2d,%rax
+    0.00 :   110f1:  mov    %rax,0x650(%rsp)
+    0.00 :   110f9:  movabs $0x70692d7972747369,%rax
+    0.00 :   11103:  mov    %rax,0x655(%rsp)
+    0.00 :   1110b:  movq   $0xd,0x648(%rsp)
+    0.00 :   11117:  movb   $0x0,0x65d(%rsp)
+    0.00 :   1111f:  lea    0x7f0(%rsp),%rdi
+    0.00 :   11127:  lea    0x640(%rsp),%rdx
+    0.00 :   1112f:  mov    0x30(%rsp),%rsi
+    0.00 :   11134:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   11139:  mov    0x640(%rsp),%rdi
+    0.00 :   11141:  cmp    %r14,%rdi
+    0.00 :   11144:  je     1114b <main+0x58b>
+    0.00 :   11146:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1114b:  lea    0x610(%rsp),%r14
+    0.00 :   11153:  mov    %r14,0x600(%rsp)
+    0.00 :   1115b:  movabs $0x74757074756f2d2d,%rax
+    0.00 :   11165:  mov    %rax,0x610(%rsp)
+    0.00 :   1116d:  movabs $0x656c69662d747570,%rax
+    0.00 :   11177:  mov    %rax,0x615(%rsp)
+    0.00 :   1117f:  movq   $0xd,0x608(%rsp)
+    0.00 :   1118b:  movb   $0x0,0x61d(%rsp)
+    0.00 :   11193:  lea    0x620(%rsp),%rdi
+    0.00 :   1119b:  lea    0x600(%rsp),%rdx
+    0.00 :   111a3:  mov    0x30(%rsp),%rsi
+    0.00 :   111a8:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   111ad:  mov    0x600(%rsp),%rdi
+    0.00 :   111b5:  cmp    %r14,%rdi
+    0.00 :   111b8:  je     111bf <main+0x5ff>
+    0.00 :   111ba:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   111bf:  lea    0x140(%rsp),%rdi
+    0.00 :   111c7:  lea    0x620(%rsp),%rsi
+    0.00 :   111cf:  mov    $0x2,%edx
+    0.00 :   111d4:  call   18640 <std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)>
+    0.00 :   111d9:  lea    0x140(%rsp),%rdi
+    0.00 :   111e1:  call   70f0 <std::filesystem::status(std::filesystem::__cxx11::path const&)@plt>
+    0.00 :   111e6:  mov    %rax,%rbx
+    0.00 :   111e9:  mov    0x160(%rsp),%rsi
+    0.00 :   111f1:  test   %rsi,%rsi
+    0.00 :   111f4:  je     11203 <main+0x643>
+    0.00 :   111f6:  lea    0x160(%rsp),%rdi
+    0.00 :   111fe:  call   70d0 <std::filesystem::__cxx11::path::_List::_Impl_deleter::operator()(std::filesystem::__cxx11::path::_List::_Impl*) const@plt>
+    0.00 :   11203:  movq   $0x0,0x160(%rsp)
+    0.00 :   1120f:  mov    0x140(%rsp),%rdi
+    0.00 :   11217:  lea    0x150(%rsp),%r14
+    0.00 :   1121f:  cmp    %r14,%rdi
+    0.00 :   11222:  je     11229 <main+0x669>
+    0.00 :   11224:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11229:  test   %bl,%bl
+    0.00 :   1122b:  je     11296 <main+0x6d6>
+    0.00 :   1122d:  movzbl %bl,%eax
+    0.00 :   11230:  cmp    $0xff,%eax
+    0.00 :   11235:  je     11296 <main+0x6d6>
+    0.00 :   11237:  lea    0x140(%rsp),%rdi
+    0.00 :   1123f:  lea    0x620(%rsp),%rsi
+    0.00 :   11247:  mov    $0x2,%edx
+    0.00 :   1124c:  call   18640 <std::filesystem::__cxx11::path::path<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::filesystem::__cxx11::path>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::filesystem::__cxx11::path::format)>
+    0.00 :   11251:  lea    0x140(%rsp),%rdi
+    0.00 :   11259:  call   7120 <std::filesystem::remove(std::filesystem::__cxx11::path const&)@plt>
+    0.00 :   1125e:  mov    0x160(%rsp),%rsi
+    0.00 :   11266:  test   %rsi,%rsi
+    0.00 :   11269:  je     11278 <main+0x6b8>
+    0.00 :   1126b:  lea    0x160(%rsp),%rdi
+    0.00 :   11273:  call   70d0 <std::filesystem::__cxx11::path::_List::_Impl_deleter::operator()(std::filesystem::__cxx11::path::_List::_Impl*) const@plt>
+    0.00 :   11278:  movq   $0x0,0x160(%rsp)
+    0.00 :   11284:  mov    0x140(%rsp),%rdi
+    0.00 :   1128c:  cmp    %r14,%rdi
+    0.00 :   1128f:  je     11296 <main+0x6d6>
+    0.00 :   11291:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11296:  lea    0x5f0(%rsp),%r14
+    0.00 :   1129e:  mov    %r14,0x5e0(%rsp)
+    0.00 :   112a6:  movabs $0x6974747365742d2d,%rax
+    0.00 :   112b0:  mov    %rax,0x5f0(%rsp)
+    0.00 :   112b8:  movw   $0x656d,0x5f8(%rsp)
+    0.00 :   112c2:  movq   $0xa,0x5e8(%rsp)
+    0.00 :   112ce:  movb   $0x0,0x5fa(%rsp)
+    0.00 :   112d6:  lea    0x5e0(%rsp),%rsi
+    0.00 :   112de:  mov    0x30(%rsp),%rdi
+    0.00 :   112e3:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   112e8:  mov    %rax,0x88(%rsp)
+    0.00 :   112f0:  mov    0x5e0(%rsp),%rdi
+    0.00 :   112f8:  cmp    %r14,%rdi
+    0.00 :   112fb:  je     11302 <main+0x742>
+    0.00 :   112fd:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11302:  lea    0x5d0(%rsp),%r14
+    0.00 :   1130a:  mov    %r14,0x5c0(%rsp)
+    0.00 :   11312:  movabs $0x616e2d7665642d2d,%rax
+    0.00 :   1131c:  mov    %rax,0x5d0(%rsp)
+    0.00 :   11324:  movw   $0x656d,0x5d8(%rsp)
+    0.00 :   1132e:  movq   $0xa,0x5c8(%rsp)
+    0.00 :   1133a:  movb   $0x0,0x5da(%rsp)
+    0.00 :   11342:  lea    0x7d0(%rsp),%rdi
+    0.00 :   1134a:  lea    0x5c0(%rsp),%rdx
+    0.00 :   11352:  mov    0x30(%rsp),%rsi
+    0.00 :   11357:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   1135c:  mov    0x5c0(%rsp),%rdi
+    0.00 :   11364:  cmp    %r14,%rdi
+    0.00 :   11367:  je     1136e <main+0x7ae>
+    0.00 :   11369:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1136e:  lea    0x5b0(%rsp),%r14
+    0.00 :   11376:  mov    %r14,0x5a0(%rsp)
+    0.00 :   1137e:  movabs $0x6f702d7665642d2d,%rax
+    0.00 :   11388:  mov    %rax,0x5b0(%rsp)
+    0.00 :   11390:  movw   $0x7472,0x5b8(%rsp)
+    0.00 :   1139a:  movq   $0xa,0x5a8(%rsp)
+    0.00 :   113a6:  movb   $0x0,0x5ba(%rsp)
+    0.00 :   113ae:  lea    0x5a0(%rsp),%rsi
+    0.00 :   113b6:  mov    0x30(%rsp),%rdi
+    0.00 :   113bb:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   113c0:  mov    %rax,%r15
+    0.00 :   113c3:  mov    0x5a0(%rsp),%rdi
+    0.00 :   113cb:  cmp    %r14,%rdi
+    0.00 :   113ce:  je     113d5 <main+0x815>
+    0.00 :   113d0:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   113d5:  mov    0x8(%rsp),%eax
+    0.00 :   113d9:  inc    %eax
+    0.00 :   113db:  mov    %rax,0x140(%rsp)
+    0.00 :   113e3:  mov    %r12,0x150(%rsp)
+    0.00 :   113eb:  mov    0x120(%rsp),%rax
+    0.00 :   113f3:  mov    0x128(%rsp),%rcx
+    0.00 :   113fb:  mov    %rcx,0x160(%rsp)
+    0.00 :   11403:  mov    %rax,0x168(%rsp)
+    0.00 :   1140b:  lea    0x21c7e(%rip),%rdx        # 33090 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x9df>
+    0.00 :   11412:  lea    0x2e0(%rsp),%rdi
+    0.00 :   1141a:  lea    0x140(%rsp),%r8
+    0.00 :   11422:  mov    $0x13,%esi
+    0.00 :   11427:  mov    $0x2cc33,%ecx
+    0.00 :   1142c:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11431:  mov    0x30(%rsp),%rbp
+    0.00 :   11436:  mov    0x2e0(%rsp),%rdx
+    0.00 :   1143e:  mov    0x2e8(%rsp),%esi
+    0.00 :   11445:  lea    0x22415(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   1144c:  xor    %eax,%eax
+    0.00 :   1144e:  call   7080 <printf@plt>
+    0.00 :   11453:  mov    0x33b1e(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   1145a:  mov    (%rax),%rdi
+    0.00 :   1145d:  call   7480 <fflush@plt>
+    0.00 :   11462:  mov    0x2e0(%rsp),%rdi
+    0.00 :   1146a:  lea    0x2f0(%rsp),%rax
+    0.00 :   11472:  cmp    %rax,%rdi
+    0.00 :   11475:  je     1147c <main+0x8bc>
+    0.00 :   11477:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1147c:  lea    0x728(%rsp),%rax
+    0.00 :   11484:  mov    %rax,0x6f8(%rsp)
+    0.00 :   1148c:  movq   $0x1,0x700(%rsp)
+    0.00 :   11498:  xorpd  %xmm0,%xmm0
+    0.00 :   1149c:  movupd %xmm0,0x708(%rsp)
+    0.00 :   114a5:  movl   $0x3f800000,0x718(%rsp)
+    0.00 :   114b0:  movupd %xmm0,0x720(%rsp)
+    0.00 :   114b9:  movl   $0x0,0x140(%rsp)
+    0.00 :   114c4:  mov    0x70(%rsp),%rdx
+    0.00 :   114c9:  mov    0x78(%rsp),%rax
+    0.00 :   114ce:  sub    %rdx,%rax
+    0.00 :   114d1:  sar    $0x5,%rax
+    0.00 :   114d5:  test   %eax,%eax
+    0.00 :   114d7:  jle    1153b <main+0x97b>
+    0.00 :   114d9:  xor    %ecx,%ecx
+    0.00 :   114db:  lea    0x6f8(%rsp),%rbx
+    0.00 :   114e3:  lea    0x140(%rsp),%r14
+    0.00 :   114eb:  nopl   0x0(%rax,%rax,1)
+    0.00 :   114f0:  movslq %ecx,%rsi
+    0.00 :   114f3:  cmp    %rsi,%rax
+    0.00 :   114f6:  jbe    13c64 <main+0x30a4>
+    0.00 :   114fc:  shl    $0x5,%rsi
+    0.00 :   11500:  add    %rsi,%rdx
+    0.00 :   11503:  mov    %rbx,%rdi
+    0.00 :   11506:  mov    %r14,%rsi
+    0.00 :   11509:  call   24340 <std::pair<std::__detail::_Node_iterator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, false, false>, bool> std::_Hashtable<unsigned long, std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_emplace<int&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>(std::integral_constant<bool, true>, int&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)>
+    0.00 :   1150e:  mov    0x140(%rsp),%ecx
+    0.00 :   11515:  inc    %ecx
+    0.00 :   11517:  mov    %ecx,0x140(%rsp)
+    0.00 :   1151e:  mov    0x70(%rsp),%rdx
+    0.00 :   11523:  mov    0x78(%rsp),%rax
+    0.00 :   11528:  sub    %rdx,%rax
+    0.00 :   1152b:  sar    $0x5,%rax
+    0.00 :   1152f:  cmp    %eax,%ecx
+    0.00 :   11531:  jl     114f0 <main+0x930>
+    0.00 :   11533:  mov    0x450(%rsp),%rbp
+    0.00 :   1153b:  lea    0x6e8(%rsp),%r14
+    0.00 :   11543:  mov    %r14,0x6d8(%rsp)
+    0.00 :   1154b:  mov    $0x11,%edi
+    0.00 :   11550:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   11555:  mov    %rax,0x6d8(%rsp)
+    0.00 :   1155d:  movq   $0x10,0x6e8(%rsp)
+    0.00 :   11569:  movupd 0x21a02(%rip),%xmm0        # 32f73 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x8c2>
+    0.00 :   11571:  movupd %xmm0,(%rax)
+    0.00 :   11575:  movq   $0x10,0x6e0(%rsp)
+    0.00 :   11581:  movb   $0x0,0x10(%rax)
+    0.00 :   11585:  lea    0x7b0(%rsp),%rdi
+    0.00 :   1158d:  lea    0x6d8(%rsp),%rdx
+    0.00 :   11595:  mov    %rbp,%rsi
+    0.00 :   11598:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   1159d:  mov    0x6d8(%rsp),%rdi
+    0.00 :   115a5:  cmp    %r14,%rdi
+    0.00 :   115a8:  je     115af <main+0x9ef>
+    0.00 :   115aa:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   115af:  lea    0x590(%rsp),%r14
+    0.00 :   115b7:  mov    %r14,0x580(%rsp)
+    0.00 :   115bf:  movl   $0x6f6c2d2d,0x590(%rsp)
+    0.00 :   115ca:  movw   $0x706f,0x594(%rsp)
+    0.00 :   115d4:  movq   $0x6,0x588(%rsp)
+    0.00 :   115e0:  movb   $0x0,0x596(%rsp)
+    0.00 :   115e8:  lea    0x580(%rsp),%rsi
+    0.00 :   115f0:  mov    %rbp,%rdi
+    0.00 :   115f3:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   115f8:  mov    %rax,0x2d0(%rsp)
+    0.00 :   11600:  mov    0x580(%rsp),%rdi
+    0.00 :   11608:  cmp    %r14,%rdi
+    0.00 :   1160b:  je     11612 <main+0xa52>
+    0.00 :   1160d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11612:  lea    0x570(%rsp),%r14
+    0.00 :   1161a:  mov    %r14,0x560(%rsp)
+    0.00 :   11622:  movabs $0x6963617061632d2d,%rax
+    0.00 :   1162c:  mov    %rax,0x570(%rsp)
+    0.00 :   11634:  movw   $0x7974,0x578(%rsp)
+    0.00 :   1163e:  movq   $0xa,0x568(%rsp)
+    0.00 :   1164a:  movb   $0x0,0x57a(%rsp)
+    0.00 :   11652:  lea    0x560(%rsp),%rsi
+    0.00 :   1165a:  mov    %rbp,%rdi
+    0.00 :   1165d:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   11662:  mov    %rax,%r13
+    0.00 :   11665:  mov    0x560(%rsp),%rdi
+    0.00 :   1166d:  cmp    %r14,%rdi
+    0.00 :   11670:  je     11677 <main+0xab7>
+    0.00 :   11672:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11677:  lea    0x550(%rsp),%r14
+    0.00 :   1167f:  mov    %r14,0x540(%rsp)
+    0.00 :   11687:  movabs $0x69732d6675622d2d,%rax
+    0.00 :   11691:  mov    %rax,0x550(%rsp)
+    0.00 :   11699:  movw   $0x657a,0x558(%rsp)
+    0.00 :   116a3:  movq   $0xa,0x548(%rsp)
+    0.00 :   116af:  movb   $0x0,0x55a(%rsp)
+    0.00 :   116b7:  lea    0x540(%rsp),%rsi
+    0.00 :   116bf:  mov    %rbp,%rdi
+    0.00 :   116c2:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   116c7:  mov    %rax,%rbx
+    0.00 :   116ca:  mov    0x540(%rsp),%rdi
+    0.00 :   116d2:  cmp    %r14,%rdi
+    0.00 :   116d5:  je     116dc <main+0xb1c>
+    0.00 :   116d7:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   116dc:  mov    %rbx,0xb8(%rsp)
+    0.00 :   116e4:  lea    0x530(%rsp),%r14
+    0.00 :   116ec:  mov    %r14,0x520(%rsp)
+    0.00 :   116f4:  movl   $0x6c732d2d,0x530(%rsp)
+    0.00 :   116ff:  movl   $0x7065656c,0x533(%rsp)
+    0.00 :   1170a:  movq   $0x7,0x528(%rsp)
+    0.00 :   11716:  movb   $0x0,0x537(%rsp)
+    0.00 :   1171e:  lea    0x520(%rsp),%rsi
+    0.00 :   11726:  mov    %rbp,%rdi
+    0.00 :   11729:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   1172e:  mov    %rax,%rbx
+    0.00 :   11731:  mov    %r13,0x30(%rsp)
+    0.00 :   11736:  mov    0x520(%rsp),%rdi
+    0.00 :   1173e:  cmp    %r14,%rdi
+    0.00 :   11741:  je     11748 <main+0xb88>
+    0.00 :   11743:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11748:  lea    0x510(%rsp),%r14
+    0.00 :   11750:  mov    %r14,0x500(%rsp)
+    0.00 :   11758:  movabs $0x656c626174732d2d,%rax
+    0.00 :   11762:  mov    %rax,0x510(%rsp)
+    0.00 :   1176a:  movabs $0x72656461656c2d65,%rax
+    0.00 :   11774:  mov    %rax,0x517(%rsp)
+    0.00 :   1177c:  movq   $0xf,0x508(%rsp)
+    0.00 :   11788:  movb   $0x0,0x51f(%rsp)
+    0.00 :   11790:  lea    0x500(%rsp),%rsi
+    0.00 :   11798:  mov    %rbp,%rdi
+    0.00 :   1179b:  call   18770 <romulus::ArgMap::bget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   117a0:  mov    %eax,%r13d
+    0.00 :   117a3:  mov    %rbx,0x60(%rsp)
+    0.00 :   117a8:  mov    0x500(%rsp),%rdi
+    0.00 :   117b0:  cmp    %r14,%rdi
+    0.00 :   117b3:  je     117ba <main+0xbfa>
+    0.00 :   117b5:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   117ba:  lea    0x4f0(%rsp),%r14
+    0.00 :   117c2:  mov    %r14,0x4e0(%rsp)
+    0.00 :   117ca:  movabs $0x6e652d7570632d2d,%rax
+    0.00 :   117d4:  mov    %rax,0x4f0(%rsp)
+    0.00 :   117dc:  movabs $0x64656c62616e652d,%rbx
+    0.00 :   117e6:  mov    %rbx,0x4f5(%rsp)
+    0.00 :   117ee:  movq   $0xd,0x4e8(%rsp)
+    0.00 :   117fa:  movb   $0x0,0x4fd(%rsp)
+    0.00 :   11802:  lea    0x4e0(%rsp),%rsi
+    0.00 :   1180a:  mov    %rbp,%rdi
+    0.00 :   1180d:  call   18770 <romulus::ArgMap::bget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   11812:  mov    %al,0x40(%rsp)
+    0.00 :   11816:  mov    0x4e0(%rsp),%rdi
+    0.00 :   1181e:  cmp    %r14,%rdi
+    0.00 :   11821:  je     11828 <main+0xc68>
+    0.00 :   11823:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11828:  lea    0x4d0(%rsp),%r14
+    0.00 :   11830:  mov    %r14,0x4c0(%rsp)
+    0.00 :   11838:  movabs $0x6e652d7570672d2d,%rax
+    0.00 :   11842:  mov    %rax,0x4d0(%rsp)
+    0.00 :   1184a:  mov    %rbx,0x4d5(%rsp)
+    0.00 :   11852:  movq   $0xd,0x4c8(%rsp)
+    0.00 :   1185e:  movb   $0x0,0x4dd(%rsp)
+    0.00 :   11866:  lea    0x4c0(%rsp),%rsi
+    0.00 :   1186e:  mov    %rbp,%rdi
+    0.00 :   11871:  call   18770 <romulus::ArgMap::bget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   11876:  mov    %rax,0x2d8(%rsp)
+    0.00 :   1187e:  mov    0x4c0(%rsp),%rdi
+    0.00 :   11886:  cmp    %r14,%rdi
+    0.00 :   11889:  je     11890 <main+0xcd0>
+    0.00 :   1188b:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11890:  lea    0x4b0(%rsp),%r14
+    0.00 :   11898:  mov    %r14,0x4a0(%rsp)
+    0.00 :   118a0:  movabs $0x69732d74616d2d2d,%rax
+    0.00 :   118aa:  mov    %rax,0x4b0(%rsp)
+    0.00 :   118b2:  movw   $0x657a,0x4b8(%rsp)
+    0.00 :   118bc:  movq   $0xa,0x4a8(%rsp)
+    0.00 :   118c8:  movb   $0x0,0x4ba(%rsp)
+    0.00 :   118d0:  lea    0x4a0(%rsp),%rsi
+    0.00 :   118d8:  mov    %rbp,%rdi
+    0.00 :   118db:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   118e0:  mov    %rax,0x58(%rsp)
+    0.00 :   118e5:  mov    0x4a0(%rsp),%rdi
+    0.00 :   118ed:  cmp    %r14,%rdi
+    0.00 :   118f0:  je     118f7 <main+0xd37>
+    0.00 :   118f2:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   118f7:  lea    0x490(%rsp),%r14
+    0.00 :   118ff:  mov    %r14,0x480(%rsp)
+    0.00 :   11907:  movabs $0x74732d6d756e2d2d,%rax
+    0.00 :   11911:  mov    %rax,0x490(%rsp)
+    0.00 :   11919:  movabs $0x74616d2d65746174,%rax
+    0.00 :   11923:  mov    %rax,0x497(%rsp)
+    0.00 :   1192b:  movq   $0xf,0x488(%rsp)
+    0.00 :   11937:  movb   $0x0,0x49f(%rsp)
+    0.00 :   1193f:  lea    0x480(%rsp),%rsi
+    0.00 :   11947:  mov    %rbp,%rdi
+    0.00 :   1194a:  call   18300 <romulus::ArgMap::uget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   1194f:  mov    %rax,0x50(%rsp)
+    0.00 :   11954:  mov    0x480(%rsp),%rdi
+    0.00 :   1195c:  cmp    %r14,%rdi
+    0.00 :   1195f:  je     11966 <main+0xda6>
+    0.00 :   11961:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11966:  lea    0x470(%rsp),%r14
+    0.00 :   1196e:  mov    %r14,0x460(%rsp)
+    0.00 :   11976:  movl   $0x6f6d2d2d,0x470(%rsp)
+    0.00 :   11981:  movw   $0x6564,0x474(%rsp)
+    0.00 :   1198b:  movq   $0x6,0x468(%rsp)
+    0.00 :   11997:  movb   $0x0,0x476(%rsp)
+    0.00 :   1199f:  lea    0x430(%rsp),%rdi
+    0.00 :   119a7:  lea    0x460(%rsp),%rdx
+    0.00 :   119af:  mov    %rbp,%rsi
+    0.00 :   119b2:  call   18460 <romulus::ArgMap::sget(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)>
+    0.00 :   119b7:  mov    0x460(%rsp),%rdi
+    0.00 :   119bf:  cmp    %r14,%rdi
+    0.00 :   119c2:  je     119c9 <main+0xe09>
+    0.00 :   119c4:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   119c9:  lea    0x216d4(%rip),%rdx        # 330a4 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x9f3>
+    0.00 :   119d0:  lea    0x140(%rsp),%rdi
+    0.00 :   119d8:  mov    $0x1b,%esi
+    0.00 :   119dd:  xor    %ecx,%ecx
+    0.00 :   119df:  xor    %r8d,%r8d
+    0.00 :   119e2:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   119e7:  lea    0x150(%rsp),%rbx
+    0.00 :   119ef:  mov    0x58(%rsp),%r14
+    0.00 :   119f4:  mov    0x140(%rsp),%rdx
+    0.00 :   119fc:  mov    0x148(%rsp),%esi
+    0.00 :   11a03:  lea    0x21e57(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11a0a:  xor    %eax,%eax
+    0.00 :   11a0c:  call   7080 <printf@plt>
+    0.00 :   11a11:  mov    0x33560(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11a18:  mov    (%rax),%rdi
+    0.00 :   11a1b:  call   7480 <fflush@plt>
+    0.00 :   11a20:  mov    0x140(%rsp),%rdi
+    0.00 :   11a28:  cmp    %rbx,%rdi
+    0.00 :   11a2b:  je     11a32 <main+0xe72>
+    0.00 :   11a2d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11a32:  mov    0x120(%rsp),%rax
+    0.00 :   11a3a:  mov    0x128(%rsp),%rcx
+    0.00 :   11a42:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   11a4a:  mov    %rax,0x2e8(%rsp)
+    0.00 :   11a52:  lea    0x21667(%rip),%rdx        # 330c0 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa0f>
+    0.00 :   11a59:  lea    0x140(%rsp),%rdi
+    0.00 :   11a61:  lea    0x2e0(%rsp),%r8
+    0.00 :   11a69:  mov    $0x15,%esi
+    0.00 :   11a6e:  mov    $0xb1,%ecx
+    0.00 :   11a73:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11a78:  mov    0x140(%rsp),%rdx
+    0.00 :   11a80:  mov    0x148(%rsp),%esi
+    0.00 :   11a87:  lea    0x21dd3(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11a8e:  xor    %eax,%eax
+    0.00 :   11a90:  call   7080 <printf@plt>
+    0.00 :   11a95:  mov    0x334dc(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11a9c:  mov    (%rax),%rdi
+    0.00 :   11a9f:  call   7480 <fflush@plt>
+    0.00 :   11aa4:  mov    0x140(%rsp),%rdi
+    0.00 :   11aac:  cmp    %rbx,%rdi
+    0.00 :   11aaf:  je     11ab6 <main+0xef6>
+    0.00 :   11ab1:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11ab6:  mov    0x8(%rsp),%eax
+    0.00 :   11aba:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11ac2:  lea    0x2160d(%rip),%rdx        # 330d6 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa25>
+    0.00 :   11ac9:  lea    0x140(%rsp),%rdi
+    0.00 :   11ad1:  lea    0x2e0(%rsp),%r8
+    0.00 :   11ad9:  mov    $0x14,%esi
+    0.00 :   11ade:  mov    $0x31,%ecx
+    0.00 :   11ae3:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11ae8:  mov    0x140(%rsp),%rdx
+    0.00 :   11af0:  mov    0x148(%rsp),%esi
+    0.00 :   11af7:  lea    0x21d63(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11afe:  xor    %eax,%eax
+    0.00 :   11b00:  call   7080 <printf@plt>
+    0.00 :   11b05:  mov    0x3346c(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11b0c:  mov    (%rax),%rdi
+    0.00 :   11b0f:  call   7480 <fflush@plt>
+    0.00 :   11b14:  mov    0x140(%rsp),%rdi
+    0.00 :   11b1c:  cmp    %rbx,%rdi
+    0.00 :   11b1f:  je     11b26 <main+0xf66>
+    0.00 :   11b21:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11b26:  mov    0x7f0(%rsp),%rax
+    0.00 :   11b2e:  mov    0x7f8(%rsp),%rcx
+    0.00 :   11b36:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   11b3e:  mov    %rax,0x2e8(%rsp)
+    0.00 :   11b46:  lea    0x2159e(%rip),%rdx        # 330eb <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa3a>
+    0.00 :   11b4d:  lea    0x140(%rsp),%rdi
+    0.00 :   11b55:  lea    0x2e0(%rsp),%r8
+    0.00 :   11b5d:  mov    $0x18,%esi
+    0.00 :   11b62:  mov    $0xb1,%ecx
+    0.00 :   11b67:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11b6c:  mov    0x140(%rsp),%rdx
+    0.00 :   11b74:  mov    0x148(%rsp),%esi
+    0.00 :   11b7b:  lea    0x21cdf(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11b82:  xor    %eax,%eax
+    0.00 :   11b84:  call   7080 <printf@plt>
+    0.00 :   11b89:  mov    0x333e8(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11b90:  mov    (%rax),%rdi
+    0.00 :   11b93:  call   7480 <fflush@plt>
+    0.00 :   11b98:  mov    0x140(%rsp),%rdi
+    0.00 :   11ba0:  cmp    %rbx,%rdi
+    0.00 :   11ba3:  je     11baa <main+0xfea>
+    0.00 :   11ba5:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11baa:  mov    0x620(%rsp),%rax
+    0.00 :   11bb2:  mov    0x628(%rsp),%rcx
+    0.00 :   11bba:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   11bc2:  mov    %rax,0x2e8(%rsp)
+    0.00 :   11bca:  lea    0x21533(%rip),%rdx        # 33104 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa53>
+    0.00 :   11bd1:  lea    0x140(%rsp),%rdi
+    0.00 :   11bd9:  lea    0x2e0(%rsp),%r8
+    0.00 :   11be1:  mov    $0x18,%esi
+    0.00 :   11be6:  mov    $0xb1,%ecx
+    0.00 :   11beb:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11bf0:  mov    0x140(%rsp),%rdx
+    0.00 :   11bf8:  mov    0x148(%rsp),%esi
+    0.00 :   11bff:  lea    0x21c5b(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11c06:  xor    %eax,%eax
+    0.00 :   11c08:  call   7080 <printf@plt>
+    0.00 :   11c0d:  mov    0x33364(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11c14:  mov    (%rax),%rdi
+    0.00 :   11c17:  call   7480 <fflush@plt>
+    0.00 :   11c1c:  mov    0x140(%rsp),%rdi
+    0.00 :   11c24:  cmp    %rbx,%rdi
+    0.00 :   11c27:  je     11c2e <main+0x106e>
+    0.00 :   11c29:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11c2e:  mov    0x88(%rsp),%rax
+    0.00 :   11c36:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11c3e:  lea    0x214d8(%rip),%rdx        # 3311d <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa6c>
+    0.00 :   11c45:  lea    0x140(%rsp),%rdi
+    0.00 :   11c4d:  lea    0x2e0(%rsp),%r8
+    0.00 :   11c55:  mov    $0x17,%esi
+    0.00 :   11c5a:  mov    $0x51,%ecx
+    0.00 :   11c5f:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11c64:  mov    0x140(%rsp),%rdx
+    0.00 :   11c6c:  mov    0x148(%rsp),%esi
+    0.00 :   11c73:  lea    0x21be7(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11c7a:  xor    %eax,%eax
+    0.00 :   11c7c:  call   7080 <printf@plt>
+    0.00 :   11c81:  mov    0x332f0(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11c88:  mov    (%rax),%rdi
+    0.00 :   11c8b:  call   7480 <fflush@plt>
+    0.00 :   11c90:  mov    0x140(%rsp),%rdi
+    0.00 :   11c98:  cmp    %rbx,%rdi
+    0.00 :   11c9b:  je     11ca2 <main+0x10e2>
+    0.00 :   11c9d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11ca2:  mov    0x7d0(%rsp),%rax
+    0.00 :   11caa:  mov    0x7d8(%rsp),%rcx
+    0.00 :   11cb2:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   11cba:  mov    %rax,0x2e8(%rsp)
+    0.00 :   11cc2:  lea    0x2146c(%rip),%rdx        # 33135 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa84>
+    0.00 :   11cc9:  lea    0x140(%rsp),%rdi
+    0.00 :   11cd1:  lea    0x2e0(%rsp),%r8
+    0.00 :   11cd9:  mov    $0x18,%esi
+    0.00 :   11cde:  mov    $0xb1,%ecx
+    0.00 :   11ce3:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11ce8:  mov    0x140(%rsp),%rdx
+    0.00 :   11cf0:  mov    0x148(%rsp),%esi
+    0.00 :   11cf7:  lea    0x21b63(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11cfe:  xor    %eax,%eax
+    0.00 :   11d00:  call   7080 <printf@plt>
+    0.00 :   11d05:  mov    0x3326c(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11d0c:  mov    (%rax),%rdi
+    0.00 :   11d0f:  call   7480 <fflush@plt>
+    0.00 :   11d14:  mov    0x140(%rsp),%rdi
+    0.00 :   11d1c:  cmp    %rbx,%rdi
+    0.00 :   11d1f:  je     11d26 <main+0x1166>
+    0.00 :   11d21:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11d26:  mov    %r15,0x2e0(%rsp)
+    0.00 :   11d2e:  lea    0x21419(%rip),%rdx        # 3314e <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xa9d>
+    0.00 :   11d35:  lea    0x140(%rsp),%rdi
+    0.00 :   11d3d:  lea    0x2e0(%rsp),%r8
+    0.00 :   11d45:  mov    $0x18,%esi
+    0.00 :   11d4a:  mov    $0x61,%ecx
+    0.00 :   11d4f:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11d54:  mov    0x140(%rsp),%rdx
+    0.00 :   11d5c:  mov    0x148(%rsp),%esi
+    0.00 :   11d63:  lea    0x21af7(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11d6a:  xor    %eax,%eax
+    0.00 :   11d6c:  call   7080 <printf@plt>
+    0.00 :   11d71:  mov    0x33200(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11d78:  mov    (%rax),%rdi
+    0.00 :   11d7b:  call   7480 <fflush@plt>
+    0.00 :   11d80:  mov    0x140(%rsp),%rdi
+    0.00 :   11d88:  cmp    %rbx,%rdi
+    0.00 :   11d8b:  je     11d92 <main+0x11d2>
+    0.00 :   11d8d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11d92:  mov    0x7b0(%rsp),%rax
+    0.00 :   11d9a:  mov    0x7b8(%rsp),%rcx
+    0.00 :   11da2:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   11daa:  mov    %rax,0x2e8(%rsp)
+    0.00 :   11db2:  lea    0x213ae(%rip),%rdx        # 33167 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xab6>
+    0.00 :   11db9:  lea    0x140(%rsp),%rdi
+    0.00 :   11dc1:  lea    0x2e0(%rsp),%r8
+    0.00 :   11dc9:  mov    $0x1b,%esi
+    0.00 :   11dce:  mov    $0xb1,%ecx
+    0.00 :   11dd3:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11dd8:  mov    0x140(%rsp),%rdx
+    0.00 :   11de0:  mov    0x148(%rsp),%esi
+    0.00 :   11de7:  lea    0x21a73(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11dee:  xor    %eax,%eax
+    0.00 :   11df0:  call   7080 <printf@plt>
+    0.00 :   11df5:  mov    0x3317c(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11dfc:  mov    (%rax),%rdi
+    0.00 :   11dff:  call   7480 <fflush@plt>
+    0.00 :   11e04:  mov    0x140(%rsp),%rdi
+    0.00 :   11e0c:  cmp    %rbx,%rdi
+    0.00 :   11e0f:  je     11e16 <main+0x1256>
+    0.00 :   11e11:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11e16:  mov    0x2d0(%rsp),%rax
+    0.00 :   11e1e:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11e26:  lea    0x21356(%rip),%rdx        # 33183 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xad2>
+    0.00 :   11e2d:  lea    0x140(%rsp),%rdi
+    0.00 :   11e35:  lea    0x2e0(%rsp),%r8
+    0.00 :   11e3d:  mov    $0x11,%esi
+    0.00 :   11e42:  mov    $0x61,%ecx
+    0.00 :   11e47:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11e4c:  mov    0x140(%rsp),%rdx
+    0.00 :   11e54:  mov    0x148(%rsp),%esi
+    0.00 :   11e5b:  lea    0x219ff(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11e62:  xor    %eax,%eax
+    0.00 :   11e64:  call   7080 <printf@plt>
+    0.00 :   11e69:  mov    0x33108(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11e70:  mov    (%rax),%rdi
+    0.00 :   11e73:  call   7480 <fflush@plt>
+    0.00 :   11e78:  mov    0x140(%rsp),%rdi
+    0.00 :   11e80:  cmp    %rbx,%rdi
+    0.00 :   11e83:  je     11e8a <main+0x12ca>
+    0.00 :   11e85:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11e8a:  mov    0x30(%rsp),%rax
+    0.00 :   11e8f:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11e97:  lea    0x212f7(%rip),%rdx        # 33195 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xae4>
+    0.00 :   11e9e:  lea    0x140(%rsp),%rdi
+    0.00 :   11ea6:  lea    0x2e0(%rsp),%r8
+    0.00 :   11eae:  mov    $0x15,%esi
+    0.00 :   11eb3:  mov    $0x61,%ecx
+    0.00 :   11eb8:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11ebd:  mov    0x140(%rsp),%rdx
+    0.00 :   11ec5:  mov    0x148(%rsp),%esi
+    0.00 :   11ecc:  lea    0x2198e(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11ed3:  xor    %eax,%eax
+    0.00 :   11ed5:  call   7080 <printf@plt>
+    0.00 :   11eda:  mov    0x33097(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11ee1:  mov    (%rax),%rdi
+    0.00 :   11ee4:  call   7480 <fflush@plt>
+    0.00 :   11ee9:  mov    0x140(%rsp),%rdi
+    0.00 :   11ef1:  cmp    %rbx,%rdi
+    0.00 :   11ef4:  je     11efb <main+0x133b>
+    0.00 :   11ef6:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11efb:  mov    0xb8(%rsp),%rax
+    0.00 :   11f03:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11f0b:  lea    0x21299(%rip),%rdx        # 331ab <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xafa>
+    0.00 :   11f12:  lea    0x140(%rsp),%rdi
+    0.00 :   11f1a:  lea    0x2e0(%rsp),%r8
+    0.00 :   11f22:  mov    $0x15,%esi
+    0.00 :   11f27:  mov    $0x61,%ecx
+    0.00 :   11f2c:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11f31:  mov    0x140(%rsp),%rdx
+    0.00 :   11f39:  mov    0x148(%rsp),%esi
+    0.00 :   11f40:  lea    0x2191a(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11f47:  xor    %eax,%eax
+    0.00 :   11f49:  call   7080 <printf@plt>
+    0.00 :   11f4e:  mov    0x33023(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11f55:  mov    (%rax),%rdi
+    0.00 :   11f58:  call   7480 <fflush@plt>
+    0.00 :   11f5d:  mov    0x140(%rsp),%rdi
+    0.00 :   11f65:  cmp    %rbx,%rdi
+    0.00 :   11f68:  je     11f6f <main+0x13af>
+    0.00 :   11f6a:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11f6f:  mov    0x60(%rsp),%rax
+    0.00 :   11f74:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11f7c:  lea    0x2123e(%rip),%rdx        # 331c1 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb10>
+    0.00 :   11f83:  lea    0x140(%rsp),%rdi
+    0.00 :   11f8b:  lea    0x2e0(%rsp),%r8
+    0.00 :   11f93:  mov    $0x15,%esi
+    0.00 :   11f98:  mov    $0x51,%ecx
+    0.00 :   11f9d:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   11fa2:  mov    0x140(%rsp),%rdx
+    0.00 :   11faa:  mov    0x148(%rsp),%esi
+    0.00 :   11fb1:  lea    0x218a9(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   11fb8:  xor    %eax,%eax
+    0.00 :   11fba:  call   7080 <printf@plt>
+    0.00 :   11fbf:  mov    0x32fb2(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   11fc6:  mov    (%rax),%rdi
+    0.00 :   11fc9:  call   7480 <fflush@plt>
+    0.00 :   11fce:  mov    0x140(%rsp),%rdi
+    0.00 :   11fd6:  cmp    %rbx,%rdi
+    0.00 :   11fd9:  je     11fe0 <main+0x1420>
+    0.00 :   11fdb:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   11fe0:  movzbl %r13b,%eax
+    0.00 :   11fe4:  mov    %rax,0x2e0(%rsp)
+    0.00 :   11fec:  lea    0x211e4(%rip),%rdx        # 331d7 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb26>
+    0.00 :   11ff3:  lea    0x140(%rsp),%rdi
+    0.00 :   11ffb:  lea    0x2e0(%rsp),%r8
+    0.00 :   12003:  mov    $0x19,%esi
+    0.00 :   12008:  mov    $0x11,%ecx
+    0.00 :   1200d:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   12012:  mov    0x140(%rsp),%rdx
+    0.00 :   1201a:  mov    0x148(%rsp),%esi
+    0.00 :   12021:  lea    0x21839(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12028:  xor    %eax,%eax
+    0.00 :   1202a:  call   7080 <printf@plt>
+    0.00 :   1202f:  mov    0x32f42(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12036:  mov    (%rax),%rdi
+    0.00 :   12039:  call   7480 <fflush@plt>
+    0.00 :   1203e:  mov    0x140(%rsp),%rdi
+    0.00 :   12046:  cmp    %rbx,%rdi
+    0.00 :   12049:  je     12050 <main+0x1490>
+    0.00 :   1204b:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12050:  mov    %r12,0x2e0(%rsp)
+    0.00 :   12058:  lea    0x21192(%rip),%rdx        # 331f1 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb40>
+    0.00 :   1205f:  lea    0x140(%rsp),%rdi
+    0.00 :   12067:  lea    0x2e0(%rsp),%r8
+    0.00 :   1206f:  mov    $0x18,%esi
+    0.00 :   12074:  mov    $0x61,%ecx
+    0.00 :   12079:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   1207e:  mov    0x140(%rsp),%rdx
+    0.00 :   12086:  mov    0x148(%rsp),%esi
+    0.00 :   1208d:  lea    0x217cd(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12094:  xor    %eax,%eax
+    0.00 :   12096:  call   7080 <printf@plt>
+    0.00 :   1209b:  mov    0x32ed6(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   120a2:  mov    (%rax),%rdi
+    0.00 :   120a5:  call   7480 <fflush@plt>
+    0.00 :   120aa:  mov    0x140(%rsp),%rdi
+    0.00 :   120b2:  cmp    %rbx,%rdi
+    0.00 :   120b5:  je     120bc <main+0x14fc>
+    0.00 :   120b7:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   120bc:  movzbl 0x40(%rsp),%ebp
+    0.00 :   120c1:  mov    %rbp,0x2e0(%rsp)
+    0.00 :   120c9:  lea    0x2113a(%rip),%rdx        # 3320a <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb59>
+    0.00 :   120d0:  lea    0x140(%rsp),%rdi
+    0.00 :   120d8:  lea    0x2e0(%rsp),%r8
+    0.00 :   120e0:  mov    $0x18,%esi
+    0.00 :   120e5:  mov    $0x11,%ecx
+    0.00 :   120ea:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   120ef:  mov    0x140(%rsp),%rdx
+    0.00 :   120f7:  mov    0x148(%rsp),%esi
+    0.00 :   120fe:  lea    0x2175c(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12105:  xor    %eax,%eax
+    0.00 :   12107:  call   7080 <printf@plt>
+    0.00 :   1210c:  mov    0x32e65(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12113:  mov    (%rax),%rdi
+    0.00 :   12116:  call   7480 <fflush@plt>
+    0.00 :   1211b:  mov    0x140(%rsp),%rdi
+    0.00 :   12123:  cmp    %rbx,%rdi
+    0.00 :   12126:  je     1212d <main+0x156d>
+    0.00 :   12128:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1212d:  movzbl 0x2d8(%rsp),%eax
+    0.00 :   12135:  mov    %rax,0x6b0(%rsp)
+    0.00 :   1213d:  mov    %rax,0x2e0(%rsp)
+    0.00 :   12145:  lea    0x210d7(%rip),%rdx        # 33223 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb72>
+    0.00 :   1214c:  lea    0x140(%rsp),%rdi
+    0.00 :   12154:  lea    0x2e0(%rsp),%r8
+    0.00 :   1215c:  mov    $0x18,%esi
+    0.00 :   12161:  mov    $0x11,%ecx
+    0.00 :   12166:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   1216b:  mov    0x140(%rsp),%rdx
+    0.00 :   12173:  mov    0x148(%rsp),%esi
+    0.00 :   1217a:  lea    0x216e0(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12181:  xor    %eax,%eax
+    0.00 :   12183:  call   7080 <printf@plt>
+    0.00 :   12188:  mov    0x32de9(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   1218f:  mov    (%rax),%rdi
+    0.00 :   12192:  call   7480 <fflush@plt>
+    0.00 :   12197:  mov    0x140(%rsp),%rdi
+    0.00 :   1219f:  cmp    %rbx,%rdi
+    0.00 :   121a2:  je     121a9 <main+0x15e9>
+    0.00 :   121a4:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   121a9:  mov    0x430(%rsp),%rax
+    0.00 :   121b1:  mov    0x438(%rsp),%rcx
+    0.00 :   121b9:  mov    %rcx,0x2e0(%rsp)
+    0.00 :   121c1:  mov    %rax,0x2e8(%rsp)
+    0.00 :   121c9:  lea    0x2106c(%rip),%rdx        # 3323c <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb8b>
+    0.00 :   121d0:  lea    0x140(%rsp),%rdi
+    0.00 :   121d8:  lea    0x2e0(%rsp),%r8
+    0.00 :   121e0:  mov    $0x11,%esi
+    0.00 :   121e5:  mov    $0xb1,%ecx
+    0.00 :   121ea:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   121ef:  mov    0x140(%rsp),%rdx
+    0.00 :   121f7:  mov    0x148(%rsp),%esi
+    0.00 :   121fe:  lea    0x2165c(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12205:  xor    %eax,%eax
+    0.00 :   12207:  call   7080 <printf@plt>
+    0.00 :   1220c:  mov    0x32d65(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12213:  mov    (%rax),%rdi
+    0.00 :   12216:  call   7480 <fflush@plt>
+    0.00 :   1221b:  mov    0x140(%rsp),%rdi
+    0.00 :   12223:  cmp    %rbx,%rdi
+    0.00 :   12226:  je     1222d <main+0x166d>
+    0.00 :   12228:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1222d:  lea    0x2101a(%rip),%rdx        # 3324e <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xb9d>
+    0.00 :   12234:  lea    0x140(%rsp),%rdi
+    0.00 :   1223c:  mov    $0xf,%esi
+    0.00 :   12241:  xor    %ecx,%ecx
+    0.00 :   12243:  xor    %r8d,%r8d
+    0.00 :   12246:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   1224b:  mov    %rbp,0x6a8(%rsp)
+    0.00 :   12253:  mov    0x140(%rsp),%rdx
+    0.00 :   1225b:  mov    0x148(%rsp),%esi
+    0.00 :   12262:  lea    0x215f8(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12269:  xor    %eax,%eax
+    0.00 :   1226b:  call   7080 <printf@plt>
+    0.00 :   12270:  mov    0x32d01(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12277:  mov    (%rax),%rdi
+    0.00 :   1227a:  call   7480 <fflush@plt>
+    0.00 :   1227f:  mov    0x140(%rsp),%rdi
+    0.00 :   12287:  cmp    %rbx,%rdi
+    0.00 :   1228a:  je     12291 <main+0x16d1>
+    0.00 :   1228c:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12291:  xorpd  %xmm0,%xmm0
+    0.00 :   12295:  movapd %xmm0,0xe0(%rsp)
+    0.00 :   1229e:  movq   $0x0,0xf0(%rsp)
+    0.00 :   122aa:  test   %r12d,%r12d
+    0.00 :   122ad:  jle    12472 <main+0x18b2>
+    0.00 :   122b3:  mov    0x48(%rsp),%rax
+    0.00 :   122b8:  lea    0x1(%rax),%r15d
+    0.00 :   122bc:  mov    $0x1,%ebp
+    0.00 :   122c1:  movabs $0x7ffffffffffffff0,%rax
+    0.00 :   122cb:  add    $0xc,%rax
+    0.00 :   122cf:  mov    %rax,0x30(%rsp)
+    0.00 :   122d4:  lea    0x20f83(%rip),%r12        # 3325e <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xbad>
+    0.00 :   122db:  mov    %r15,0x60(%rsp)
+    0.00 :   122e0:  jmp    122fc <main+0x173c>
+    0.00 :   122e2:  data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   122f0:  inc    %rbp
+    0.00 :   122f3:  cmp    %rbp,%r15
+    0.00 :   122f6:  je     12472 <main+0x18b2>
+    0.00 :   122fc:  mov    0x8(%rsp),%eax
+    0.00 :   12300:  inc    %eax
+    0.00 :   12302:  cmp    %rax,%rbp
+    0.00 :   12305:  je     122f0 <main+0x1730>
+    0.00 :   12307:  mov    0xe8(%rsp),%r13
+    0.00 :   1230f:  cmp    0xf0(%rsp),%r13
+    0.00 :   12317:  je     1232e <main+0x176e>
+    0.00 :   12319:  mov    %ebp,0x0(%r13)
+    0.00 :   1231d:  add    $0x4,%r13
+    0.00 :   12321:  mov    %r13,0xe8(%rsp)
+    0.00 :   12329:  jmp    123ec <main+0x182c>
+    0.00 :   1232e:  mov    0xe0(%rsp),%rbx
+    0.00 :   12336:  sub    %rbx,%r13
+    0.00 :   12339:  cmp    0x30(%rsp),%r13
+    0.00 :   1233e:  je     13c8d <main+0x30cd>
+    0.00 :   12344:  mov    %r13,%r15
+    0.00 :   12347:  sar    $0x2,%r15
+    0.00 :   1234b:  cmp    $0x1,%r15
+    0.00 :   1234f:  mov    %r15,%rax
+    0.00 :   12352:  adc    $0x0,%rax
+    0.00 :   12356:  lea    (%rax,%r15,1),%r12
+    0.00 :   1235a:  movabs $0x1fffffffffffffff,%rcx
+    0.00 :   12364:  cmp    %rcx,%r12
+    0.00 :   12367:  cmovae %rcx,%r12
+    0.00 :   1236b:  add    %r15,%rax
+    0.00 :   1236e:  cmovb  %rcx,%r12
+    0.00 :   12372:  test   %r12,%r12
+    0.00 :   12375:  je     1245d <main+0x189d>
+    0.00 :   1237b:  lea    0x0(,%r12,4),%rdi
+    0.00 :   12383:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   12388:  mov    %rax,%r14
+    0.00 :   1238b:  mov    %ebp,(%r14,%r15,4)
+    0.00 :   1238f:  test   %r13,%r13
+    0.00 :   12392:  jle    123a2 <main+0x17e2>
+    0.00 :   12394:  mov    %r14,%rdi
+    0.00 :   12397:  mov    %rbx,%rsi
+    0.00 :   1239a:  mov    %r13,%rdx
+    0.00 :   1239d:  call   7140 <memmove@plt>
+    0.00 :   123a2:  test   %rbx,%rbx
+    0.00 :   123a5:  mov    0x60(%rsp),%r15
+    0.00 :   123aa:  je     123b4 <main+0x17f4>
+    0.00 :   123ac:  mov    %rbx,%rdi
+    0.00 :   123af:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   123b4:  lea    (%r14,%r13,1),%rax
+    0.00 :   123b8:  add    $0x4,%rax
+    0.00 :   123bc:  mov    %r14,0xe0(%rsp)
+    0.00 :   123c4:  mov    %rax,0xe8(%rsp)
+    0.00 :   123cc:  lea    (%r14,%r12,4),%rax
+    0.00 :   123d0:  mov    %rax,0xf0(%rsp)
+    0.00 :   123d8:  lea    0x150(%rsp),%rbx
+    0.00 :   123e0:  mov    0x58(%rsp),%r14
+    0.00 :   123e5:  lea    0x20e72(%rip),%r12        # 3325e <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xbad>
+    0.00 :   123ec:  mov    %rbp,0x2e0(%rsp)
+    0.00 :   123f4:  mov    $0xa,%esi
+    0.00 :   123f9:  mov    $0x31,%ecx
+    0.00 :   123fe:  lea    0x140(%rsp),%rdi
+    0.00 :   12406:  mov    %r12,%rdx
+    0.00 :   12409:  lea    0x2e0(%rsp),%r8
+    0.00 :   12411:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   12416:  mov    0x140(%rsp),%rdx
+    0.00 :   1241e:  mov    0x148(%rsp),%esi
+    0.00 :   12425:  lea    0x21435(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   1242c:  xor    %eax,%eax
+    0.00 :   1242e:  call   7080 <printf@plt>
+    0.00 :   12433:  mov    0x32b3e(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   1243a:  mov    (%rax),%rdi
+    0.00 :   1243d:  call   7480 <fflush@plt>
+    0.00 :   12442:  mov    0x140(%rsp),%rdi
+    0.00 :   1244a:  cmp    %rbx,%rdi
+    0.00 :   1244d:  je     122f0 <main+0x1730>
+    0.00 :   12453:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12458:  jmp    122f0 <main+0x1730>
+    0.00 :   1245d:  xor    %r14d,%r14d
+    0.00 :   12460:  mov    %ebp,(%r14,%r15,4)
+    0.00 :   12464:  test   %r13,%r13
+    0.00 :   12467:  jg     12394 <main+0x17d4>
+    0.00 :   1246d:  jmp    123a2 <main+0x17e2>
+    0.00 :   12472:  mov    0x8(%rsp),%esi
+    0.00 :   12476:  inc    %esi
+    0.00 :   12478:  lea    0xb0(%rsp),%rdi
+    0.00 :   12480:  lea    0xe0(%rsp),%rdx
+    0.00 :   12488:  xor    %ecx,%ecx
+    0.00 :   1248a:  xor    %r8d,%r8d
+    0.00 :   1248d:  call   77a0 <dory::Consensus::Consensus(int, std::vector<int, std::allocator<int> >&, int, dory::ThreadBank)@plt>
+    0.00 :   12492:  xorpd  %xmm0,%xmm0
+    0.00 :   12496:  movapd %xmm0,0x680(%rsp)
+    0.00 :   1249f:  lea    0x1eba(%rip),%rax        # 14360 <std::_Function_handler<void (bool, unsigned char*, unsigned long), main::$_0>::_M_invoke(std::_Any_data const&, bool&&, unsigned char*&&, unsigned long&&)>
+    0.00 :   124a6:  mov    %rax,0x698(%rsp)
+    0.00 :   124ae:  lea    0x1ebb(%rip),%rax        # 14370 <std::_Function_handler<void (bool, unsigned char*, unsigned long), main::$_0>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   124b5:  mov    %rax,0x690(%rsp)
+    0.00 :   124bd:  lea    0xb0(%rsp),%rdi
+    0.00 :   124c5:  lea    0x680(%rsp),%rsi
+    0.00 :   124cd:  call   7720 <dory::Consensus::commitHandler(std::function<void (bool, unsigned char*, unsigned long)>)@plt>
+    0.00 :   124d2:  mov    0x50(%rsp),%rbx
+    0.00 :   124d7:  mov    0x690(%rsp),%rax
+    0.00 :   124df:  test   %rax,%rax
+    0.00 :   124e2:  je     124f6 <main+0x1936>
+    0.00 :   124e4:  lea    0x680(%rsp),%rdi
+    0.00 :   124ec:  mov    %rdi,%rsi
+    0.00 :   124ef:  mov    $0x3,%edx
+    0.00 :   124f4:  call   *%rax
+    0.00 :   124f6:  mov    $0x1f9c0,%edi
+    0.00 :   124fb:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   12500:  mov    %rax,0x98(%rsp)
+    0.00 :   12508:  mov    %rax,0xa0(%rsp)
+    0.00 :   12510:  add    $0x1f9c0,%rax
+    0.00 :   12516:  mov    %rax,0xa8(%rsp)
+    0.00 :   1251e:  xorpd  %xmm0,%xmm0
+    0.00 :   12522:  movapd %xmm0,0x660(%rsp)
+    0.00 :   1252b:  movq   $0x0,0x670(%rsp)
+    0.00 :   12537:  mov    %r14,0x678(%rsp)
+    0.00 :   1253f:  lea    0x6c0(%rsp),%rdi
+    0.00 :   12547:  lea    0x660(%rsp),%rsi
+    0.00 :   1254f:  mov    $0x1f9c,%edx
+    0.00 :   12554:  mov    %rbx,%rcx
+    0.00 :   12557:  call   188d0 <WorkloadGenerator::generate(unsigned long, unsigned long)>
+    0.00 :   1255c:  xor    %r14d,%r14d
+    0.00 :   1255f:  jmp    12599 <main+0x19d9>
+    0.00 :   12561:  data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   12570:  movl   $0x8,(%r12)
+    0.00 :   12578:  mov    %rbx,0x8(%r12)
+    0.00 :   1257d:  add    $0x10,%r12
+    0.00 :   12581:  mov    %r12,0xa0(%rsp)
+    0.00 :   12589:  inc    %r14
+    0.00 :   1258c:  cmp    $0x1f9c,%r14
+    0.00 :   12593:  je     12694 <main+0x1ad4>
+    0.00 :   12599:  mov    $0x8,%edi
+    0.00 :   1259e:  call   7420 <operator new[](unsigned long)@plt>
+    0.00 :   125a3:  mov    %rax,%rbx
+    0.00 :   125a6:  mov    %r14,(%rax)
+    0.00 :   125a9:  mov    0xa0(%rsp),%r12
+    0.00 :   125b1:  cmp    0xa8(%rsp),%r12
+    0.00 :   125b9:  jne    12570 <main+0x19b0>
+    0.00 :   125bb:  mov    0x98(%rsp),%rax
+    0.00 :   125c3:  mov    %r12,%rbp
+    0.00 :   125c6:  mov    %rax,0x30(%rsp)
+    0.00 :   125cb:  sub    %rax,%rbp
+    0.00 :   125ce:  movabs $0x7ffffffffffffff0,%rax
+    0.00 :   125d8:  cmp    %rax,%rbp
+    0.00 :   125db:  je     13c75 <main+0x30b5>
+    0.00 :   125e1:  mov    %rbp,%r15
+    0.00 :   125e4:  sar    $0x4,%r15
+    0.00 :   125e8:  cmp    $0x1,%r15
+    0.00 :   125ec:  mov    %r15,%rax
+    0.00 :   125ef:  adc    $0x0,%rax
+    0.00 :   125f3:  lea    (%rax,%r15,1),%r13
+    0.00 :   125f7:  movabs $0x7ffffffffffffff,%rcx
+    0.00 :   12601:  cmp    %rcx,%r13
+    0.00 :   12604:  cmovae %rcx,%r13
+    0.00 :   12608:  add    %r15,%rax
+    0.00 :   1260b:  cmovb  %rcx,%r13
+    0.00 :   1260f:  shl    $0x4,%r13
+    0.00 :   12613:  mov    %r13,%rdi
+    0.00 :   12616:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   1261b:  movl   $0x8,(%rax,%rbp,1)
+    0.00 :   12622:  shl    $0x4,%r15
+    0.00 :   12626:  mov    %rbx,0x8(%rax,%r15,1)
+    0.00 :   1262b:  mov    %rax,%rbx
+    0.00 :   1262e:  mov    0x30(%rsp),%rdi
+    0.00 :   12633:  cmp    %r12,%rdi
+    0.00 :   12636:  je     12655 <main+0x1a95>
+    0.00 :   12638:  mov    %rax,%rbx
+    0.00 :   1263b:  mov    %rdi,%rcx
+    0.00 :   1263e:  xchg   %ax,%ax
+    0.00 :   12640:  movupd (%rcx),%xmm0
+    0.00 :   12644:  movupd %xmm0,(%rbx)
+    0.00 :   12648:  add    $0x10,%rcx
+    0.00 :   1264c:  add    $0x10,%rbx
+    0.00 :   12650:  cmp    %r12,%rcx
+    0.00 :   12653:  jne    12640 <main+0x1a80>
+    0.00 :   12655:  test   %rdi,%rdi
+    0.00 :   12658:  je     12665 <main+0x1aa5>
+    0.00 :   1265a:  mov    %rax,%r15
+    0.00 :   1265d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12662:  mov    %r15,%rax
+    0.00 :   12665:  add    $0x10,%rbx
+    0.00 :   12669:  mov    %rax,0x98(%rsp)
+    0.00 :   12671:  mov    %rbx,0xa0(%rsp)
+    0.00 :   12679:  add    %r13,%rax
+    0.00 :   1267c:  mov    %rax,0xa8(%rsp)
+    0.00 :   12684:  inc    %r14
+    0.00 :   12687:  cmp    $0x1f9c,%r14
+    0.00 :   1268e:  jne    12599 <main+0x19d9>
+    0.00 :   12694:  mov    0x2d8(%rsp),%rsi
+    0.00 :   1269c:  lea    (%rsi,%rsi,1),%eax
+    0.00 :   1269f:  movzbl %al,%ecx
+    0.00 :   126a2:  movzbl 0x40(%rsp),%edx
+    0.00 :   126a7:  test   %dl,%dl
+    0.00 :   126a9:  mov    $0x2,%eax
+    0.00 :   126ae:  cmovne %ecx,%eax
+    0.00 :   126b1:  test   %sil,%sil
+    0.00 :   126b4:  mov    $0x1,%ecx
+    0.00 :   126b9:  cmove  %eax,%ecx
+    0.00 :   126bc:  test   %dl,%dl
+    0.00 :   126be:  xorpd  %xmm0,%xmm0
+    0.00 :   126c2:  movapd %xmm0,0x410(%rsp)
+    0.00 :   126cb:  lea    0x1cbe(%rip),%rdx        # 14390 <std::_Function_handler<void (), main::$_1>::_M_invoke(std::_Any_data const&)>
+    0.00 :   126d2:  mov    %rdx,0x428(%rsp)
+    0.00 :   126da:  lea    0x1cbf(%rip),%rdx        # 143a0 <std::_Function_handler<void (), main::$_1>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   126e1:  mov    %rdx,0x420(%rsp)
+    0.00 :   126e9:  lea    0xb0(%rsp),%rdx
+    0.00 :   126f1:  mov    %rdx,0x3d0(%rsp)
+    0.00 :   126f9:  lea    0x98(%rsp),%rdx
+    0.00 :   12701:  mov    %rdx,0x3d8(%rsp)
+    0.00 :   12709:  lea    0x1cb0(%rip),%rdx        # 143c0 <std::_Function_handler<void (), main::$_2>::_M_invoke(std::_Any_data const&)>
+    0.00 :   12710:  mov    %rdx,0x3e8(%rsp)
+    0.00 :   12718:  lea    0x1f51(%rip),%rdx        # 14670 <std::_Function_handler<void (), main::$_2>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   1271f:  mov    %rdx,0x3e0(%rsp)
+    0.00 :   12727:  movapd %xmm0,0x790(%rsp)
+    0.00 :   12730:  lea    0x1f69(%rip),%rdx        # 146a0 <std::_Function_handler<void (), main::$_3>::_M_invoke(std::_Any_data const&)>
+    0.00 :   12737:  mov    %rdx,0x7a8(%rsp)
+    0.00 :   1273f:  lea    0x1f6a(%rip),%rdx        # 146b0 <std::_Function_handler<void (), main::$_3>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   12746:  mov    %rdx,0x7a0(%rsp)
+    0.00 :   1274e:  movapd %xmm0,0x100(%rsp)
+    0.00 :   12757:  lea    0x1f72(%rip),%rdx        # 146d0 <std::_Function_handler<void (std::tuple<double, double, double, double>*), main::$_4>::_M_invoke(std::_Any_data const&, std::tuple<double, double, double, double>*&&)>
+    0.00 :   1275e:  mov    %rdx,0x118(%rsp)
+    0.00 :   12766:  lea    0x2143(%rip),%rdx        # 148b0 <std::_Function_handler<void (std::tuple<double, double, double, double>*), main::$_4>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   1276d:  mov    %rdx,0x110(%rsp)
+    0.00 :   12775:  movapd %xmm0,0x770(%rsp)
+    0.00 :   1277e:  lea    0x214b(%rip),%rdx        # 148d0 <std::_Function_handler<void (), main::$_5>::_M_invoke(std::_Any_data const&)>
+    0.00 :   12785:  mov    %rdx,0x788(%rsp)
+    0.00 :   1278d:  lea    0x214c(%rip),%rdx        # 148e0 <std::_Function_handler<void (), main::$_5>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)>
+    0.00 :   12794:  mov    %rdx,0x780(%rsp)
+    0.00 :   1279c:  cmovne %eax,%ecx
+    0.00 :   1279f:  mov    %cl,0xf(%rsp)
+    0.00 :   127a3:  mov    %cl,0x2e0(%rsp)
+    0.00 :   127aa:  lea    0x2e8(%rsp),%r14
+    0.00 :   127b2:  lea    0x318(%rsp),%rax
+    0.00 :   127ba:  mov    %rax,0x2e8(%rsp)
+    0.00 :   127c2:  movq   $0x1,0x2f0(%rsp)
+    0.00 :   127ce:  movupd %xmm0,0x2f8(%rsp)
+    0.00 :   127d7:  movl   $0x3f800000,0x308(%rsp)
+    0.00 :   127e2:  movupd %xmm0,0x310(%rsp)
+    0.00 :   127eb:  lea    0x320(%rsp),%r15
+    0.00 :   127f3:  lea    0x350(%rsp),%rax
+    0.00 :   127fb:  mov    %rax,0x320(%rsp)
+    0.00 :   12803:  movq   $0x1,0x328(%rsp)
+    0.00 :   1280f:  movupd %xmm0,0x330(%rsp)
+    0.00 :   12818:  movl   $0x3f800000,0x340(%rsp)
+    0.00 :   12823:  movupd %xmm0,0x348(%rsp)
+    0.00 :   1282c:  lea    0x358(%rsp),%r13
+    0.00 :   12834:  lea    0x388(%rsp),%rax
+    0.00 :   1283c:  mov    %rax,0x358(%rsp)
+    0.00 :   12844:  movq   $0x1,0x360(%rsp)
+    0.00 :   12850:  movupd %xmm0,0x368(%rsp)
+    0.00 :   12859:  movl   $0x3f800000,0x378(%rsp)
+    0.00 :   12864:  movupd %xmm0,0x380(%rsp)
+    0.00 :   1286d:  movupd %xmm0,0x390(%rsp)
+    0.00 :   12876:  movupd %xmm0,0x3a0(%rsp)
+    0.00 :   1287f:  movabs $0x1f9c00000,%rbx
+    0.00 :   12889:  mov    %rbx,%rdi
+    0.00 :   1288c:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   12891:  mov    %rax,%rbp
+    0.00 :   12894:  mov    %rax,%rdi
+    0.00 :   12897:  xor    %esi,%esi
+    0.00 :   12899:  mov    %rbx,%rdx
+    0.00 :   1289c:  call   72e0 <memset@plt>
+    0.00 :   128a1:  mov    %rbp,0x390(%rsp)
+    0.00 :   128a9:  add    %rbx,%rbp
+    0.00 :   128ac:  mov    %rbp,0x398(%rsp)
+    0.00 :   128b4:  mov    %rbp,0x3a0(%rsp)
+    0.00 :   128bc:  lea    0x848(%rsp),%rdi
+    0.00 :   128c4:  mov    0x50(%rsp),%r13
+    0.00 :   128c9:  mov    %r13d,%esi
+    0.00 :   128cc:  mov    0x58(%rsp),%rdx
+    0.00 :   128d1:  call   18de0 <State<float>::State(int, unsigned long)>
+    0.00 :   128d6:  lea    0x848(%rsp),%rdi
+    0.00 :   128de:  movss  0x1f71e(%rip),%xmm0        # 32004 <_IO_stdin_used+0x4>
+    0.00 :   128e6:  movss  0x1f71a(%rip),%xmm1        # 32008 <_IO_stdin_used+0x8>
+    0.00 :   128ee:  call   18eb0 <State<float>::populate_random_state_matrix(float, float)>
+    0.00 :   128f3:  mov    0x48(%rsp),%r12
+    0.00 :   128f8:  mov    0x88(%rsp),%rbp
+    0.00 :   12900:  lea    0x0(,%r13,8),%rax
+    0.00 :   12908:  movabs $0x1fffffffffffffff,%rcx
+    0.00 :   12912:  cmp    %rcx,%r13
+    0.00 :   12915:  mov    $0xffffffffffffffff,%rdi
+    0.00 :   1291c:  cmovbe %rax,%rdi
+    0.00 :   12920:  call   7420 <operator new[](unsigned long)@plt>
+    0.00 :   12925:  mov    %rax,0x40(%rsp)
+    0.00 :   1292a:  test   %r13d,%r13d
+    0.00 :   1292d:  jle    12969 <main+0x1da9>
+    0.00 :   1292f:  mov    0x58(%rsp),%rbx
+    0.00 :   12934:  imul   %rbx,%rbx
+    0.00 :   12938:  shl    $0x2,%rbx
+    0.00 :   1293c:  mov    %r13d,%r15d
+    0.00 :   1293f:  mov    0x40(%rsp),%r14
+    0.00 :   12944:  data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   12950:  mov    %r14,%rdi
+    0.00 :   12953:  mov    %rbx,%rsi
+    0.00 :   12956:  mov    $0x1,%edx
+    0.00 :   1295b:  call   7810 <cudaMallocManaged@plt>
+    0.00 :   12960:  add    $0x8,%r14
+    0.00 :   12964:  dec    %r15
+    0.00 :   12967:  jne    12950 <main+0x1d90>
+    0.00 :   12969:  lea    0xaf8(%rsp),%r14
+    0.00 :   12971:  mov    %r14,%rdi
+    0.00 :   12974:  mov    0x58(%rsp),%rbx
+    0.00 :   12979:  mov    %rbx,%rsi
+    0.00 :   1297c:  mov    %r13,%rdx
+    0.00 :   1297f:  mov    0x40(%rsp),%r15
+    0.00 :   12984:  mov    %r15,%rcx
+    0.00 :   12987:  call   19000 <CpuExecutor::CpuExecutor(unsigned long, unsigned long, float**)>
+    0.00 :   1298c:  lea    0xb78(%rsp),%rdi
+    0.00 :   12994:  mov    %rbx,%rsi
+    0.00 :   12997:  mov    %r13,%rdx
+    0.00 :   1299a:  mov    %r15,%rcx
+    0.00 :   1299d:  call   19250 <GpuExecutor::GpuExecutor(unsigned long, unsigned long, float**)>
+    0.00 :   129a2:  lea    0xb78(%rsp),%r15
+    0.00 :   129aa:  lea    0x848(%rsp),%rsi
+    0.00 :   129b2:  mov    %r15,%rdi
+    0.00 :   129b5:  call   19650 <GpuExecutor::load_state(State<float> const&)>
+    0.00 :   129ba:  movb   $0x1,0xe(%rsp)
+    0.00 :   129bf:  movq   $0x2,0x10(%rsp)
+    0.00 :   129c8:  movb   $0x0,0x29(%rsp)
+    0.00 :   129cd:  movq   $0x0,0x20(%rsp)
+    0.00 :   129d6:  mov    $0x40,%edi
+    0.00 :   129db:  mov    $0x40,%esi
+    0.00 :   129e0:  call   7a50 <operator new[](unsigned long, std::align_val_t)@plt>
+    0.00 :   129e5:  xorpd  %xmm0,%xmm0
+    0.00 :   129e9:  movapd %xmm0,0x30(%rax)
+    0.00 :   129ee:  movapd %xmm0,0x20(%rax)
+    0.00 :   129f3:  movapd %xmm0,0x10(%rax)
+    0.00 :   129f8:  movapd %xmm0,(%rax)
+    0.00 :   129fc:  mov    %rax,0x18(%rsp)
+    0.00 :   12a01:  lea    0x20861(%rip),%rdx        # 33269 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xbb8>
+    0.00 :   12a08:  lea    0x140(%rsp),%rdi
+    0.00 :   12a10:  mov    $0x36,%esi
+    0.00 :   12a15:  xor    %ecx,%ecx
+    0.00 :   12a17:  xor    %r8d,%r8d
+    0.00 :   12a1a:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   12a1f:  mov    0x140(%rsp),%rdx
+    0.00 :   12a27:  mov    0x148(%rsp),%esi
+    0.00 :   12a2e:  lea    0x20e2c(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12a35:  xor    %eax,%eax
+    0.00 :   12a37:  call   7080 <printf@plt>
+    0.00 :   12a3c:  mov    0x32535(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12a43:  mov    (%rax),%rdi
+    0.00 :   12a46:  call   7480 <fflush@plt>
+    0.00 :   12a4b:  mov    0x140(%rsp),%rdi
+    0.00 :   12a53:  lea    0x150(%rsp),%rax
+    0.00 :   12a5b:  cmp    %rax,%rdi
+    0.00 :   12a5e:  je     12a65 <main+0x1ea5>
+    0.00 :   12a60:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12a65:  movq   $0x0,0x6b8(%rsp)
+    0.00 :   12a71:  movl   $0x0,0x6c(%rsp)
+    0.00 :   12a79:  movq   $0x0,0x90(%rsp)
+    0.00 :   12a85:  mov    $0x68,%edi
+    0.00 :   12a8a:  call   7130 <operator new(unsigned long)@plt>
+    0.00 :   12a8f:  lea    0x31e02(%rip),%rcx        # 44898 <std::thread::_State::~_State()@GLIBCXX_3.4.22>
+    0.00 :   12a96:  mov    %rcx,(%rax)
+    0.00 :   12a99:  lea    0xe(%rsp),%rcx
+    0.00 :   12a9e:  mov    %rcx,0x8(%rax)
+    0.00 :   12aa2:  lea    0x10(%rsp),%rcx
+    0.00 :   12aa7:  mov    %rcx,0x10(%rax)
+    0.00 :   12aab:  lea    0x8(%rsp),%rcx
+    0.00 :   12ab0:  mov    %rcx,0x18(%rax)
+    0.00 :   12ab4:  lea    0xb8(%rsp),%rcx
+    0.00 :   12abc:  mov    %rcx,0x20(%rax)
+    0.00 :   12ac0:  lea    0x6b8(%rsp),%rcx
+    0.00 :   12ac8:  mov    %rcx,0x28(%rax)
+    0.00 :   12acc:  lea    0x6c0(%rsp),%rcx
+    0.00 :   12ad4:  mov    %rcx,0x30(%rax)
+    0.00 :   12ad8:  lea    0x2e0(%rsp),%rcx
+    0.00 :   12ae0:  mov    %rcx,0x38(%rax)
+    0.00 :   12ae4:  lea    0x430(%rsp),%rcx
+    0.00 :   12aec:  mov    %rcx,0x40(%rax)
+    0.00 :   12af0:  lea    0xf(%rsp),%rcx
+    0.00 :   12af5:  mov    %rcx,0x48(%rax)
+    0.00 :   12af9:  mov    %r14,0x50(%rax)
+    0.00 :   12afd:  lea    0x6c(%rsp),%rcx
+    0.00 :   12b02:  mov    %rcx,0x58(%rax)
+    0.00 :   12b06:  mov    %r15,0x60(%rax)
+    0.00 :   12b0a:  mov    %rax,0x140(%rsp)
+    0.00 :   12b12:  lea    0x3e77(%rip),%rdx        # 16990 <std::thread::_M_thread_deps_never_run()>
+    0.00 :   12b19:  lea    0x90(%rsp),%rdi
+    0.00 :   12b21:  lea    0x140(%rsp),%rsi
+    0.00 :   12b29:  call   76d0 <std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State> >, void (*)())@plt>
+    0.00 :   12b2e:  mov    0x140(%rsp),%rdi
+    0.00 :   12b36:  test   %rdi,%rdi
+    0.00 :   12b39:  lea    0x150(%rsp),%rbx
+    0.00 :   12b41:  je     12b49 <main+0x1f89>
+    0.00 :   12b43:  mov    (%rdi),%rax
+    0.00 :   12b46:  call   *0x8(%rax)
+    0.00 :   12b49:  lea    0x20750(%rip),%rdx        # 332a0 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xbef>
+    0.00 :   12b50:  lea    0x140(%rsp),%rdi
+    0.00 :   12b58:  mov    $0x15,%esi
+    0.00 :   12b5d:  xor    %ecx,%ecx
+    0.00 :   12b5f:  xor    %r8d,%r8d
+    0.00 :   12b62:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   12b67:  mov    0x140(%rsp),%rdx
+    0.00 :   12b6f:  mov    0x148(%rsp),%esi
+    0.00 :   12b76:  lea    0x20ce4(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   12b7d:  xor    %eax,%eax
+    0.00 :   12b7f:  call   7080 <printf@plt>
+    0.00 :   12b84:  mov    0x323ed(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   12b8b:  mov    (%rax),%rdi
+    0.00 :   12b8e:  call   7480 <fflush@plt>
+    0.00 :   12b93:  mov    0x140(%rsp),%rdi
+    0.00 :   12b9b:  cmp    %rbx,%rdi
+    0.00 :   12b9e:  je     12ba5 <main+0x1fe5>
+    0.00 :   12ba0:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   12ba5:  mov    0x323c4(%rip),%rbx        # 44f70 <std::cout@GLIBCXX_3.4>
+    0.00 :   12bac:  lea    0x20703(%rip),%rsi        # 332b6 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc05>
+    0.00 :   12bb3:  mov    $0xe,%edx
+    0.00 :   12bb8:  mov    %rbx,%rdi
+    0.00 :   12bbb:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   12bc0:  mov    (%rbx),%rax
+    0.00 :   12bc3:  mov    -0x18(%rax),%rax
+    0.00 :   12bc7:  mov    0xf0(%rbx,%rax,1),%rbx
+    0.00 :   12bcf:  test   %rbx,%rbx
+    0.00 :   12bd2:  je     13cac <main+0x30ec>
+    0.00 :   12bd8:  cmpb   $0x0,0x38(%rbx)
+    0.00 :   12bdc:  je     12be4 <main+0x2024>
+    0.00 :   12bde:  movzbl 0x43(%rbx),%eax
+    0.00 :   12be2:  jmp    12bfa <main+0x203a>
+    0.00 :   12be4:  mov    %rbx,%rdi
+    0.00 :   12be7:  call   7440 <std::ctype<char>::_M_widen_init() const@plt>
+    0.00 :   12bec:  mov    (%rbx),%rax
+    0.00 :   12bef:  mov    %rbx,%rdi
+    0.00 :   12bf2:  mov    $0xa,%esi
+    0.00 :   12bf7:  call   *0x30(%rax)
+    0.00 :   12bfa:  movsbl %al,%esi
+    0.00 :   12bfd:  mov    0x3236c(%rip),%rdi        # 44f70 <std::cout@GLIBCXX_3.4>
+    0.00 :   12c04:  call   74f0 <std::ostream::put(char)@plt>
+    0.00 :   12c09:  mov    %rax,%rdi
+    0.00 :   12c0c:  call   7470 <std::ostream::flush()@plt>
+    0.00 :   12c11:  movslq 0x8(%rsp),%rcx
+    0.00 :   12c16:  mov    %r12,%rax
+    0.00 :   12c19:  sub    %rcx,%rax
+    0.00 :   12c1c:  add    $0x2,%rax
+    0.00 :   12c20:  test   %rax,%rax
+    0.00 :   12c23:  mov    0x2d0(%rsp),%r12
+    0.00 :   12c2b:  jle    12c6a <main+0x20aa>
+    0.00 :   12c2d:  mov    %rax,0x140(%rsp)
+    0.00 :   12c35:  movq   $0x0,0x148(%rsp)
+    0.00 :   12c41:  lea    0x140(%rsp),%rbx
+    0.00 :   12c49:  nopl   0x0(%rax)
+    0.00 :   12c50:  mov    %rbx,%rdi
+    0.00 :   12c53:  mov    %rbx,%rsi
+    0.00 :   12c56:  call   79b0 <nanosleep@plt>
+    0.00 :   12c5b:  cmp    $0xffffffff,%eax
+    0.00 :   12c5e:  jne    12c6a <main+0x20aa>
+    0.00 :   12c60:  call   7940 <__errno_location@plt>
+    0.00 :   12c65:  cmpl   $0x4,(%rax)
+    0.00 :   12c68:  je     12c50 <main+0x2090>
+    0.00 :   12c6a:  imul   $0xf4240,%rbp,%rdi
+    0.00 :   12c71:  mfence
+    0.00 :   12c74:  rdtscp
+    0.00 :   12c77:  mov    %edx,%r8d
+    0.00 :   12c7a:  neg    %r8d
+    0.00 :   12c7d:  shl    $0x20,%r8
+    0.00 :   12c81:  mov    %eax,%esi
+    0.00 :   12c83:  rdtscp
+    0.00 :   12c86:  lfence
+    0.00 :   12c89:  shl    $0x20,%rdx
+    0.00 :   12c8d:  mov    %eax,%eax
+    0.00 :   12c8f:  add    %rdx,%rax
+    0.00 :   12c92:  sub    %rsi,%r8
+    0.00 :   12c95:  add    %r8,%rax
+    0.00 :   12c98:  movq   %rax,%xmm0
+    0.00 :   12c9d:  movdqa 0x1fa9b(%rip),%xmm3        # 32740 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x8f>
+    0.00 :   12ca5:  punpckldq %xmm3,%xmm0
+    0.00 :   12ca9:  movapd 0x1fa9f(%rip),%xmm1        # 32750 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x9f>
+    0.00 :   12cb1:  subpd  %xmm1,%xmm0
+    0.00 :   12cb5:  movapd %xmm0,%xmm2
+    0.00 :   12cb9:  unpckhpd %xmm0,%xmm2
+    0.00 :   12cbd:  addsd  %xmm0,%xmm2
+    0.00 :   12cc1:  divsd  0x1fb27(%rip),%xmm2        # 327f0 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x13f>
+    0.00 :   12cc9:  mov    %rdi,0x88(%rsp)
+    0.00 :   12cd1:  movq   %rdi,%xmm0
+    0.00 :   12cd6:  punpckldq %xmm3,%xmm0
+    0.00 :   12cda:  subpd  %xmm1,%xmm0
+    0.00 :   12cde:  movapd %xmm0,%xmm1
+    0.00 :   12ce2:  unpckhpd %xmm0,%xmm1
+    0.00 :   12ce6:  addsd  %xmm0,%xmm1
+    0.00 :   12cea:  movapd %xmm1,0x30(%rsp)
+    0.00 :   12cf0:  ucomisd %xmm2,%xmm1
+    0.00 :   12cf4:  jbe    13106 <main+0x2546>
+    0.00 :   12cfa:  lea    0x29(%rsp),%rax
+    0.00 :   12cff:  and    $0x38,%eax
+    0.00 :   12d02:  shl    $0x5,%eax
+    0.00 :   12d05:  lea    0x33834(%rip),%rcx        # 46540 <std::__detail::__waiter_pool_base::_S_for(void const*)::__w>
+    0.00 :   12d0c:  lea    (%rcx,%rax,1),%rbx
+    0.00 :   12d10:  lea    (%rax,%rcx,1),%r14
+    0.00 :   12d14:  add    $0x40,%r14
+    0.00 :   12d18:  xor    %ebp,%ebp
+    0.00 :   12d1a:  mov    %r8,0x60(%rsp)
+    0.00 :   12d1f:  jmp    12d7b <main+0x21bb>
+    0.00 :   12d21:  data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   12d30:  rdtscp
+   58.02 :   12d33:  lfence
+    0.00 :   12d36:  shl    $0x20,%rdx
+   10.96 :   12d3a:  mov    %eax,%eax
+    0.00 :   12d3c:  add    %r8,%rax
+    0.88 :   12d3f:  add    %rdx,%rax
+    0.87 :   12d42:  movq   %rax,%xmm0
+    0.00 :   12d47:  punpckldq 0x1f9f1(%rip),%xmm0        # 32740 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x8f>
+    6.43 :   12d4f:  subpd  0x1f9f9(%rip),%xmm0        # 32750 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x9f>
+    1.19 :   12d57:  movapd %xmm0,%xmm1
+    0.00 :   12d5b:  unpckhpd %xmm0,%xmm1
+    4.02 :   12d5f:  addsd  %xmm0,%xmm1
+    1.30 :   12d63:  divsd  0x1fa85(%rip),%xmm1        # 327f0 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x13f>
+   12.87 :   12d6b:  movapd 0x30(%rsp),%xmm0
+    0.00 :   12d71:  ucomisd %xmm1,%xmm0
+    1.72 :   12d75:  jbe    13106 <main+0x2546>
+    1.75 :   12d7b:  test   %r12,%r12
+    0.00 :   12d7e:  je     12d30 <main+0x2170>
+    0.00 :   12d80:  cmpl   $0x0,0x8(%rsp)
+    0.00 :   12d85:  jne    12d30 <main+0x2170>
+    0.00 :   12d87:  xor    %eax,%eax
+    0.00 :   12d89:  xor    %r15d,%r15d
+    0.00 :   12d8c:  test   %eax,%eax
+    0.00 :   12d8e:  jne    130f0 <main+0x2530>
+    0.00 :   12d94:  jmp    12dac <main+0x21ec>
+    0.00 :   12d96:  cs nopw 0x0(%rax,%rax,1)
+    0.00 :   12da0:  mov    0x8(%rsp),%eax
+    0.00 :   12da4:  test   %eax,%eax
+    0.00 :   12da6:  jne    130f0 <main+0x2530>
+    0.00 :   12dac:  mov    %ebp,%eax
+    0.00 :   12dae:  cmp    %rax,0xb8(%rsp)
+    0.00 :   12db6:  ja     12f95 <main+0x23d5>
+    0.00 :   12dbc:  mov    0xf8(%rsp),%rax
+    0.00 :   12dc4:  mov    %rax,0x140(%rsp)
+    0.00 :   12dcc:  mov    $0x8,%esi
+    0.00 :   12dd1:  mov    $0xc70f6907,%edx
+    0.00 :   12dd6:  lea    0x140(%rsp),%rdi
+    0.00 :   12dde:  call   7430 <std::_Hash_bytes(void const*, unsigned long, unsigned long)@plt>
+    0.00 :   12de3:  movzbl 0x29(%rsp),%ebp
+    0.00 :   12de8:  lea    0x2(%rbp),%esi
+    0.00 :   12deb:  mov    0x10(%rsp),%rdi
+    0.00 :   12df0:  cmp    $0x2,%rdi
+    0.00 :   12df4:  jae    12fc0 <main+0x2400>
+    0.00 :   12dfa:  mov    0x20(%rsp),%rax
+    0.00 :   12dff:  add    %rdi,%rax
+    0.00 :   12e02:  mov    %rax,0x10(%rsp)
+    0.00 :   12e07:  movq   $0x0,0x20(%rsp)
+    0.00 :   12e10:  mov    %sil,0x29(%rsp)
+    0.00 :   12e15:  lock incl (%r14)
+    0.00 :   12e19:  mov    (%rbx),%eax
+    0.00 :   12e1b:  test   %eax,%eax
+    0.00 :   12e1d:  je     12e38 <main+0x2278>
+    0.00 :   12e1f:  mov    $0xca,%edi
+    0.00 :   12e24:  mov    %r14,%rsi
+    0.00 :   12e27:  mov    $0x1,%edx
+    0.00 :   12e2c:  mov    $0x7fffffff,%ecx
+    0.00 :   12e31:  xor    %eax,%eax
+    0.00 :   12e33:  call   71d0 <syscall@plt>
+    0.00 :   12e38:  lock incl (%rbx)
+    0.00 :   12e3b:  jmp    12e4e <main+0x228e>
+    0.00 :   12e3d:  nopl   (%rax)
+    0.00 :   12e40:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e45:  cmp    %bpl,%al
+    0.00 :   12e48:  jne    12f90 <main+0x23d0>
+    0.00 :   12e4e:  mov    (%r14),%r13d
+    0.00 :   12e51:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e56:  cmp    %bpl,%al
+    0.00 :   12e59:  jne    12f90 <main+0x23d0>
+    0.00 :   12e5f:  pause
+    0.00 :   12e61:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e66:  cmp    %bpl,%al
+    0.00 :   12e69:  jne    12f90 <main+0x23d0>
+    0.00 :   12e6f:  pause
+    0.00 :   12e71:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e76:  cmp    %bpl,%al
+    0.00 :   12e79:  jne    12f90 <main+0x23d0>
+    0.00 :   12e7f:  pause
+    0.00 :   12e81:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e86:  cmp    %bpl,%al
+    0.00 :   12e89:  jne    12f90 <main+0x23d0>
+    0.00 :   12e8f:  pause
+    0.00 :   12e91:  movzbl 0x29(%rsp),%eax
+    0.00 :   12e96:  cmp    %bpl,%al
+    0.00 :   12e99:  jne    12f90 <main+0x23d0>
+    0.00 :   12e9f:  pause
+    0.00 :   12ea1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12ea6:  cmp    %bpl,%al
+    0.00 :   12ea9:  jne    12f90 <main+0x23d0>
+    0.00 :   12eaf:  pause
+    0.00 :   12eb1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12eb6:  cmp    %bpl,%al
+    0.00 :   12eb9:  jne    12f90 <main+0x23d0>
+    0.00 :   12ebf:  pause
+    0.00 :   12ec1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12ec6:  cmp    %bpl,%al
+    0.00 :   12ec9:  jne    12f90 <main+0x23d0>
+    0.00 :   12ecf:  pause
+    0.00 :   12ed1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12ed6:  cmp    %bpl,%al
+    0.00 :   12ed9:  jne    12f90 <main+0x23d0>
+    0.00 :   12edf:  pause
+    0.00 :   12ee1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12ee6:  cmp    %bpl,%al
+    0.00 :   12ee9:  jne    12f90 <main+0x23d0>
+    0.00 :   12eef:  pause
+    0.00 :   12ef1:  movzbl 0x29(%rsp),%eax
+    0.00 :   12ef6:  cmp    %bpl,%al
+    0.00 :   12ef9:  jne    12f90 <main+0x23d0>
+    0.00 :   12eff:  pause
+    0.00 :   12f01:  movzbl 0x29(%rsp),%eax
+    0.00 :   12f06:  cmp    %bpl,%al
+    0.00 :   12f09:  jne    12f90 <main+0x23d0>
+    0.00 :   12f0f:  pause
+    0.00 :   12f11:  movzbl 0x29(%rsp),%eax
+    0.00 :   12f16:  cmp    %bpl,%al
+    0.00 :   12f19:  jne    12f90 <main+0x23d0>
+    0.00 :   12f1b:  call   7a60 <sched_yield@plt>
+    0.00 :   12f20:  movzbl 0x29(%rsp),%eax
+    0.00 :   12f25:  cmp    %bpl,%al
+    0.00 :   12f28:  jne    12f90 <main+0x23d0>
+    0.00 :   12f2a:  call   7a60 <sched_yield@plt>
+    0.00 :   12f2f:  movzbl 0x29(%rsp),%eax
+    0.00 :   12f34:  cmp    %bpl,%al
+    0.00 :   12f37:  jne    12f90 <main+0x23d0>
+    0.00 :   12f39:  call   7a60 <sched_yield@plt>
+    0.00 :   12f3e:  movzbl 0x29(%rsp),%eax
+    0.00 :   12f43:  cmp    %bpl,%al
+    0.00 :   12f46:  jne    12f90 <main+0x23d0>
+    0.00 :   12f48:  call   7a60 <sched_yield@plt>
+    0.00 :   12f4d:  mov    $0xca,%edi
+    0.00 :   12f52:  mov    %r14,%rsi
+    0.00 :   12f55:  xor    %edx,%edx
+    0.00 :   12f57:  mov    %r13d,%ecx
+    0.00 :   12f5a:  xor    %r8d,%r8d
+    0.00 :   12f5d:  xor    %eax,%eax
+    0.00 :   12f5f:  call   71d0 <syscall@plt>
+    0.00 :   12f64:  test   %rax,%rax
+    0.00 :   12f67:  je     12e40 <main+0x2280>
+    0.00 :   12f6d:  call   7940 <__errno_location@plt>
+    0.00 :   12f72:  mov    (%rax),%edi
+    0.00 :   12f74:  cmp    $0x4,%edi
+    0.00 :   12f77:  je     12e40 <main+0x2280>
+    0.00 :   12f7d:  cmp    $0xb,%edi
+    0.00 :   12f80:  je     12e40 <main+0x2280>
+    0.00 :   12f86:  jmp    13c5f <main+0x309f>
+    0.00 :   12f8b:  nopl   0x0(%rax,%rax,1)
+    0.00 :   12f90:  lock decl (%rbx)
+    0.00 :   12f93:  xor    %ebp,%ebp
+    0.00 :   12f95:  cmpq   $0x0,0x3e0(%rsp)
+    0.00 :   12f9e:  je     13c5a <main+0x309a>
+    0.00 :   12fa4:  lea    0x3d0(%rsp),%rdi
+    0.00 :   12fac:  call   *0x3e8(%rsp)
+    0.00 :   12fb3:  inc    %ebp
+    0.00 :   12fb5:  jmp    130f0 <main+0x2530>
+    0.00 :   12fba:  nopw   0x0(%rax,%rax,1)
+    0.00 :   12fc0:  mov    %rdi,%rcx
+    0.00 :   12fc3:  inc    %rcx
+    0.00 :   12fc6:  sar    $1,%rcx
+    0.00 :   12fc9:  mov    %rax,%rdx
+    0.00 :   12fcc:  or     %rcx,%rdx
+    0.00 :   12fcf:  shr    $0x20,%rdx
+    0.00 :   12fd3:  je     12fdc <main+0x241c>
+    0.00 :   12fd5:  xor    %edx,%edx
+    0.00 :   12fd7:  div    %rcx
+    0.00 :   12fda:  jmp    12fe0 <main+0x2420>
+    0.00 :   12fdc:  xor    %edx,%edx
+    0.00 :   12fde:  div    %ecx
+    0.00 :   12fe0:  lea    0x1(%rbp),%ecx
+    0.00 :   12fe3:  xor    %r8d,%r8d
+    0.00 :   12fe6:  mov    %rdi,%rax
+    0.00 :   12fe9:  lea    0x1(%rdi),%r9
+    0.00 :   12fed:  mov    %r9,%rdi
+    0.00 :   12ff0:  shr    $1,%rdi
+    0.00 :   12ff3:  test   $0x1,%al
+    0.00 :   12ff5:  jne    13070 <main+0x24b0>
+    0.00 :   12ff7:  cmp    %rdi,%rdx
+    0.00 :   12ffa:  mov    $0x0,%r10d
+    0.00 :   13000:  cmovne %rdx,%r10
+    0.00 :   13004:  mov    %r10,%rdx
+    0.00 :   13007:  shl    $0x6,%rdx
+    0.00 :   1300b:  add    0x18(%rsp),%rdx
+    0.00 :   13010:  mov    %ebp,%eax
+    0.00 :   13012:  lock cmpxchg %cl,(%r8,%rdx,1)
+    0.00 :   13018:  je     12e38 <main+0x2278>
+    0.00 :   1301e:  add    %r8,%rdx
+    0.00 :   13021:  jmp    1305d <main+0x249d>
+    0.00 :   13023:  data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13030:  inc    %r10
+    0.00 :   13033:  cmp    %rdi,%r10
+    0.00 :   13036:  mov    $0x0,%eax
+    0.00 :   1303b:  cmove  %rax,%r10
+    0.00 :   1303f:  mov    %r10,%rdx
+    0.00 :   13042:  shl    $0x6,%rdx
+    0.00 :   13046:  add    0x18(%rsp),%rdx
+    0.00 :   1304b:  mov    %ebp,%eax
+    0.00 :   1304d:  lock cmpxchg %cl,(%r8,%rdx,1)
+    0.00 :   13053:  lea    (%rdx,%r8,1),%rdx
+    0.00 :   13057:  je     12e38 <main+0x2278>
+    0.00 :   1305d:  cmp    %cl,%al
+    0.00 :   1305f:  jne    13030 <main+0x2470>
+    0.00 :   13061:  mov    %ecx,%eax
+    0.00 :   13063:  lock cmpxchg %sil,(%rdx)
+    0.00 :   13068:  jne    13030 <main+0x2470>
+    0.00 :   1306a:  jmp    130d3 <main+0x2513>
+    0.00 :   1306c:  nopl   0x0(%rax)
+    0.00 :   13070:  lea    -0x1(%rdi),%r11
+    0.00 :   13074:  jmp    1308e <main+0x24ce>
+    0.00 :   13076:  cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13080:  lock cmpxchg %sil,(%rdx,%r8,1)
+    0.00 :   13086:  je     130d0 <main+0x2510>
+    0.00 :   13088:  inc    %r10
+    0.00 :   1308b:  mov    %r10,%rdx
+    0.00 :   1308e:  cmp    %rdi,%rdx
+    0.00 :   13091:  mov    $0x0,%r10d
+    0.00 :   13097:  cmovne %rdx,%r10
+    0.00 :   1309b:  mov    %r10,%rdx
+    0.00 :   1309e:  shl    $0x6,%rdx
+    0.00 :   130a2:  add    0x18(%rsp),%rdx
+    0.00 :   130a7:  mov    %ebp,%eax
+    0.00 :   130a9:  cmp    %r11,%r10
+    0.00 :   130ac:  je     13080 <main+0x24c0>
+    0.00 :   130ae:  lock cmpxchg %cl,(%rdx,%r8,1)
+    0.00 :   130b4:  je     12e38 <main+0x2278>
+    0.00 :   130ba:  cmp    %cl,%al
+    0.00 :   130bc:  jne    13088 <main+0x24c8>
+    0.00 :   130be:  mov    %ecx,%eax
+    0.00 :   130c0:  lock cmpxchg %sil,(%rdx,%r8,1)
+    0.00 :   130c6:  jne    13088 <main+0x24c8>
+    0.00 :   130c8:  jmp    130d3 <main+0x2513>
+    0.00 :   130ca:  nopw   0x0(%rax,%rax,1)
+    0.00 :   130d0:  mov    %r11,%r10
+    0.00 :   130d3:  shr    $1,%r10
+    0.00 :   130d6:  inc    %r8
+    0.00 :   130d9:  mov    %r10,%rdx
+    0.00 :   130dc:  cmp    $0x3,%r9
+    0.00 :   130e0:  ja     12fe6 <main+0x2426>
+    0.00 :   130e6:  mov    0x10(%rsp),%rdi
+    0.00 :   130eb:  jmp    12dfa <main+0x223a>
+    0.00 :   130f0:  inc    %r15d
+    0.00 :   130f3:  cmp    %r15,%r12
+    0.00 :   130f6:  ja     12da0 <main+0x21e0>
+    0.00 :   130fc:  mov    0x60(%rsp),%r8
+    0.00 :   13101:  jmp    12d30 <main+0x2170>
+    0.00 :   13106:  movb   $0x0,0xe(%rsp)
+    0.00 :   1310b:  lock decq 0x20(%rsp)
+    0.00 :   13111:  lea    0x10(%rsp),%rdi
+    0.00 :   13116:  mov    $0x1,%esi
+    0.00 :   1311b:  call   2d860 <std::__tree_barrier<std::__empty_completion>::arrive(long)>
+    0.00 :   13120:  lea    0x150(%rsp),%rbx
+    0.00 :   13128:  mov    0x50(%rsp),%r15
+    0.00 :   1312d:  mov    0x58(%rsp),%r14
+    0.00 :   13132:  mov    0x40(%rsp),%r12
+    0.00 :   13137:  lea    0x90(%rsp),%rdi
+    0.00 :   1313f:  call   7b10 <std::thread::join()@plt>
+    0.00 :   13144:  cmpq   $0x0,0x420(%rsp)
+    0.00 :   1314d:  je     13cb1 <main+0x30f1>
+    0.00 :   13153:  lea    0x410(%rsp),%rdi
+    0.00 :   1315b:  call   *0x428(%rsp)
+    0.00 :   13162:  lea    0x2015c(%rip),%rdx        # 332c5 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc14>
+    0.00 :   13169:  lea    0x140(%rsp),%rdi
+    0.00 :   13171:  mov    $0x26,%esi
+    0.00 :   13176:  xor    %ecx,%ecx
+    0.00 :   13178:  xor    %r8d,%r8d
+    0.00 :   1317b:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   13180:  mov    0x140(%rsp),%rdx
+    0.00 :   13188:  mov    0x148(%rsp),%esi
+    0.00 :   1318f:  lea    0x206cb(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   13196:  xor    %eax,%eax
+    0.00 :   13198:  call   7080 <printf@plt>
+    0.00 :   1319d:  mov    0x31dd4(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   131a4:  mov    (%rax),%rdi
+    0.00 :   131a7:  call   7480 <fflush@plt>
+    0.00 :   131ac:  mov    0x140(%rsp),%rdi
+    0.00 :   131b4:  cmp    %rbx,%rdi
+    0.00 :   131b7:  je     131be <main+0x25fe>
+    0.00 :   131b9:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   131be:  cmpl   $0x0,0x8(%rsp)
+    0.00 :   131c3:  jne    13642 <main+0x2a82>
+    0.00 :   131c9:  xorpd  %xmm0,%xmm0
+    0.00 :   131cd:  movapd %xmm0,0x8c0(%rsp)
+    0.00 :   131d6:  movapd %xmm0,0x8b0(%rsp)
+    0.00 :   131df:  movapd %xmm0,0x8a0(%rsp)
+    0.00 :   131e8:  movapd %xmm0,0x890(%rsp)
+    0.00 :   131f1:  lea    0x8b0(%rsp),%rax
+    0.00 :   131f9:  mov    %rax,0x140(%rsp)
+    0.00 :   13201:  cmpq   $0x0,0x110(%rsp)
+    0.00 :   1320a:  je     13cb6 <main+0x30f6>
+    0.00 :   13210:  lea    0x100(%rsp),%rdi
+    0.00 :   13218:  lea    0x140(%rsp),%rsi
+    0.00 :   13220:  call   *0x118(%rsp)
+    0.00 :   13227:  lea    0x890(%rsp),%rax
+    0.00 :   1322f:  mov    %rax,0x140(%rsp)
+    0.00 :   13237:  cmpq   $0x0,0x110(%rsp)
+    0.00 :   13240:  je     13cb6 <main+0x30f6>
+    0.00 :   13246:  lea    0x100(%rsp),%rdi
+    0.00 :   1324e:  lea    0x140(%rsp),%rsi
+    0.00 :   13256:  call   *0x118(%rsp)
+    0.00 :   1325d:  movsd  0x8c8(%rsp),%xmm1
+    0.00 :   13266:  movsd  0x8a8(%rsp),%xmm0
+    0.00 :   1326f:  movsd  %xmm1,0xf8(%rsp)
+    0.00 :   13278:  addsd  %xmm1,%xmm0
+    0.00 :   1327c:  movsd  %xmm0,0x30(%rsp)
+    0.00 :   13282:  mov    0x6c(%rsp),%ebp
+    0.00 :   13286:  lea    0x140(%rsp),%rdi
+    0.00 :   1328e:  call   72d0 <std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::basic_stringstream()@plt>
+    0.00 :   13293:  lea    0x150(%rsp),%rdi
+    0.00 :   1329b:  mov    0x48(%rsp),%rsi
+    0.00 :   132a0:  call   7490 <std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long)@plt>
+    0.00 :   132a5:  mov    %rax,%rbx
+    0.00 :   132a8:  lea    0x2003d(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   132af:  mov    $0x1,%edx
+    0.00 :   132b4:  mov    %rax,%rdi
+    0.00 :   132b7:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   132bc:  mov    %rbx,%rdi
+    0.00 :   132bf:  mov    %r14,%rsi
+    0.00 :   132c2:  call   7490 <std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long)@plt>
+    0.00 :   132c7:  mov    %rax,%rbx
+    0.00 :   132ca:  lea    0x2001b(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   132d1:  mov    $0x1,%edx
+    0.00 :   132d6:  mov    %rax,%rdi
+    0.00 :   132d9:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   132de:  mov    0xb8(%rsp),%rsi
+    0.00 :   132e6:  mov    %rbx,%rdi
+    0.00 :   132e9:  call   7490 <std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long)@plt>
+    0.00 :   132ee:  mov    %rax,%rbx
+    0.00 :   132f1:  lea    0x1fff4(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   132f8:  mov    $0x1,%edx
+    0.00 :   132fd:  mov    %rax,%rdi
+    0.00 :   13300:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   13305:  mov    %rbx,%rdi
+    0.00 :   13308:  mov    0x50(%rsp),%rsi
+    0.00 :   1330d:  call   7490 <std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long)@plt>
+    0.00 :   13312:  mov    %rax,%rbx
+    0.00 :   13315:  lea    0x1ffd0(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   1331c:  mov    $0x1,%edx
+    0.00 :   13321:  mov    %rax,%rdi
+    0.00 :   13324:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   13329:  mov    %rbx,%rdi
+    0.00 :   1332c:  mov    0x6a8(%rsp),%rsi
+    0.00 :   13334:  call   73a0 <std::ostream& std::ostream::_M_insert<bool>(bool)@plt>
+    0.00 :   13339:  mov    %rax,%rbx
+    0.00 :   1333c:  lea    0x1ffa9(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   13343:  mov    $0x1,%edx
+    0.00 :   13348:  mov    %rax,%rdi
+    0.00 :   1334b:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   13350:  mov    %rbx,%rdi
+    0.00 :   13353:  mov    0x6b0(%rsp),%rsi
+    0.00 :   1335b:  call   73a0 <std::ostream& std::ostream::_M_insert<bool>(bool)@plt>
+    0.00 :   13360:  mov    %rax,%rbx
+    0.00 :   13363:  lea    0x1ff82(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   1336a:  mov    $0x1,%edx
+    0.00 :   1336f:  mov    %rax,%rdi
+    0.00 :   13372:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   13377:  mov    0x430(%rsp),%rsi
+    0.00 :   1337f:  mov    0x438(%rsp),%rdx
+    0.00 :   13387:  mov    %rbx,%rdi
+    0.00 :   1338a:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   1338f:  mov    %rax,%rbx
+    0.00 :   13392:  lea    0x1ff53(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   13399:  mov    $0x1,%edx
+    0.00 :   1339e:  mov    %rax,%rdi
+    0.00 :   133a1:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   133a6:  mov    %rbx,%rdi
+    0.00 :   133a9:  movsd  0xf8(%rsp),%xmm0
+    0.00 :   133b2:  call   76e0 <std::ostream& std::ostream::_M_insert<double>(double)@plt>
+    0.00 :   133b7:  mov    %rax,%rbx
+    0.00 :   133ba:  lea    0x1ff2b(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   133c1:  mov    $0x1,%edx
+    0.00 :   133c6:  mov    %rax,%rdi
+    0.00 :   133c9:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   133ce:  mov    %rbx,%rdi
+    0.00 :   133d1:  movsd  0x30(%rsp),%xmm0
+    0.00 :   133d7:  call   76e0 <std::ostream& std::ostream::_M_insert<double>(double)@plt>
+    0.00 :   133dc:  mov    %rax,%rbx
+    0.00 :   133df:  lea    0x1ff06(%rip),%rsi        # 332ec <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3b>
+    0.00 :   133e6:  mov    $0x1,%edx
+    0.00 :   133eb:  mov    %rax,%rdi
+    0.00 :   133ee:  call   78d0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>
+    0.00 :   133f3:  cvtsi2sdq 0x88(%rsp),%xmm1
+    0.00 :   133fd:  movsd  0x1f3f3(%rip),%xmm2        # 327f8 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x147>
+    0.00 :   13405:  divsd  %xmm2,%xmm1
+    0.00 :   13409:  xorps  %xmm0,%xmm0
+    0.00 :   1340c:  cvtsi2sd %ebp,%xmm0
+    0.00 :   13410:  divsd  %xmm1,%xmm0
+    0.00 :   13414:  divsd  %xmm2,%xmm0
+    0.00 :   13418:  mov    %rbx,%rdi
+    0.00 :   1341b:  call   76e0 <std::ostream& std::ostream::_M_insert<double>(double)@plt>
+    0.00 :   13420:  mov    %rax,%rbx
+    0.00 :   13423:  mov    (%rax),%rax
+    0.00 :   13426:  mov    -0x18(%rax),%rax
+    0.00 :   1342a:  mov    0xf0(%rbx,%rax,1),%r14
+    0.00 :   13432:  test   %r14,%r14
+    0.00 :   13435:  je     13cc7 <main+0x3107>
+    0.00 :   1343b:  cmpb   $0x0,0x38(%r14)
+    0.00 :   13440:  je     13449 <main+0x2889>
+    0.00 :   13442:  movzbl 0x43(%r14),%eax
+    0.00 :   13447:  jmp    1345f <main+0x289f>
+    0.00 :   13449:  mov    %r14,%rdi
+    0.00 :   1344c:  call   7440 <std::ctype<char>::_M_widen_init() const@plt>
+    0.00 :   13451:  mov    (%r14),%rax
+    0.00 :   13454:  mov    %r14,%rdi
+    0.00 :   13457:  mov    $0xa,%esi
+    0.00 :   1345c:  call   *0x30(%rax)
+    0.00 :   1345f:  movsbl %al,%esi
+    0.00 :   13462:  mov    %rbx,%rdi
+    0.00 :   13465:  call   74f0 <std::ostream::put(char)@plt>
+    0.00 :   1346a:  mov    %rax,%rdi
+    0.00 :   1346d:  call   7470 <std::ostream::flush()@plt>
+    0.00 :   13472:  lea    0x3c0(%rsp),%r14
+    0.00 :   1347a:  mov    %r14,0x3b0(%rsp)
+    0.00 :   13482:  movq   $0x0,0x3b8(%rsp)
+    0.00 :   1348e:  movb   $0x0,0x3c0(%rsp)
+    0.00 :   13496:  mov    0x170(%rsp),%r8
+    0.00 :   1349e:  mov    0x180(%rsp),%rax
+    0.00 :   134a6:  cmp    %r8,%rax
+    0.00 :   134a9:  cmova  %rax,%r8
+    0.00 :   134ad:  test   %rax,%rax
+    0.00 :   134b0:  je     134da <main+0x291a>
+    0.00 :   134b2:  test   %r8,%r8
+    0.00 :   134b5:  je     134da <main+0x291a>
+    0.00 :   134b7:  mov    0x178(%rsp),%rcx
+    0.00 :   134bf:  sub    %rcx,%r8
+    0.00 :   134c2:  lea    0x3b0(%rsp),%rdi
+    0.00 :   134ca:  xor    %esi,%esi
+    0.00 :   134cc:  xor    %edx,%edx
+    0.00 :   134ce:  call   1ac10 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_replace(unsigned long, unsigned long, char const*, unsigned long)>
+    0.00 :   134d3:  mov    0x50(%rsp),%r15
+    0.00 :   134d8:  jmp    134f4 <main+0x2934>
+    0.00 :   134da:  lea    0x1a0(%rsp),%rsi
+    0.00 :   134e2:  lea    0x3b0(%rsp),%rdi
+    0.00 :   134ea:  call   23df0 <std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)>
+    0.00 :   134ef:  mov    0x50(%rsp),%r15
+    0.00 :   134f4:  mov    0x3b0(%rsp),%rax
+    0.00 :   134fc:  mov    0x3b8(%rsp),%rcx
+    0.00 :   13504:  mov    %rcx,0x810(%rsp)
+    0.00 :   1350c:  mov    %rax,0x818(%rsp)
+    0.00 :   13514:  lea    0x1fdd3(%rip),%rdx        # 332ee <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0xc3d>
+    0.00 :   1351b:  lea    0x870(%rsp),%rdi
+    0.00 :   13523:  lea    0x810(%rsp),%r8
+    0.00 :   1352b:  mov    $0xa,%esi
+    0.00 :   13530:  mov    $0xb1,%ecx
+    0.00 :   13535:  call   1ae80 <std::vformat[abi:cxx11](std::basic_string_view<char, std::char_traits<char> >, std::basic_format_args<std::basic_format_context<std::__format::_Sink_iter<char>, char> >)>
+    0.00 :   1353a:  mov    0x870(%rsp),%rdx
+    0.00 :   13542:  mov    0x878(%rsp),%esi
+    0.00 :   13549:  lea    0x20311(%rip),%rdi        # 33861 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x11b0>
+    0.00 :   13550:  xor    %eax,%eax
+    0.00 :   13552:  call   7080 <printf@plt>
+    0.00 :   13557:  mov    0x31a1a(%rip),%rax        # 44f78 <stdout@GLIBC_2.2.5>
+    0.00 :   1355e:  mov    (%rax),%rdi
+    0.00 :   13561:  call   7480 <fflush@plt>
+    0.00 :   13566:  mov    0x870(%rsp),%rdi
+    0.00 :   1356e:  lea    0x880(%rsp),%rax
+    0.00 :   13576:  cmp    %rax,%rdi
+    0.00 :   13579:  je     13580 <main+0x29c0>
+    0.00 :   1357b:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13580:  mov    0x3b0(%rsp),%rdi
+    0.00 :   13588:  cmp    %r14,%rdi
+    0.00 :   1358b:  je     13592 <main+0x29d2>
+    0.00 :   1358d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13592:  mov    0x31a17(%rip),%rbx        # 44fb0 <VTT for std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >@GLIBCXX_3.4.21>
+    0.00 :   13599:  mov    (%rbx),%rax
+    0.00 :   1359c:  mov    0x40(%rbx),%rcx
+    0.00 :   135a0:  mov    %rax,0x140(%rsp)
+    0.00 :   135a8:  mov    -0x18(%rax),%rax
+    0.00 :   135ac:  mov    %rcx,0x140(%rsp,%rax,1)
+    0.00 :   135b4:  mov    0x48(%rbx),%rax
+    0.00 :   135b8:  mov    %rax,0x150(%rsp)
+    0.00 :   135c0:  mov    0x31981(%rip),%rax        # 44f48 <vtable for std::__cxx11::basic_stringbuf<char, std::char_traits<char>, std::allocator<char> >@GLIBCXX_3.4.21>
+    0.00 :   135c7:  add    $0x10,%rax
+    0.00 :   135cb:  mov    %rax,0x158(%rsp)
+    0.00 :   135d3:  mov    0x1a0(%rsp),%rdi
+    0.00 :   135db:  lea    0x1b0(%rsp),%rax
+    0.00 :   135e3:  cmp    %rax,%rdi
+    0.00 :   135e6:  je     135ed <main+0x2a2d>
+    0.00 :   135e8:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   135ed:  mov    0x319b4(%rip),%rax        # 44fa8 <vtable for std::basic_streambuf<char, std::char_traits<char> >@GLIBCXX_3.4>
+    0.00 :   135f4:  add    $0x10,%rax
+    0.00 :   135f8:  mov    %rax,0x158(%rsp)
+    0.00 :   13600:  lea    0x190(%rsp),%rdi
+    0.00 :   13608:  call   7900 <std::locale::~locale()@plt>
+    0.00 :   1360d:  mov    0x10(%rbx),%rax
+    0.00 :   13611:  mov    0x18(%rbx),%rcx
+    0.00 :   13615:  mov    %rax,0x140(%rsp)
+    0.00 :   1361d:  mov    -0x18(%rax),%rax
+    0.00 :   13621:  mov    %rcx,0x140(%rsp,%rax,1)
+    0.00 :   13629:  movq   $0x0,0x148(%rsp)
+    0.00 :   13635:  lea    0x1c0(%rsp),%rdi
+    0.00 :   1363d:  call   7670 <std::ios_base::~ios_base()@plt>
+    0.00 :   13642:  mov    0x98(%rsp),%rbx
+    0.00 :   1364a:  mov    0xa0(%rsp),%r14
+    0.00 :   13652:  jmp    13664 <main+0x2aa4>
+    0.00 :   13654:  data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13660:  add    $0x10,%rbx
+    0.00 :   13664:  cmp    %r14,%rbx
+    0.00 :   13667:  je     13679 <main+0x2ab9>
+    0.00 :   13669:  mov    0x8(%rbx),%rdi
+    0.00 :   1366d:  test   %rdi,%rdi
+    0.00 :   13670:  je     13660 <main+0x2aa0>
+    0.00 :   13672:  call   7340 <operator delete[](void*)@plt>
+    0.00 :   13677:  jmp    13660 <main+0x2aa0>
+    0.00 :   13679:  test   %r15d,%r15d
+    0.00 :   1367c:  jle    136a1 <main+0x2ae1>
+    0.00 :   1367e:  mov    %r15d,%ebx
+    0.00 :   13681:  xor    %r14d,%r14d
+    0.00 :   13684:  data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13690:  mov    (%r12,%r14,8),%rdi
+    0.00 :   13694:  call   70b0 <cudaFree@plt>
+    0.00 :   13699:  inc    %r14
+    0.00 :   1369c:  cmp    %r14,%rbx
+    0.00 :   1369f:  jne    13690 <main+0x2ad0>
+    0.00 :   136a1:  mov    %r12,%rdi
+    0.00 :   136a4:  call   7340 <operator delete[](void*)@plt>
+    0.00 :   136a9:  cmpq   $0x0,0x90(%rsp)
+    0.00 :   136b2:  jne    142ab <main+0x36eb>
+    0.00 :   136b8:  mov    0x18(%rsp),%rdi
+    0.00 :   136bd:  test   %rdi,%rdi
+    0.00 :   136c0:  je     136cc <main+0x2b0c>
+    0.00 :   136c2:  mov    $0x40,%esi
+    0.00 :   136c7:  call   78e0 <operator delete[](void*, std::align_val_t)@plt>
+    0.00 :   136cc:  lea    0xb78(%rsp),%rdi
+    0.00 :   136d4:  call   19860 <GpuExecutor::~GpuExecutor()>
+    0.00 :   136d9:  lea    0xaf8(%rsp),%rdi
+    0.00 :   136e1:  call   19a50 <CpuExecutor::~CpuExecutor()>
+    0.00 :   136e6:  mov    0x850(%rsp),%rbx
+    0.00 :   136ee:  mov    0x858(%rsp),%r14
+    0.00 :   136f6:  cmp    %r14,%rbx
+    0.00 :   136f9:  jne    13aad <main+0x2eed>
+    0.00 :   136ff:  test   %rbx,%rbx
+    0.00 :   13702:  je     1370c <main+0x2b4c>
+    0.00 :   13704:  mov    %rbx,%rdi
+    0.00 :   13707:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1370c:  lea    0x2e0(%rsp),%rdi
+    0.00 :   13714:  call   19be0 <ExecutionGraph::~ExecutionGraph()>
+    0.00 :   13719:  mov    0x780(%rsp),%rax
+    0.00 :   13721:  test   %rax,%rax
+    0.00 :   13724:  je     13738 <main+0x2b78>
+    0.00 :   13726:  lea    0x770(%rsp),%rdi
+    0.00 :   1372e:  mov    %rdi,%rsi
+    0.00 :   13731:  mov    $0x3,%edx
+    0.00 :   13736:  call   *%rax
+    0.00 :   13738:  mov    0x110(%rsp),%rax
+    0.00 :   13740:  test   %rax,%rax
+    0.00 :   13743:  je     13757 <main+0x2b97>
+    0.00 :   13745:  lea    0x100(%rsp),%rdi
+    0.00 :   1374d:  mov    %rdi,%rsi
+    0.00 :   13750:  mov    $0x3,%edx
+    0.00 :   13755:  call   *%rax
+    0.00 :   13757:  mov    0x7a0(%rsp),%rax
+    0.00 :   1375f:  test   %rax,%rax
+    0.00 :   13762:  je     13776 <main+0x2bb6>
+    0.00 :   13764:  lea    0x790(%rsp),%rdi
+    0.00 :   1376c:  mov    %rdi,%rsi
+    0.00 :   1376f:  mov    $0x3,%edx
+    0.00 :   13774:  call   *%rax
+    0.00 :   13776:  mov    0x3e0(%rsp),%rax
+    0.00 :   1377e:  test   %rax,%rax
+    0.00 :   13781:  je     13795 <main+0x2bd5>
+    0.00 :   13783:  lea    0x3d0(%rsp),%rdi
+    0.00 :   1378b:  mov    %rdi,%rsi
+    0.00 :   1378e:  mov    $0x3,%edx
+    0.00 :   13793:  call   *%rax
+    0.00 :   13795:  mov    0x420(%rsp),%rax
+    0.00 :   1379d:  test   %rax,%rax
+    0.00 :   137a0:  je     137b4 <main+0x2bf4>
+    0.00 :   137a2:  lea    0x410(%rsp),%rdi
+    0.00 :   137aa:  mov    %rdi,%rsi
+    0.00 :   137ad:  mov    $0x3,%edx
+    0.00 :   137b2:  call   *%rax
+    0.00 :   137b4:  mov    0x6c0(%rsp),%rbx
+    0.00 :   137bc:  mov    0x6c8(%rsp),%r14
+    0.00 :   137c4:  cmp    %r14,%rbx
+    0.00 :   137c7:  jne    13add <main+0x2f1d>
+    0.00 :   137cd:  test   %rbx,%rbx
+    0.00 :   137d0:  je     137da <main+0x2c1a>
+    0.00 :   137d2:  mov    %rbx,%rdi
+    0.00 :   137d5:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   137da:  mov    0x660(%rsp),%rbx
+    0.00 :   137e2:  mov    0x668(%rsp),%r14
+    0.00 :   137ea:  cmp    %r14,%rbx
+    0.00 :   137ed:  jne    13b0d <main+0x2f4d>
+    0.00 :   137f3:  test   %rbx,%rbx
+    0.00 :   137f6:  je     13800 <main+0x2c40>
+    0.00 :   137f8:  mov    %rbx,%rdi
+    0.00 :   137fb:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13800:  mov    0x98(%rsp),%rdi
+    0.00 :   13808:  test   %rdi,%rdi
+    0.00 :   1380b:  je     13812 <main+0x2c52>
+    0.00 :   1380d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13812:  lea    0xb0(%rsp),%rdi
+    0.00 :   1381a:  call   7a30 <dory::Consensus::~Consensus()@plt>
+    0.00 :   1381f:  mov    0xe0(%rsp),%rdi
+    0.00 :   13827:  test   %rdi,%rdi
+    0.00 :   1382a:  je     13831 <main+0x2c71>
+    0.00 :   1382c:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13831:  mov    0x430(%rsp),%rdi
+    0.00 :   13839:  lea    0x440(%rsp),%rax
+    0.00 :   13841:  cmp    %rax,%rdi
+    0.00 :   13844:  je     1384b <main+0x2c8b>
+    0.00 :   13846:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1384b:  mov    0x7b0(%rsp),%rdi
+    0.00 :   13853:  lea    0x7c0(%rsp),%rax
+    0.00 :   1385b:  cmp    %rax,%rdi
+    0.00 :   1385e:  je     13865 <main+0x2ca5>
+    0.00 :   13860:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13865:  mov    0x708(%rsp),%rbx
+    0.00 :   1386d:  test   %rbx,%rbx
+    0.00 :   13870:  jne    13b44 <main+0x2f84>
+    0.00 :   13876:  mov    0x6f8(%rsp),%rdi
+    0.00 :   1387e:  mov    0x700(%rsp),%rdx
+    0.00 :   13886:  shl    $0x3,%rdx
+    0.00 :   1388a:  xor    %esi,%esi
+    0.00 :   1388c:  call   72e0 <memset@plt>
+    0.00 :   13891:  xorpd  %xmm0,%xmm0
+    0.00 :   13895:  lea    0x708(%rsp),%rax
+    0.00 :   1389d:  movupd %xmm0,(%rax)
+    0.00 :   138a1:  mov    0x6f8(%rsp),%rdi
+    0.00 :   138a9:  lea    0x728(%rsp),%rax
+    0.00 :   138b1:  cmp    %rdi,%rax
+    0.00 :   138b4:  je     138bb <main+0x2cfb>
+    0.00 :   138b6:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   138bb:  mov    0x7d0(%rsp),%rdi
+    0.00 :   138c3:  lea    0x7e0(%rsp),%rax
+    0.00 :   138cb:  cmp    %rax,%rdi
+    0.00 :   138ce:  je     138d5 <main+0x2d15>
+    0.00 :   138d0:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   138d5:  mov    0x620(%rsp),%rdi
+    0.00 :   138dd:  lea    0x630(%rsp),%rax
+    0.00 :   138e5:  cmp    %rax,%rdi
+    0.00 :   138e8:  je     138ef <main+0x2d2f>
+    0.00 :   138ea:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   138ef:  mov    0x7f0(%rsp),%rdi
+    0.00 :   138f7:  lea    0x800(%rsp),%rax
+    0.00 :   138ff:  cmp    %rax,%rdi
+    0.00 :   13902:  je     13909 <main+0x2d49>
+    0.00 :   13904:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13909:  mov    0xc0(%rsp),%rbx
+    0.00 :   13911:  mov    0xc8(%rsp),%r14
+    0.00 :   13919:  cmp    %r14,%rbx
+    0.00 :   1391c:  jne    13b69 <main+0x2fa9>
+    0.00 :   13922:  test   %rbx,%rbx
+    0.00 :   13925:  je     1392f <main+0x2d6f>
+    0.00 :   13927:  mov    %rbx,%rdi
+    0.00 :   1392a:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1392f:  mov    0x120(%rsp),%rdi
+    0.00 :   13937:  lea    0x130(%rsp),%rax
+    0.00 :   1393f:  cmp    %rax,%rdi
+    0.00 :   13942:  je     13949 <main+0x2d89>
+    0.00 :   13944:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13949:  mov    0x70(%rsp),%rbx
+    0.00 :   1394e:  mov    0x78(%rsp),%r14
+    0.00 :   13953:  cmp    %r14,%rbx
+    0.00 :   13956:  jne    13b89 <main+0x2fc9>
+    0.00 :   1395c:  test   %rbx,%rbx
+    0.00 :   1395f:  je     13969 <main+0x2da9>
+    0.00 :   13961:  mov    %rbx,%rdi
+    0.00 :   13964:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13969:  mov    0x3f0(%rsp),%rdi
+    0.00 :   13971:  lea    0x400(%rsp),%rax
+    0.00 :   13979:  cmp    %rax,%rdi
+    0.00 :   1397c:  je     13983 <main+0x2dc3>
+    0.00 :   1397e:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13983:  mov    0x31626(%rip),%rbx        # 44fb0 <VTT for std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >@GLIBCXX_3.4.21>
+    0.00 :   1398a:  mov    (%rbx),%rax
+    0.00 :   1398d:  mov    0x40(%rbx),%rcx
+    0.00 :   13991:  mov    %rax,0x970(%rsp)
+    0.00 :   13999:  mov    -0x18(%rax),%rax
+    0.00 :   1399d:  mov    %rcx,0x970(%rsp,%rax,1)
+    0.00 :   139a5:  mov    0x48(%rbx),%rax
+    0.00 :   139a9:  mov    %rax,0x980(%rsp)
+    0.00 :   139b1:  mov    0x31590(%rip),%rax        # 44f48 <vtable for std::__cxx11::basic_stringbuf<char, std::char_traits<char>, std::allocator<char> >@GLIBCXX_3.4.21>
+    0.00 :   139b8:  add    $0x10,%rax
+    0.00 :   139bc:  mov    %rax,0x988(%rsp)
+    0.00 :   139c4:  mov    0x9d0(%rsp),%rdi
+    0.00 :   139cc:  lea    0x9e0(%rsp),%rax
+    0.00 :   139d4:  cmp    %rax,%rdi
+    0.00 :   139d7:  je     139de <main+0x2e1e>
+    0.00 :   139d9:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   139de:  mov    0x315c3(%rip),%rax        # 44fa8 <vtable for std::basic_streambuf<char, std::char_traits<char> >@GLIBCXX_3.4>
+    0.00 :   139e5:  add    $0x10,%rax
+    0.00 :   139e9:  mov    %rax,0x988(%rsp)
+    0.00 :   139f1:  lea    0x9c0(%rsp),%rdi
+    0.00 :   139f9:  call   7900 <std::locale::~locale()@plt>
+    0.00 :   139fe:  mov    0x10(%rbx),%rax
+    0.00 :   13a02:  mov    0x18(%rbx),%rcx
+    0.00 :   13a06:  mov    %rax,0x970(%rsp)
+    0.00 :   13a0e:  mov    -0x18(%rax),%rax
+    0.00 :   13a12:  mov    %rcx,0x970(%rsp,%rax,1)
+    0.00 :   13a1a:  movq   $0x0,0x978(%rsp)
+    0.00 :   13a26:  lea    0x9f0(%rsp),%rdi
+    0.00 :   13a2e:  call   7670 <std::ios_base::~ios_base()@plt>
+    0.00 :   13a33:  mov    0x828(%rsp),%rdi
+    0.00 :   13a3b:  lea    0x838(%rsp),%rax
+    0.00 :   13a43:  cmp    %rax,%rdi
+    0.00 :   13a46:  je     13a4d <main+0x2e8d>
+    0.00 :   13a48:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13a4d:  mov    0x458(%rsp),%rbx
+    0.00 :   13a55:  test   %rbx,%rbx
+    0.00 :   13a58:  je     13c1e <main+0x305e>
+    0.00 :   13a5e:  mov    0x8(%rbx),%rax
+    0.00 :   13a62:  movabs $0x100000001,%rcx
+    0.00 :   13a6c:  cmp    %rcx,%rax
+    0.00 :   13a6f:  jne    13c07 <main+0x3047>
+    0.00 :   13a75:  movq   $0x0,0x8(%rbx)
+    0.00 :   13a7d:  mov    (%rbx),%rax
+    0.00 :   13a80:  mov    %rbx,%rdi
+    0.00 :   13a83:  call   *0x10(%rax)
+    0.00 :   13a86:  mov    (%rbx),%rax
+    0.00 :   13a89:  mov    %rbx,%rdi
+    0.00 :   13a8c:  call   *0x18(%rax)
+    0.00 :   13a8f:  jmp    13c1e <main+0x305e>
+    0.00 :   13a94:  data16 data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13aa0:  add    $0x18,%rbx
+    0.00 :   13aa4:  cmp    %r14,%rbx
+    0.00 :   13aa7:  je     13b9c <main+0x2fdc>
+    0.00 :   13aad:  mov    0x10(%rbx),%rdi
+    0.00 :   13ab1:  test   %rdi,%rdi
+    0.00 :   13ab4:  je     13aa0 <main+0x2ee0>
+    0.00 :   13ab6:  call   7170 <free@plt>
+    0.00 :   13abb:  movq   $0x0,0x10(%rbx)
+    0.00 :   13ac3:  jmp    13aa0 <main+0x2ee0>
+    0.00 :   13ac5:  data16 cs nopw 0x0(%rax,%rax,1)
+    0.00 :   13ad0:  add    $0x58,%rbx
+    0.00 :   13ad4:  cmp    %r14,%rbx
+    0.00 :   13ad7:  je     13bb2 <main+0x2ff2>
+    0.00 :   13add:  cmpb   $0x0,0x50(%rbx)
+    0.00 :   13ae1:  movb   $0x0,0x50(%rbx)
+    0.00 :   13ae5:  je     13ad0 <main+0x2f10>
+    0.00 :   13ae7:  mov    0x48(%rbx),%rdi
+    0.00 :   13aeb:  test   %rdi,%rdi
+    0.00 :   13aee:  je     13ad0 <main+0x2f10>
+    0.00 :   13af0:  call   7170 <free@plt>
+    0.00 :   13af5:  movq   $0x0,0x48(%rbx)
+    0.00 :   13afd:  jmp    13ad0 <main+0x2f10>
+    0.00 :   13aff:  nop
+    0.00 :   13b00:  add    $0x58,%rbx
+    0.00 :   13b04:  cmp    %r14,%rbx
+    0.00 :   13b07:  je     13bc8 <main+0x3008>
+    0.00 :   13b0d:  cmpb   $0x0,0x50(%rbx)
+    0.00 :   13b11:  movb   $0x0,0x50(%rbx)
+    0.00 :   13b15:  je     13b00 <main+0x2f40>
+    0.00 :   13b17:  mov    0x48(%rbx),%rdi
+    0.00 :   13b1b:  test   %rdi,%rdi
+    0.00 :   13b1e:  je     13b00 <main+0x2f40>
+    0.00 :   13b20:  call   7170 <free@plt>
+    0.00 :   13b25:  movq   $0x0,0x48(%rbx)
+    0.00 :   13b2d:  jmp    13b00 <main+0x2f40>
+    0.00 :   13b2f:  nop
+    0.00 :   13b30:  mov    %rbx,%rdi
+    0.00 :   13b33:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13b38:  mov    %r14,%rbx
+    0.00 :   13b3b:  test   %r14,%r14
+    0.00 :   13b3e:  je     13876 <main+0x2cb6>
+    0.00 :   13b44:  mov    (%rbx),%r14
+    0.00 :   13b47:  mov    0x10(%rbx),%rdi
+    0.00 :   13b4b:  lea    0x20(%rbx),%rax
+    0.00 :   13b4f:  cmp    %rax,%rdi
+    0.00 :   13b52:  je     13b30 <main+0x2f70>
+    0.00 :   13b54:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13b59:  jmp    13b30 <main+0x2f70>
+    0.00 :   13b5b:  nopl   0x0(%rax,%rax,1)
+    0.00 :   13b60:  add    $0x10,%rbx
+    0.00 :   13b64:  cmp    %r14,%rbx
+    0.00 :   13b67:  je     13bde <main+0x301e>
+    0.00 :   13b69:  mov    (%rbx),%rdi
+    0.00 :   13b6c:  add    $0x10,%rbx
+    0.00 :   13b70:  cmp    %rbx,%rdi
+    0.00 :   13b73:  je     13b60 <main+0x2fa0>
+    0.00 :   13b75:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13b7a:  jmp    13b60 <main+0x2fa0>
+    0.00 :   13b7c:  nopl   0x0(%rax)
+    0.00 :   13b80:  add    $0x10,%rbx
+    0.00 :   13b84:  cmp    %r14,%rbx
+    0.00 :   13b87:  je     13bf4 <main+0x3034>
+    0.00 :   13b89:  mov    (%rbx),%rdi
+    0.00 :   13b8c:  add    $0x10,%rbx
+    0.00 :   13b90:  cmp    %rbx,%rdi
+    0.00 :   13b93:  je     13b80 <main+0x2fc0>
+    0.00 :   13b95:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13b9a:  jmp    13b80 <main+0x2fc0>
+    0.00 :   13b9c:  mov    0x850(%rsp),%rbx
+    0.00 :   13ba4:  test   %rbx,%rbx
+    0.00 :   13ba7:  jne    13704 <main+0x2b44>
+    0.00 :   13bad:  jmp    1370c <main+0x2b4c>
+    0.00 :   13bb2:  mov    0x6c0(%rsp),%rbx
+    0.00 :   13bba:  test   %rbx,%rbx
+    0.00 :   13bbd:  jne    137d2 <main+0x2c12>
+    0.00 :   13bc3:  jmp    137da <main+0x2c1a>
+    0.00 :   13bc8:  mov    0x660(%rsp),%rbx
+    0.00 :   13bd0:  test   %rbx,%rbx
+    0.00 :   13bd3:  jne    137f8 <main+0x2c38>
+    0.00 :   13bd9:  jmp    13800 <main+0x2c40>
+    0.00 :   13bde:  mov    0xc0(%rsp),%rbx
+    0.00 :   13be6:  test   %rbx,%rbx
+    0.00 :   13be9:  jne    13927 <main+0x2d67>
+    0.00 :   13bef:  jmp    1392f <main+0x2d6f>
+    0.00 :   13bf4:  mov    0x70(%rsp),%rbx
+    0.00 :   13bf9:  test   %rbx,%rbx
+    0.00 :   13bfc:  jne    13961 <main+0x2da1>
+    0.00 :   13c02:  jmp    13969 <main+0x2da9>
+    0.00 :   13c07:  mov    0x31392(%rip),%rcx        # 44fa0 <__libc_single_threaded@GLIBC_2.32>
+    0.00 :   13c0e:  cmpb   $0x0,(%rcx)
+    0.00 :   13c11:  je     13c32 <main+0x3072>
+    0.00 :   13c13:  lea    -0x1(%rax),%ecx
+    0.00 :   13c16:  mov    %ecx,0x8(%rbx)
+    0.00 :   13c19:  cmp    $0x1,%eax
+    0.00 :   13c1c:  je     13c41 <main+0x3081>
+    0.00 :   13c1e:  xor    %eax,%eax
+    0.00 :   13c20:  add    $0xc28,%rsp
+    0.00 :   13c27:  pop    %rbx
+    0.00 :   13c28:  pop    %r12
+    0.00 :   13c2a:  pop    %r13
+    0.00 :   13c2c:  pop    %r14
+    0.00 :   13c2e:  pop    %r15
+    0.00 :   13c30:  pop    %rbp
+    0.00 :   13c31:  ret
+    0.00 :   13c32:  mov    $0xffffffff,%eax
+    0.00 :   13c37:  lock xadd %eax,0x8(%rbx)
+    0.00 :   13c3c:  cmp    $0x1,%eax
+    0.00 :   13c3f:  jne    13c1e <main+0x305e>
+    0.00 :   13c41:  mov    %rbx,%rdi
+    0.00 :   13c44:  call   2d500 <std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release_last_use_cold()>
+    0.00 :   13c49:  jmp    13c1e <main+0x305e>
+    0.00 :   13c4b:  call   70c0 <std::__throw_bad_alloc()@plt>
+    0.00 :   13c50:  call   7400 <std::__throw_bad_array_new_length()@plt>
+    0.00 :   13c55:  call   70c0 <std::__throw_bad_alloc()@plt>
+    0.00 :   13c5a:  call   7a10 <std::__throw_bad_function_call()@plt>
+    0.00 :   13c5f:  call   73b0 <std::__throw_system_error(int)@plt>
+    0.00 :   13c64:  lea    0x1fbac(%rip),%rdi        # 33817 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x1166>
+    0.00 :   13c6b:  mov    %rax,%rdx
+    0.00 :   13c6e:  xor    %eax,%eax
+    0.00 :   13c70:  call   7040 <std::__throw_out_of_range_fmt(char const*, ...)@plt>
+    0.00 :   13c75:  lea    0x1f21d(%rip),%rdi        # 32e99 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x7e8>
+    0.00 :   13c7c:  call   7590 <std::__throw_length_error(char const*)@plt>
+    0.00 :   13c81:  lea    0x1f1c7(%rip),%rdi        # 32e4f <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x79e>
+    0.00 :   13c88:  call   7590 <std::__throw_length_error(char const*)@plt>
+    0.00 :   13c8d:  lea    0x1f205(%rip),%rdi        # 32e99 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x7e8>
+    0.00 :   13c94:  call   7590 <std::__throw_length_error(char const*)@plt>
+    0.00 :   13c99:  lea    0x1fb77(%rip),%rdi        # 33817 <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x1166>
+    0.00 :   13ca0:  mov    0x48(%rsp),%rdx
+    0.00 :   13ca5:  xor    %eax,%eax
+    0.00 :   13ca7:  call   7040 <std::__throw_out_of_range_fmt(char const*, ...)@plt>
+    0.00 :   13cac:  call   7300 <std::__throw_bad_cast()@plt>
+    0.00 :   13cb1:  call   7a10 <std::__throw_bad_function_call()@plt>
+    0.00 :   13cb6:  call   7a10 <std::__throw_bad_function_call()@plt>
+    0.00 :   13cbb:  lea    0x1f18d(%rip),%rdi        # 32e4f <typeinfo name for std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>::*)(), std::__future_base::_Async_state_impl<std::thread::_Invoker<std::tuple<main::$_6::operator()() const::{lambda()#1}> >, void>*> > >+0x79e>
+    0.00 :   13cc2:  call   7590 <std::__throw_length_error(char const*)@plt>
+    0.00 :   13cc7:  call   7300 <std::__throw_bad_cast()@plt>
+    0.00 :   13ccc:  jmp    13f97 <main+0x33d7>
+    0.00 :   13cd1:  mov    %rax,%rbx
+    0.00 :   13cd4:  jmp    14268 <main+0x36a8>
+    0.00 :   13cd9:  jmp    13cdb <main+0x311b>
+    0.00 :   13cdb:  mov    %rax,%rbx
+    0.00 :   13cde:  mov    0x3b0(%rsp),%rdi
+    0.00 :   13ce6:  cmp    %r14,%rdi
+    0.00 :   13ce9:  je     1406e <main+0x34ae>
+    0.00 :   13cef:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13cf4:  jmp    1406e <main+0x34ae>
+    0.00 :   13cf9:  jmp    140cd <main+0x350d>
+    0.00 :   13cfe:  mov    %rax,%rdi
+    0.00 :   13d01:  call   16100 <__clang_call_terminate>
+    0.00 :   13d06:  mov    %rax,%rdi
+    0.00 :   13d09:  call   16100 <__clang_call_terminate>
+    0.00 :   13d0e:  mov    %rax,%rdi
+    0.00 :   13d11:  call   16100 <__clang_call_terminate>
+    0.00 :   13d16:  mov    %rax,%rdi
+    0.00 :   13d19:  call   16100 <__clang_call_terminate>
+    0.00 :   13d1e:  mov    %rax,%rdi
+    0.00 :   13d21:  call   16100 <__clang_call_terminate>
+    0.00 :   13d26:  mov    %rax,%rdi
+    0.00 :   13d29:  call   16100 <__clang_call_terminate>
+    0.00 :   13d2e:  jmp    140cd <main+0x350d>
+    0.00 :   13d33:  jmp    140cd <main+0x350d>
+    0.00 :   13d38:  mov    %rax,%rbx
+    0.00 :   13d3b:  mov    0x140(%rsp),%rdi
+    0.00 :   13d43:  test   %rdi,%rdi
+    0.00 :   13d46:  je     140df <main+0x351f>
+    0.00 :   13d4c:  mov    (%rdi),%rax
+    0.00 :   13d4f:  call   *0x8(%rax)
+    0.00 :   13d52:  jmp    140df <main+0x351f>
+    0.00 :   13d57:  jmp    13d59 <main+0x3199>
+    0.00 :   13d59:  mov    %rax,%rbx
+    0.00 :   13d5c:  jmp    140df <main+0x351f>
+    0.00 :   13d61:  mov    %rax,%rbx
+    0.00 :   13d64:  jmp    140f3 <main+0x3533>
+    0.00 :   13d69:  mov    %rax,%rbx
+    0.00 :   13d6c:  jmp    140f3 <main+0x3533>
+    0.00 :   13d71:  mov    %rax,%rbx
+    0.00 :   13d74:  jmp    14100 <main+0x3540>
+    0.00 :   13d79:  mov    %rax,%rbx
+    0.00 :   13d7c:  jmp    1410d <main+0x354d>
+    0.00 :   13d81:  mov    %rax,%rbx
+    0.00 :   13d84:  jmp    1410d <main+0x354d>
+    0.00 :   13d89:  mov    %rax,%rbx
+    0.00 :   13d8c:  jmp    1410d <main+0x354d>
+    0.00 :   13d91:  mov    %rax,%rbx
+    0.00 :   13d94:  jmp    1411a <main+0x355a>
+    0.00 :   13d99:  mov    %rax,%rbx
+    0.00 :   13d9c:  mov    %r13,%rdi
+    0.00 :   13d9f:  call   25390 <std::unordered_map<unsigned long, ExecTarget, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, ExecTarget> > >::~unordered_map()>
+    0.00 :   13da4:  mov    %r15,%rdi
+    0.00 :   13da7:  call   25400 <std::unordered_map<unsigned long, DagNode, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, DagNode> > >::~unordered_map()>
+    0.00 :   13dac:  mov    %r14,%rdi
+    0.00 :   13daf:  call   254a0 <std::unordered_map<unsigned long, unsigned long, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> > >::~unordered_map()>
+    0.00 :   13db4:  jmp    14127 <main+0x3567>
+    0.00 :   13db9:  mov    %rax,%rbx
+    0.00 :   13dbc:  jmp    141cf <main+0x360f>
+    0.00 :   13dc1:  mov    %rax,%rbx
+    0.00 :   13dc4:  jmp    141ee <main+0x362e>
+    0.00 :   13dc9:  mov    %rax,%rbx
+    0.00 :   13dcc:  mov    0x690(%rsp),%rax
+    0.00 :   13dd4:  test   %rax,%rax
+    0.00 :   13dd7:  je     141ee <main+0x362e>
+    0.00 :   13ddd:  lea    0x680(%rsp),%rdi
+    0.00 :   13de5:  mov    %rdi,%rsi
+    0.00 :   13de8:  mov    $0x3,%edx
+    0.00 :   13ded:  call   *%rax
+    0.00 :   13def:  jmp    141ee <main+0x362e>
+    0.00 :   13df4:  mov    %rax,%rdi
+    0.00 :   13df7:  call   16100 <__clang_call_terminate>
+    0.00 :   13dfc:  mov    %rax,%rbx
+    0.00 :   13dff:  jmp    141fb <main+0x363b>
+    0.00 :   13e04:  mov    %rax,%rbx
+    0.00 :   13e07:  jmp    1420d <main+0x364d>
+    0.00 :   13e0c:  mov    %rax,%rbx
+    0.00 :   13e0f:  jmp    1420d <main+0x364d>
+    0.00 :   13e14:  mov    %rax,%rbx
+    0.00 :   13e17:  jmp    1420d <main+0x364d>
+    0.00 :   13e1c:  mov    %rax,%rbx
+    0.00 :   13e1f:  jmp    1420d <main+0x364d>
+    0.00 :   13e24:  mov    %rax,%rbx
+    0.00 :   13e27:  jmp    1420d <main+0x364d>
+    0.00 :   13e2c:  mov    %rax,%rbx
+    0.00 :   13e2f:  jmp    1420d <main+0x364d>
+    0.00 :   13e34:  mov    %rax,%rbx
+    0.00 :   13e37:  jmp    1420d <main+0x364d>
+    0.00 :   13e3c:  mov    %rax,%rbx
+    0.00 :   13e3f:  jmp    1420d <main+0x364d>
+    0.00 :   13e44:  mov    %rax,%rbx
+    0.00 :   13e47:  jmp    1420d <main+0x364d>
+    0.00 :   13e4c:  mov    %rax,%rbx
+    0.00 :   13e4f:  jmp    1420d <main+0x364d>
+    0.00 :   13e54:  mov    %rax,%rbx
+    0.00 :   13e57:  jmp    1420d <main+0x364d>
+    0.00 :   13e5c:  mov    %rax,%rbx
+    0.00 :   13e5f:  jmp    1420d <main+0x364d>
+    0.00 :   13e64:  mov    %rax,%rbx
+    0.00 :   13e67:  jmp    1420d <main+0x364d>
+    0.00 :   13e6c:  mov    %rax,%rbx
+    0.00 :   13e6f:  jmp    1420d <main+0x364d>
+    0.00 :   13e74:  mov    %rax,%rbx
+    0.00 :   13e77:  jmp    1420d <main+0x364d>
+    0.00 :   13e7c:  mov    %rax,%rbx
+    0.00 :   13e7f:  jmp    1420d <main+0x364d>
+    0.00 :   13e84:  mov    %rax,%rbx
+    0.00 :   13e87:  jmp    1420d <main+0x364d>
+    0.00 :   13e8c:  mov    %rax,%rbx
+    0.00 :   13e8f:  jmp    1420d <main+0x364d>
+    0.00 :   13e94:  mov    %rax,%rbx
+    0.00 :   13e97:  jmp    1420d <main+0x364d>
+    0.00 :   13e9c:  mov    %rax,%rbx
+    0.00 :   13e9f:  mov    0x460(%rsp),%rdi
+    0.00 :   13ea7:  jmp    13f1c <main+0x335c>
+    0.00 :   13ea9:  mov    %rax,%rbx
+    0.00 :   13eac:  mov    0x480(%rsp),%rdi
+    0.00 :   13eb4:  jmp    13f1c <main+0x335c>
+    0.00 :   13eb6:  mov    %rax,%rbx
+    0.00 :   13eb9:  mov    0x4a0(%rsp),%rdi
+    0.00 :   13ec1:  jmp    13f1c <main+0x335c>
+    0.00 :   13ec3:  mov    %rax,%rbx
+    0.00 :   13ec6:  mov    0x4c0(%rsp),%rdi
+    0.00 :   13ece:  jmp    13f1c <main+0x335c>
+    0.00 :   13ed0:  mov    %rax,%rbx
+    0.00 :   13ed3:  mov    0x4e0(%rsp),%rdi
+    0.00 :   13edb:  jmp    13f1c <main+0x335c>
+    0.00 :   13edd:  mov    %rax,%rbx
+    0.00 :   13ee0:  mov    0x500(%rsp),%rdi
+    0.00 :   13ee8:  jmp    13f1c <main+0x335c>
+    0.00 :   13eea:  mov    %rax,%rbx
+    0.00 :   13eed:  mov    0x520(%rsp),%rdi
+    0.00 :   13ef5:  jmp    13f1c <main+0x335c>
+    0.00 :   13ef7:  mov    %rax,%rbx
+    0.00 :   13efa:  mov    0x540(%rsp),%rdi
+    0.00 :   13f02:  jmp    13f1c <main+0x335c>
+    0.00 :   13f04:  mov    %rax,%rbx
+    0.00 :   13f07:  mov    0x560(%rsp),%rdi
+    0.00 :   13f0f:  jmp    13f1c <main+0x335c>
+    0.00 :   13f11:  mov    %rax,%rbx
+    0.00 :   13f14:  mov    0x580(%rsp),%rdi
+    0.00 :   13f1c:  cmp    %r14,%rdi
+    0.00 :   13f1f:  jne    14222 <main+0x3662>
+    0.00 :   13f25:  jmp    14227 <main+0x3667>
+    0.00 :   13f2a:  mov    %rax,%rbx
+    0.00 :   13f2d:  mov    0x6d8(%rsp),%rdi
+    0.00 :   13f35:  cmp    %r14,%rdi
+    0.00 :   13f38:  jne    1423c <main+0x367c>
+    0.00 :   13f3e:  jmp    14241 <main+0x3681>
+    0.00 :   13f43:  mov    %rax,%rbx
+    0.00 :   13f46:  jmp    14241 <main+0x3681>
+    0.00 :   13f4b:  mov    %rax,%rbx
+    0.00 :   13f4e:  jmp    1424e <main+0x368e>
+    0.00 :   13f53:  mov    %rax,%rbx
+    0.00 :   13f56:  mov    0x5a0(%rsp),%rdi
+    0.00 :   13f5e:  cmp    %r14,%rdi
+    0.00 :   13f61:  je     1424e <main+0x368e>
+    0.00 :   13f67:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   13f6c:  jmp    1424e <main+0x368e>
+    0.00 :   13f71:  mov    %rax,%rbx
+    0.00 :   13f74:  mov    0x5c0(%rsp),%rdi
+    0.00 :   13f7c:  jmp    13f89 <main+0x33c9>
+    0.00 :   13f7e:  mov    %rax,%rbx
+    0.00 :   13f81:  mov    0x5e0(%rsp),%rdi
+    0.00 :   13f89:  cmp    %r14,%rdi
+    0.00 :   13f8c:  jne    14263 <main+0x36a3>
+    0.00 :   13f92:  jmp    14268 <main+0x36a8>
+    0.00 :   13f97:  mov    %rax,%rbx
+    0.00 :   13f9a:  lea    0x140(%rsp),%rdi
+    0.00 :   13fa2:  call   18730 <std::filesystem::__cxx11::path::~path()>
+    0.00 :   13fa7:  jmp    14268 <main+0x36a8>
+    0.00 :   13fac:  mov    %rax,%rbx
+    0.00 :   13faf:  jmp    14268 <main+0x36a8>
+    0.00 :   13fb4:  mov    %rax,%rbx
+    0.00 :   13fb7:  mov    0x600(%rsp),%rdi
+    0.00 :   13fbf:  cmp    %r14,%rdi
+    0.00 :   13fc2:  jne    1427d <main+0x36bd>
+    0.00 :   13fc8:  jmp    14282 <main+0x36c2>
+    0.00 :   13fcd:  mov    %rax,%rbx
+    0.00 :   13fd0:  mov    0x640(%rsp),%rdi
+    0.00 :   13fd8:  cmp    %r14,%rdi
+    0.00 :   13fdb:  jne    14297 <main+0x36d7>
+    0.00 :   13fe1:  jmp    1429c <main+0x36dc>
+    0.00 :   13fe6:  mov    %rax,%rbx
+    0.00 :   13fe9:  jmp    1429c <main+0x36dc>
+    0.00 :   13fee:  mov    %rax,%rbx
+    0.00 :   13ff1:  mov    0xc0(%rsp),%rdi
+    0.00 :   13ff9:  test   %rdi,%rdi
+    0.00 :   13ffc:  je     142dd <main+0x371d>
+    0.00 :   14002:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14007:  jmp    142dd <main+0x371d>
+    0.00 :   1400c:  mov    %rax,%rbx
+    0.00 :   1400f:  jmp    1432d <main+0x376d>
+    0.00 :   14014:  mov    %rax,%rbx
+    0.00 :   14017:  mov    0x730(%rsp),%rdi
+    0.00 :   1401f:  jmp    1402c <main+0x346c>
+    0.00 :   14021:  mov    %rax,%rbx
+    0.00 :   14024:  mov    0x750(%rsp),%rdi
+    0.00 :   1402c:  cmp    %r14,%rdi
+    0.00 :   1402f:  jne    14342 <main+0x3782>
+    0.00 :   14035:  jmp    14347 <main+0x3787>
+    0.00 :   1403a:  jmp    140cd <main+0x350d>
+    0.00 :   1403f:  mov    %rax,%rbx
+    0.00 :   14042:  jmp    141fb <main+0x363b>
+    0.00 :   14047:  mov    %rax,%rbx
+    0.00 :   1404a:  lea    0x450(%rsp),%rdi
+    0.00 :   14052:  call   19e90 <std::__shared_ptr<romulus::ArgMap, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()>
+    0.00 :   14057:  mov    %rbx,%rdi
+    0.00 :   1405a:  call   75f0 <_Unwind_Resume@plt>
+    0.00 :   1405f:  mov    %rax,%rbx
+    0.00 :   14062:  jmp    141fb <main+0x363b>
+    0.00 :   14067:  jmp    140cd <main+0x350d>
+    0.00 :   14069:  jmp    140cd <main+0x350d>
+    0.00 :   1406b:  mov    %rax,%rbx
+    0.00 :   1406e:  lea    0x140(%rsp),%rdi
+    0.00 :   14076:  call   7360 <std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::~basic_stringstream()@plt>
+    0.00 :   1407b:  jmp    140d0 <main+0x3510>
+    0.00 :   1407d:  mov    %rax,%rbx
+    0.00 :   14080:  jmp    141fb <main+0x363b>
+    0.00 :   14085:  jmp    140cd <main+0x350d>
+    0.00 :   14087:  mov    %rax,%rbx
+    0.00 :   1408a:  jmp    141c2 <main+0x3602>
+    0.00 :   1408f:  mov    %rax,%rbx
+    0.00 :   14092:  jmp    141c2 <main+0x3602>
+    0.00 :   14097:  jmp    140cd <main+0x350d>
+    0.00 :   14099:  mov    %rax,%rbx
+    0.00 :   1409c:  jmp    1410d <main+0x354d>
+    0.00 :   1409e:  mov    %rax,%rbx
+    0.00 :   140a1:  jmp    14241 <main+0x3681>
+    0.00 :   140a6:  mov    %rax,%rbx
+    0.00 :   140a9:  jmp    14241 <main+0x3681>
+    0.00 :   140ae:  mov    %rax,%rdi
+    0.00 :   140b1:  call   16100 <__clang_call_terminate>
+    0.00 :   140b6:  mov    %rax,%rbx
+    0.00 :   140b9:  jmp    141c2 <main+0x3602>
+    0.00 :   140be:  mov    %rax,%rdi
+    0.00 :   140c1:  call   16100 <__clang_call_terminate>
+    0.00 :   140c6:  jmp    142f9 <main+0x3739>
+    0.00 :   140cb:  jmp    140cd <main+0x350d>
+    0.00 :   140cd:  mov    %rax,%rbx
+    0.00 :   140d0:  cmpq   $0x0,0x90(%rsp)
+    0.00 :   140d9:  jne    142ab <main+0x36eb>
+    0.00 :   140df:  mov    0x18(%rsp),%rdi
+    0.00 :   140e4:  test   %rdi,%rdi
+    0.00 :   140e7:  je     140f3 <main+0x3533>
+    0.00 :   140e9:  mov    $0x40,%esi
+    0.00 :   140ee:  call   78e0 <operator delete[](void*, std::align_val_t)@plt>
+    0.00 :   140f3:  lea    0xb78(%rsp),%rdi
+    0.00 :   140fb:  call   19860 <GpuExecutor::~GpuExecutor()>
+    0.00 :   14100:  lea    0xaf8(%rsp),%rdi
+    0.00 :   14108:  call   19a50 <CpuExecutor::~CpuExecutor()>
+    0.00 :   1410d:  lea    0x848(%rsp),%rdi
+    0.00 :   14115:  call   19b80 <State<float>::~State()>
+    0.00 :   1411a:  lea    0x2e0(%rsp),%rdi
+    0.00 :   14122:  call   19be0 <ExecutionGraph::~ExecutionGraph()>
+    0.00 :   14127:  mov    0x780(%rsp),%rax
+    0.00 :   1412f:  test   %rax,%rax
+    0.00 :   14132:  je     14146 <main+0x3586>
+    0.00 :   14134:  lea    0x770(%rsp),%rdi
+    0.00 :   1413c:  mov    %rdi,%rsi
+    0.00 :   1413f:  mov    $0x3,%edx
+    0.00 :   14144:  call   *%rax
+    0.00 :   14146:  mov    0x110(%rsp),%rax
+    0.00 :   1414e:  test   %rax,%rax
+    0.00 :   14151:  je     14165 <main+0x35a5>
+    0.00 :   14153:  lea    0x100(%rsp),%rdi
+    0.00 :   1415b:  mov    %rdi,%rsi
+    0.00 :   1415e:  mov    $0x3,%edx
+    0.00 :   14163:  call   *%rax
+    0.00 :   14165:  mov    0x7a0(%rsp),%rax
+    0.00 :   1416d:  test   %rax,%rax
+    0.00 :   14170:  je     14184 <main+0x35c4>
+    0.00 :   14172:  lea    0x790(%rsp),%rdi
+    0.00 :   1417a:  mov    %rdi,%rsi
+    0.00 :   1417d:  mov    $0x3,%edx
+    0.00 :   14182:  call   *%rax
+    0.00 :   14184:  mov    0x3e0(%rsp),%rax
+    0.00 :   1418c:  test   %rax,%rax
+    0.00 :   1418f:  je     141a3 <main+0x35e3>
+    0.00 :   14191:  lea    0x3d0(%rsp),%rdi
+    0.00 :   14199:  mov    %rdi,%rsi
+    0.00 :   1419c:  mov    $0x3,%edx
+    0.00 :   141a1:  call   *%rax
+    0.00 :   141a3:  mov    0x420(%rsp),%rax
+    0.00 :   141ab:  test   %rax,%rax
+    0.00 :   141ae:  je     141c2 <main+0x3602>
+    0.00 :   141b0:  lea    0x410(%rsp),%rdi
+    0.00 :   141b8:  mov    %rdi,%rsi
+    0.00 :   141bb:  mov    $0x3,%edx
+    0.00 :   141c0:  call   *%rax
+    0.00 :   141c2:  lea    0x6c0(%rsp),%rdi
+    0.00 :   141ca:  call   19d30 <std::vector<op, std::allocator<op> >::~vector()>
+    0.00 :   141cf:  lea    0x660(%rsp),%rdi
+    0.00 :   141d7:  call   19da0 <WorkloadGenerator::~WorkloadGenerator()>
+    0.00 :   141dc:  mov    0x98(%rsp),%rdi
+    0.00 :   141e4:  test   %rdi,%rdi
+    0.00 :   141e7:  je     141ee <main+0x362e>
+    0.00 :   141e9:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   141ee:  lea    0xb0(%rsp),%rdi
+    0.00 :   141f6:  call   7a30 <dory::Consensus::~Consensus()@plt>
+    0.00 :   141fb:  mov    0xe0(%rsp),%rdi
+    0.00 :   14203:  test   %rdi,%rdi
+    0.00 :   14206:  je     1420d <main+0x364d>
+    0.00 :   14208:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1420d:  mov    0x430(%rsp),%rdi
+    0.00 :   14215:  lea    0x440(%rsp),%rax
+    0.00 :   1421d:  cmp    %rax,%rdi
+    0.00 :   14220:  je     14227 <main+0x3667>
+    0.00 :   14222:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14227:  mov    0x7b0(%rsp),%rdi
+    0.00 :   1422f:  lea    0x7c0(%rsp),%rax
+    0.00 :   14237:  cmp    %rax,%rdi
+    0.00 :   1423a:  je     14241 <main+0x3681>
+    0.00 :   1423c:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14241:  lea    0x6f8(%rsp),%rdi
+    0.00 :   14249:  call   19e10 <std::unordered_map<unsigned long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >::~unordered_map()>
+    0.00 :   1424e:  mov    0x7d0(%rsp),%rdi
+    0.00 :   14256:  lea    0x7e0(%rsp),%rax
+    0.00 :   1425e:  cmp    %rax,%rdi
+    0.00 :   14261:  je     14268 <main+0x36a8>
+    0.00 :   14263:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14268:  mov    0x620(%rsp),%rdi
+    0.00 :   14270:  lea    0x630(%rsp),%rax
+    0.00 :   14278:  cmp    %rax,%rdi
+    0.00 :   1427b:  je     14282 <main+0x36c2>
+    0.00 :   1427d:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14282:  mov    0x7f0(%rsp),%rdi
+    0.00 :   1428a:  lea    0x800(%rsp),%rax
+    0.00 :   14292:  cmp    %rax,%rdi
+    0.00 :   14295:  je     1429c <main+0x36dc>
+    0.00 :   14297:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   1429c:  lea    0xc0(%rsp),%rdi
+    0.00 :   142a4:  call   160a0 <std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector()>
+    0.00 :   142a9:  jmp    142dd <main+0x371d>
+    0.00 :   142ab:  call   7a20 <std::terminate()@plt>
+    0.00 :   142b0:  mov    %rax,%rdi
+    0.00 :   142b3:  call   16100 <__clang_call_terminate>
+    0.00 :   142b8:  mov    %rax,%rdi
+    0.00 :   142bb:  call   16100 <__clang_call_terminate>
+    0.00 :   142c0:  mov    %rax,%rdi
+    0.00 :   142c3:  call   16100 <__clang_call_terminate>
+    0.00 :   142c8:  mov    %rax,%rdi
+    0.00 :   142cb:  call   16100 <__clang_call_terminate>
+    0.00 :   142d0:  mov    %rax,%rdi
+    0.00 :   142d3:  call   16100 <__clang_call_terminate>
+    0.00 :   142d8:  jmp    142f9 <main+0x3739>
+    0.00 :   142da:  mov    %rax,%rbx
+    0.00 :   142dd:  mov    0x120(%rsp),%rdi
+    0.00 :   142e5:  lea    0x130(%rsp),%rax
+    0.00 :   142ed:  cmp    %rax,%rdi
+    0.00 :   142f0:  je     142fc <main+0x373c>
+    0.00 :   142f2:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   142f7:  jmp    142fc <main+0x373c>
+    0.00 :   142f9:  mov    %rax,%rbx
+    0.00 :   142fc:  lea    0x70(%rsp),%rdi
+    0.00 :   14301:  call   160a0 <std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~vector()>
+    0.00 :   14306:  mov    0x3f0(%rsp),%rdi
+    0.00 :   1430e:  lea    0x400(%rsp),%rax
+    0.00 :   14316:  cmp    %rax,%rdi
+    0.00 :   14319:  je     14320 <main+0x3760>
+    0.00 :   1431b:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14320:  lea    0x970(%rsp),%rdi
+    0.00 :   14328:  call   7360 <std::__cxx11::basic_stringstream<char, std::char_traits<char>, std::allocator<char> >::~basic_stringstream()@plt>
+    0.00 :   1432d:  mov    0x828(%rsp),%rdi
+    0.00 :   14335:  lea    0x838(%rsp),%rax
+    0.00 :   1433d:  cmp    %rax,%rdi
+    0.00 :   14340:  je     14347 <main+0x3787>
+    0.00 :   14342:  call   74e0 <operator delete(void*)@plt>
+    0.00 :   14347:  lea    0x450(%rsp),%rdi
+    0.00 :   1434f:  call   19e90 <std::__shared_ptr<romulus::ArgMap, (__gnu_cxx::_Lock_policy)2>::~__shared_ptr()>
+    0.00 :   14354:  mov    %rbx,%rdi
+    0.00 :   14357:  call   75f0 <_Unwind_Resume@plt>

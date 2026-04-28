@@ -1,3 +1,5 @@
+#include <cuda_runtime.h>
+
 #include <barrier>
 #include <csignal>
 #include <filesystem>
@@ -6,7 +8,6 @@
 #include <iostream>
 #include <random>
 #include <string>
-#include <cuda_runtime.h>
 
 #include "cfg.h"
 #include "cpu/cpu.h"
@@ -78,7 +79,9 @@ int main(int argc, char* argv[]) {
   std::function<void(void)> init = SYNC_NODES;
   std::function<void(void)> exec = EXEC_LATENCY;
   std::function<void(void)> done = DONE_LATENCY;
-  std::function<void(std::tuple<double, double, double, double>* result)> calc = CALC_LATENCY;
+  std::function<void(std::tuple<double, double, double, double> * result,
+                     std::vector<double> & latencies)>
+      calc = CALC_LATENCY;
   std::function<void(void)> reset = RESET;
 
   init();
@@ -111,7 +114,8 @@ int main(int argc, char* argv[]) {
   CpuExecutor cpu_exec(mat_size, num_state_mat, cpu_state_matrices, gpu_state_matrices);
   GpuExecutor gpu_exec(mat_size, num_state_mat, gpu_state_matrices, cpu_state_matrices);
 
-  // Load state only once, since both executors now point to the same physical memory
+  // Load state only once, since both executors now point to the same physical
+  // memory
   gpu_exec.load_state(initstate);
 
   std::atomic<bool> handler_running = true;
@@ -125,7 +129,8 @@ int main(int argc, char* argv[]) {
   auto commit_handler = std::thread([&]() {
     PinToCore(8);
     while (handler_running.load(std::memory_order_relaxed) == true) {
-      // Wait for the main thread to signal that a batch of proposals has been sent
+      // Wait for the main thread to signal that a batch of proposals has been
+      // sent
       commit_barrier.arrive_and_wait();
       // Need to do a quick check after all that wait time
       if (handler_running.load(std::memory_order_relaxed) == false) {
@@ -134,7 +139,7 @@ int main(int argc, char* argv[]) {
 
       // Only the leader is allowed to process the DAG
       if (id == 0) {
-        auto start_time = std::chrono::high_resolution_clock::now();
+        // auto start_time = std::chrono::high_resolution_clock::now();
         // Fetch the REAL batch corresponding to what MU just committed
         std::vector<const op*> current_batch_ops;
         current_batch_ops.reserve(buf_size);
@@ -182,13 +187,12 @@ int main(int argc, char* argv[]) {
             cpu_exec.run_sequential(dag, &op_counter);
             gpu_exec.run_sequential(dag, &op_counter);
           } else {
-            // Concurrent hybrid execution level by level
-            for (const auto& level : levels) {
-              std::vector<std::vector<uint64_t>> single_level = { level };
-
-              auto cpu_future = std::async(std::launch::async, [&]() {
-                cpu_exec.run(dag, single_level, &op_counter);
-              });
+            // Concurrent hybrid execution
+            // Launch the CPU executor asynchronously so it runs at the same
+            // time as the GPU
+            auto cpu_future = std::async(std::launch::async, [&]() {
+              cpu_exec.run(dag, levels, &op_counter);
+            });
 
               gpu_exec.run(dag, single_level, &op_counter);
 
@@ -200,12 +204,12 @@ int main(int argc, char* argv[]) {
 
         // Ensure GPU is finished before returning to the next barrier
         cudaDeviceSynchronize();
-        auto end_time = std::chrono::high_resolution_clock::now();
-        auto batch_latency =
-            std::chrono::duration_cast<std::chrono::microseconds>(end_time -
-                                                                  start_time)
-                .count();
-        commit_latencies.emplace_back(batch_latency);
+        // auto end_time = std::chrono::high_resolution_clock::now();
+        // auto batch_latency =
+        //     std::chrono::duration_cast<std::chrono::microseconds>(end_time -
+        //                                                           start_time)
+        //         .count();
+        // commit_latencies.emplace_back(batch_latency);
       }
     }
   });
@@ -253,20 +257,21 @@ int main(int argc, char* argv[]) {
     // Calculate End-to-End Batch Latency and Throughput
     std::tuple<double, double, double, double> cons_latency_result;
     std::tuple<double, double, double, double> commit_latency_result;
-    calc(&cons_latency_result);
-    calc(&commit_latency_result);
+    calc(&cons_latency_result, latencies);
+    calc(&commit_latency_result, commit_latencies);
     double cons_lat_avg = std::get<0>(cons_latency_result);
     double commit_lat_avg = std::get<0>(commit_latency_result);
     double e2e_lat_avg = cons_lat_avg + commit_lat_avg;
-                         // calculate goodput as op-tracker / total time
-                         double seconds = testtime_us.count() / 1e6;
+    // calculate goodput as op-tracker / total time
+    double seconds = testtime_us.count() / 1e6;
     double goodput =
         op_counter.load(std::memory_order_relaxed) / seconds / 1e6;  // in MOPS
 
     std::stringstream ss;
     ss << system_size << "," << mat_size << "," << buf_size << ","
        << num_state_mat << "," << cpu_enabled << "," << gpu_enabled << ","
-       << mode << "," << cons_lat_avg << "," << e2e_lat_avg << "," << goodput << std::endl;
+       << mode << "," << cons_lat_avg << "," << e2e_lat_avg << "," << goodput
+       << std::endl;
     ROMULUS_INFO("[PARSE] {}", ss.str());
   }
 
