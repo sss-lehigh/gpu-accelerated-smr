@@ -28,16 +28,23 @@ class GpuExecutor {
   // Map to store pre-allocated VRAM pointers for node parameters
   std::unordered_map<uint64_t, float*> d_op_params;
 
+  // Reusable VRAM pool for param matrices — avoids per-iteration malloc/free
+  float* param_pool_ = nullptr;
+  size_t param_pool_bytes_ = 0;
+
  public:
   GpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
-      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices), device_mats_(shared_mats) {
-
+      : device_mats_(shared_mats),
+        rows_(matrix_dim),
+        cols_(matrix_dim),
+        num_matrices_(num_matrices) {
     // Initialize streams and workspaces
     streams_ = new cudaStream_t[8];
     stream_workspace_ = new float*[8];
     for (int i = 0; i < 8; ++i) {
       CUDA_CHECK(cudaStreamCreate(&streams_[i]));
-      CUDA_CHECK(cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
+      CUDA_CHECK(
+          cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
     }
   }
 
@@ -46,7 +53,7 @@ class GpuExecutor {
       cudaFree(stream_workspace_[i]);
       cudaStreamDestroy(streams_[i]);
     }
-    
+
     // Clean up heap allocations from constructor
     delete[] streams_;
     delete[] stream_workspace_;
@@ -55,10 +62,8 @@ class GpuExecutor {
       cudaEventDestroy(pair.second);
     }
 
-    // Clean up the parameter matrices stored in VRAM
-    for (auto& pair : d_op_params) {
-      cudaFree(pair.second);
-    }
+    // Pool owns all param memory — single free replaces per-entry frees
+    cudaFree(param_pool_);
   }
 
   void load_state(const State<float>& initial_state) {
@@ -66,7 +71,8 @@ class GpuExecutor {
 
     for (int i = 0; i < (int)num_matrices_; i++) {
       const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
-      CUDA_CHECK(cudaMemcpy(device_mats_[i], cpu_mat.data(), bytes, cudaMemcpyDefault));
+      CUDA_CHECK(cudaMemcpy(device_mats_[i], cpu_mat.data(), bytes,
+                            cudaMemcpyDefault));
     }
 
     CUDA_CHECK(cudaDeviceSynchronize());
@@ -74,23 +80,42 @@ class GpuExecutor {
 
   // Preparation Phase
   void prepare_dag(const std::unordered_map<uint64_t, DagNode>& dag) {
+    // Clear maps — pool memory is reused below, not freed
+    d_op_params.clear();
+
+    for (auto& [id, ev] : node_events) cudaEventDestroy(ev);
+    node_events.clear();
+
+    // Calculate total VRAM needed for all param nodes this round
+    size_t total_bytes = 0;
     for (const auto& [op_id, node] : dag) {
-      // Only allocate VRAM and transfer over PCIe if the GPU is actually going
-      // to execute this node.
       if (node.target != ExecTarget::GPU) continue;
-
       if (node.h_mat_param != nullptr) {
-        float* d_ptr;
-        size_t bytes = node.rows * node.cols * sizeof(float);
-
-        CUDA_CHECK(cudaMalloc(&d_ptr, bytes));
-        CUDA_CHECK(
-            cudaMemcpy(d_ptr, node.h_mat_param, bytes, cudaMemcpyHostToDevice));
-
-        d_op_params[node.operation.id] = d_ptr;
+        total_bytes += node.rows * node.cols * sizeof(float);
       }
     }
-    CUDA_CHECK(cudaDeviceSynchronize());
+
+    // Grow pool only if this round needs more than previously allocated
+    if (total_bytes > param_pool_bytes_) {
+      cudaFree(param_pool_);
+      CUDA_CHECK(cudaMalloc(&param_pool_, total_bytes));
+      param_pool_bytes_ = total_bytes;
+    }
+
+    // Assign pool sub-regions and async-copy params
+    size_t offset = 0;
+    for (const auto& [op_id, node] : dag) {
+      if (node.target != ExecTarget::GPU) continue;
+      if (node.h_mat_param != nullptr) {
+        size_t bytes = node.rows * node.cols * sizeof(float);
+        float* d_ptr = param_pool_ + offset / sizeof(float);
+        CUDA_CHECK(cudaMemcpyAsync(d_ptr, node.h_mat_param, bytes,
+                                   cudaMemcpyHostToDevice, streams_[0]));
+        d_op_params[node.operation.id] = d_ptr;
+        offset += bytes;
+      }
+    }
+    CUDA_CHECK(cudaStreamSynchronize(streams_[0]));
   }
 
   void run(const std::unordered_map<uint64_t, DagNode>& dag,
@@ -103,6 +128,11 @@ class GpuExecutor {
                                  cudaEventDisableTiming);
       }
     }
+
+    // Hoist device query out of the per-node loop
+    int device_id;
+    cudaGetDevice(&device_id);
+    size_t bytes = rows_ * cols_ * sizeof(float);
 
     int s_idx = 0;
 
@@ -127,18 +157,16 @@ class GpuExecutor {
         }
 
         // Bulk Prefetch to GPU VRAM
-        int device_id;
-        cudaGetDevice(&device_id);
-        size_t bytes = rows_ * cols_ * sizeof(float);
-        
-        // Prefetch operand 1
-        cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_1.value()], bytes, device_id, stream);
-        
+        cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_1.value()],
+                             bytes, device_id, stream);
+
         // Prefetch operand 2 if it's a binary matrix operation
-        if (node.operation.type == OpType::MAT_ADD || 
-            node.operation.type == OpType::MAT_SUB || 
+        if (node.operation.type == OpType::MAT_ADD ||
+            node.operation.type == OpType::MAT_SUB ||
             node.operation.type == OpType::MAT_MULT) {
-          cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_2.value()], bytes, device_id, stream);
+          cudaMemPrefetchAsync(
+              device_mats_[node.operation.dest_mat_id_2.value()], bytes,
+              device_id, stream);
         }
 
         launch(node, stream, current_stream_idx);

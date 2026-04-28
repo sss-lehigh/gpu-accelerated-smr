@@ -18,7 +18,6 @@
 #define NEW_MAT_MULT_PERC 5
 #define ELE_MAT_MULT 10
 
-#define MATRIX_DIM 2
 #define MAX_RANDOM_VALUE 1000
 
 constexpr uint32_t kNumProposals = 8092;
@@ -61,14 +60,15 @@ struct SerializedOp {
 class WorkloadGenerator {
  private:
   std::vector<op> ops;
+  uint64_t mat_dim;
 
  public:
-  WorkloadGenerator() = default;
+  WorkloadGenerator(uint64_t mat_dim) : mat_dim(mat_dim) {}
 
   DenseMat<float> generateMatrix() {
-    auto default_mat = DenseMat<float>(MATRIX_DIM, MATRIX_DIM);
-    for (uint64_t i = 0; i < MATRIX_DIM; ++i) {
-      for (uint64_t j = 0; j < MATRIX_DIM; ++j) {
+    auto default_mat = DenseMat<float>(mat_dim, mat_dim);
+    for (uint64_t i = 0; i < mat_dim; ++i) {
+      for (uint64_t j = 0; j < mat_dim; ++j) {
         default_mat.set(i + 1, j + 1, static_cast<float>(rand() % MAX_RANDOM_VALUE));
       }
     }

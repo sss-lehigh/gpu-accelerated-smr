@@ -34,7 +34,7 @@ private:
 
 public:
   CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
-      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices), host_mats_(shared_mats) {
+      : host_mats_(shared_mats), rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
 
     // Initialize physical threads matching hardware concurrency
     int num_workers = std::max(1u, std::thread::hardware_concurrency());
@@ -91,7 +91,8 @@ public:
       mats_to_prefetch.reserve(level.size());
 
       for (uint64_t op_id : level) {
-        if (dag.at(op_id).target == ExecTarget::CPU) {
+        const DagNode& node = dag.at(op_id);
+        if (node.target == ExecTarget::CPU) {
           cpu_tasks.push_back(op_id);
 
           // Mark operands for prefetching
@@ -123,7 +124,7 @@ public:
       // STRATEGY 1: Task-Level Parallelism
       // We have enough operations to keep the cores busy. 
       // 1 Worker Thread = 1 Operation. Internal math is strictly sequential.
-      if (cpu_tasks.size() >= total_hw_threads) {
+      if ((int)cpu_tasks.size() >= total_hw_threads) {
         
         // Stage the work
         current_dag = &dag;

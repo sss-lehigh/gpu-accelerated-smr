@@ -69,8 +69,8 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
 #define FILL_PROPOSALS()                                \
   std::vector<std::pair<uint32_t, uint8_t*>> proposals; \
   proposals.reserve(kNumProposals);                     \
-  WorkloadGenerator wg;                                 \
-  auto ops = wg.generate(kNumProposals, num_state_mat);  \
+  WorkloadGenerator wg(mat_size);                       \
+  auto ops = wg.generate(kNumProposals, num_state_mat); \
   /* wg.print(0, 10);   */                              \
   for (u_int64_t i = 0; i < (int)kNumProposals; ++i) {  \
     auto* buf = new uint8_t[sizeof(uint64_t)];          \

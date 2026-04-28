@@ -15,8 +15,11 @@ rm logs/* || true
 # GPU enabled: true
 # Serial: false
 # DAG: true
-BASE_ARGS="--mat-size 512 --num-state-mat 5 --cpu-enabled --gpu-enabled --mode DAG"
-BUF_SIZES=(8 16 32 64 128 256 512)
+
+# GPU Enabled: true 
+# CPU Enabled: false 
+BASE_ARGS="--mat-size 512 --num-state-mat 5 --gpu-enabled --mode DAG"
+BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
 echo "Resetting..."
 reset-all
 reset-memcached
@@ -26,3 +29,33 @@ for buf_size in "${BUF_SIZES[@]}"; do
 	run_mu "${EXE_PATH}"
 	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE" || true
 done
+
+# GPU Enabled: false 
+# CPU Enabled: true 
+BASE_ARGS="--mat-size 512 --num-state-mat 5 --cpu-enabled --mode DAG"
+BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
+echo "Resetting..."
+reset-all
+reset-memcached
+for buf_size in "${BUF_SIZES[@]}"; do
+	EXTRA_ARGS="${BASE_ARGS} --buf-size $buf_size"
+	echo "Launching experiment with buffer size ${buf_size}..."
+	run_mu "${EXE_PATH}"
+	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE" || true
+done
+
+# GPU Enabled: true 
+# CPU Enabled: true 
+BASE_ARGS="--mat-size 512 --num-state-mat 5 --cpu-enabled --gpu-enabled --mode DAG"
+BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
+echo "Resetting..."
+reset-all
+reset-memcached
+for buf_size in "${BUF_SIZES[@]}"; do
+	EXTRA_ARGS="${BASE_ARGS} --buf-size $buf_size"
+	echo "Launching experiment with buffer size ${buf_size}..."
+	run_mu "${EXE_PATH}"
+	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE" || true
+done
+
+

@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
   sa.sa_flags = 0;
   sigaction(SIGTSTP, &sa, nullptr);
 
-  PinToCore(0);
+  PinToCore(4);
 
   ROMULUS_STOPWATCH_DECLARE();
   romulus::INIT();
@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
   float** unified_state_matrices = new float*[num_state_mat];
   size_t matrix_bytes = mat_size * mat_size * sizeof(float);
 
-  for (int i = 0; i < num_state_mat; ++i) {
+  for (int i = 0; i < (int)num_state_mat; ++i) {
     cudaMallocManaged(&unified_state_matrices[i], matrix_bytes);
   }
 
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
   std::atomic<int> op_counter = 0;
 
   auto commit_handler = std::thread([&]() {
-    PinToCore(1);
+    PinToCore(8);
     while (handler_running.load(std::memory_order_relaxed) == true) {
       // Wait for the main thread to signal that a batch of proposals has been sent
       commit_barrier.arrive_and_wait();
@@ -269,7 +269,7 @@ int main(int argc, char* argv[]) {
   }
 
   // Cleanup unified memory
-  for (int i = 0; i < num_state_mat; ++i) {
+  for (int i = 0; i < (int)num_state_mat; ++i) {
     cudaFree(unified_state_matrices[i]);
   }
   delete[] unified_state_matrices;

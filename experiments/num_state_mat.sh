@@ -10,14 +10,43 @@ echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mo
 # Fixed:
 #
 # System size: n nodes
-# Buf size: 64
+# Buf size: 1024
 # Mat size: 512
-# CPU enabled: true
-# GPU enabled: true
 # Serial: false
 # DAG: true
-BASE_ARGS="--buf-size 64 --mat-size 512 --cpu-enabled --gpu-enabled --mode DAG"
-NUM_STATE_MATS=(1 2 3 4 5)
+
+# GPU Enabled: true 
+# CPU Enabled: false 
+BASE_ARGS="--buf-size 1024 --mat-size 512 --gpu-enabled --mode DAG"
+NUM_STATE_MATS=(5 6 7 8 9 10)
+echo "Resetting..."
+reset-all
+reset-memcached
+for num_state_mat in "${NUM_STATE_MATS[@]}"; do
+	EXTRA_ARGS="${BASE_ARGS} --num-state-mat $num_state_mat"
+	echo "Launching experiment with ${num_state_mat} state matrices..."
+	run_mu "${EXE_PATH}"
+	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE"
+done
+
+# GPU Enabled: false 
+# CPU Enabled: true 
+BASE_ARGS="--buf-size 1024 --mat-size 512 --cpu-enabled --mode DAG"
+NUM_STATE_MATS=(5 6 7 8 9 10)
+echo "Resetting..."
+reset-all
+reset-memcached
+for num_state_mat in "${NUM_STATE_MATS[@]}"; do
+	EXTRA_ARGS="${BASE_ARGS} --num-state-mat $num_state_mat"
+	echo "Launching experiment with ${num_state_mat} state matrices..."
+	run_mu "${EXE_PATH}"
+	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE"
+done
+
+# GPU Enabled: true 
+# CPU Enabled: true 
+BASE_ARGS="--buf-size 1024 --mat-size 512 --cpu-enabled --gpu-enabled --mode DAG"
+NUM_STATE_MATS=(5 6 7 8 9 10)
 echo "Resetting..."
 reset-all
 reset-memcached
