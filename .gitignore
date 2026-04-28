@@ -3,6 +3,7 @@ include/log_gen
 include/*.txt
 include/smr_engine
 include/cpu_smr_engine
+include/hybrid_smr_engine
 
 build/
 mu/*

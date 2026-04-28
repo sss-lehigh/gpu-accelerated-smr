@@ -21,6 +21,9 @@
 #define MATRIX_DIM 2
 #define MAX_RANDOM_VALUE 1000
 
+constexpr uint32_t kNumProposals = 8092;
+constexpr auto kNumMatrices = 5;
+
 enum class OpType : uint8_t {
   SCALAR_ADD = 0,
   SCALAR_SUB = 1,

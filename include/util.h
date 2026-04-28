@@ -5,7 +5,6 @@
 #include "workload.h"
 
 constexpr auto kTimeout = std::chrono::nanoseconds(500'000'000);
-constexpr auto kNumMatrices = 10;
 
 inline std::atomic<bool> dump_requested_ = false;
 inline std::atomic<bool> failure_detector_running_ = true;

@@ -14,7 +14,7 @@ class State {
   std::vector<DenseMat<T>> matrices;
 
  public:
-  State(int num = 5) : num_matrix{static_cast<size_t>(num)} {
+  State(int num) : num_matrix{static_cast<size_t>(num)} {
     matrices.reserve(num);
     for (size_t i = 0; i < static_cast<size_t>(num); ++i) {
       // emplace_back passes these arguments directly to DenseMat(uint64_t,

@@ -1,15 +1,15 @@
 #include <cuda_runtime.h>
 #include <vector>
-#include <map>
 #include <unordered_map>
+#include <algorithm>
 #include <atomic>
 
 #include "kernels/matrix_ops.h" 
-#include "scheduler.h"
 #include "kernels/common.cuh"
 #include "DenseMat.h"
 #include "state.h"
 #include "dag.h"
+#include "workload.h"
 
 class GpuExecutor {
 private:
@@ -26,7 +26,7 @@ private:
 
 public:
   GpuExecutor(uint64_t r, uint64_t c) : rows(r), cols(c) {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < kNumMatrices; i++) {
       // allocate memory for 5 state mats 
       CUDA_CHECK(cudaMalloc(&device_mats[i], rows * cols * sizeof(float)));
     } //end for
@@ -61,7 +61,7 @@ public:
   void load_state(const State<float>& initial_state) {
     size_t bytes = rows * cols * sizeof(float); 
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < kNumMatrices; i++) {
       const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
       CUDA_CHECK(cudaMemcpy(device_mats[i], cpu_mat.data(), bytes, cudaMemcpyHostToDevice));
     } //end for 
@@ -70,11 +70,13 @@ public:
   } //end load state
 
   // Preparation Phase
-  void prepare_dag(const std::map<uint64_t, DagNode>& dag) {
-    for (const auto& pair : dag) {
-      const DagNode& node = pair.second;
+  void prepare_dag(const std::unordered_map<uint64_t, DagNode>& dag) {
+    for (const auto& [op_id, node] : dag) {
       
-      // If the node has host data, allocate VRAM and transfer it now
+      // Only allocate VRAM and transfer over PCIe if the GPU is actually going to execute this node. 
+      if (node.target != ExecTarget::GPU)
+        continue;
+
       if (node.h_mat_param != nullptr) {
         float* d_ptr;
         size_t bytes = node.rows * node.cols * sizeof(float);
@@ -88,10 +90,12 @@ public:
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
-    // Pre create events for every node in the DAG
+  void run(const std::unordered_map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
     for (const auto& pair : dag) {
-      cudaEventCreateWithFlags(&node_events[pair.first], cudaEventDisableTiming);
+      // Only create events for nodes the GPU will process or wait on
+      if (pair.second.target == ExecTarget::GPU) {
+        cudaEventCreateWithFlags(&node_events[pair.first], cudaEventDisableTiming);
+      }
     }
 
     int s_idx = 0;
@@ -99,48 +103,67 @@ public:
     for (const auto& level : levels) {
       for (uint64_t op_id : level) {
         const DagNode& node = dag.at(op_id);
+        
+        // Skip CPU operations
+        if (node.target != ExecTarget::GPU)
+          continue;
+
         int current_stream_idx = s_idx % 8;
         cudaStream_t stream = streams[current_stream_idx];
 
-        // Asynnchronous dependency resolution
-        // tell this stream to wait until the streams handling the dependencies
-        // have recored their completion event
-        for (uint64_t dep_id : node.deps) {
-            CUDA_CHECK(cudaStreamWaitEvent(stream, node_events[dep_id], 0));
+        // Replaced std::set range loop with array counter loop
+        for (int i = 0; i < node.dep_count; ++i) {
+            uint64_t dep_id = node.deps[i];
+            
+            // Only wait if the dependency was ALSO a GPU operation
+            // (CPU/GPU syncs are handled at the barrier level in smr.cc)
+            if (dag.at(dep_id).target == ExecTarget::GPU) {
+                CUDA_CHECK(cudaStreamWaitEvent(stream, node_events[dep_id], 0));
+            }
         }
 
-        // Launch the kernel on the specific stream
         launch(node, stream, current_stream_idx);
-        op_counter->fetch_add(1, std::memory_order_relaxed); 
+        
+        // FIXED: Increment by original_op_count for accurate metrics
+        if (op_counter) {
+            op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed); 
+        }
 
-        // Record that this node has finished its work in this stream
         CUDA_CHECK(cudaEventRecord(node_events[op_id], stream));
-
         s_idx++;
       }
     }
 
-    // Only synchronize ONCE at the very end of the entire DAG execution
     CUDA_CHECK(cudaDeviceSynchronize());
-  } //end run
+  }
 
   // Sequential Execution Baseline
-  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
-    // Submit all work to a single stream. 
-    // The GPU hardware will natively execute them one after the other.
+  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
     cudaStream_t seq_stream = streams[0];
 
-    // std::map inherently iterates in ascending order of the op_id keys,
-    // preserving the original sequential generation order of the workload.
+    // Because unordered_map loses generation order, we must manually 
+    // sort the operation IDs to ensure proper sequential state machine execution.
+    std::vector<uint64_t> sorted_keys;
+    sorted_keys.reserve(dag.size());
     for (const auto& pair : dag) {
-      const DagNode& node = pair.second;
+      sorted_keys.push_back(pair.first);
+    }
+    std::sort(sorted_keys.begin(), sorted_keys.end());
+
+    for (uint64_t op_id : sorted_keys) {
+      const DagNode& node = dag.at(op_id);
       
-      // Launch every node on the exact same stream using workspace 0
+      // Skip CPU operations
+      if (node.target != ExecTarget::GPU) continue;
+      
       launch(node, seq_stream, 0);
-      op_counter->fetch_add(1, std::memory_order_relaxed);
+      
+      // Increment by original_op_count
+      if (op_counter) {
+          op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+      }
     }
 
-    // Block until the sequential queue is fully processed
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 

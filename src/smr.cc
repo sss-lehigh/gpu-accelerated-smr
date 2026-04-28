@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <future>
 
 #include "cfg.h"
 #include "cpu/cpu.h"
@@ -21,9 +22,9 @@
 #include "romulus/util.h"
 #include "state.h"
 #include "util.h"
+#include "workload.h"
 
 #define PAXOS_NS paxos_st
-constexpr uint32_t kNumProposals = 8092;
 
 void signal_handler(int signum) {
   if (signum == SIGTSTP) {
@@ -81,11 +82,18 @@ int main(int argc, char* argv[]) {
 
   init();
 
-  // Initializing every components
-  // WorkloadGenerator wg;
+  // Map config flags to the new ExecMode
+  ExecMode e_mode = ExecMode::HYBRID;
+  if (cpu_enabled && !gpu_enabled)
+    e_mode = ExecMode::BASELINE_CPU;
+  if (!cpu_enabled && gpu_enabled)
+    e_mode = ExecMode::BASELINE_GPU;
+
+  // Initialize the combined ExecutionGraph
+  ExecutionGraph graph(e_mode);
 
   // Initialize the State Machine exactly once
-  State<float> initstate;
+  State<float> initstate(kNumMatrices);
   initstate.populate_random_state_matrix(1.0f, 100.0f);
 
   CpuExecutor cpu_exec(ROWS, COLS);
@@ -133,39 +141,54 @@ int main(int argc, char* argv[]) {
           current_commit_idx = 0;
         }
 
-        // Build the new DAG
-        DagGenerator dg(current_batch_ops);
-        auto& dag = dg.get_dag();
-        auto& op_scores = dg.get_op_scores();
+        // Use the new unified ExecutionGraph API
+        graph.reset();
+        graph.ingest_batch(current_batch_ops);
+        const auto& dag = graph.get_dag();
+        auto levels = graph.generate_levels();
+
         bool is_serial = (mode == "SERIAL");
 
-        for (auto& dagnode : dag) {
-          uint64_t op_id = dagnode.first;
-          int score = op_scores[op_id];
-
-          if (gpu_enabled && score > 50) {
-            gpu_exec.prepare_dag(dag);
-            // Only in the gpu enable case do we consider the score
-            if (is_serial) {
-              ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
-              gpu_exec.run_sequential(dagnode, &op_counter);
-            } else {
-              ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
-              gpu_exec.run(dagnode, &op_counter);
-            }
-            // Ensure GPU is finished before returning to the next barrier
-            cudaDeviceSynchronize();
-          }
-        }
-        else {
+        // Execution Dispatch Logic
+        if (e_mode == ExecMode::BASELINE_CPU) {
+          if (is_serial)
+            cpu_exec.run_sequential(dag, &op_counter);
+          else
+            cpu_exec.run(dag, levels, &op_counter);
+        } 
+        else if (e_mode == ExecMode::BASELINE_GPU) {
+          gpu_exec.prepare_dag(dag);
+          if (is_serial)
+            gpu_exec.run_sequential(dag, &op_counter);
+          else
+            gpu_exec.run(dag, levels, &op_counter);
+        } 
+        else if (e_mode == ExecMode::HYBRID) {
+          // In Hybrid mode, both devices need access to the DAG
+          gpu_exec.prepare_dag(dag); 
+          
           if (is_serial) {
-            ROMULUS_INFO("[Commit handler] Running on CPU in SERIAL mode");
-            cpu_exec.run_sequential(dagnode, &op_counter);
+            // Strictly sequential hybrid execution (for debugging)
+            // Executors will internally check node.target
+            cpu_exec.run_sequential(dag, &op_counter);
+            gpu_exec.run_sequential(dag, &op_counter);
           } else {
-            ROMULUS_INFO("[Commit handler] Running on CPU in DAG mode");
-            cpu_exec.run(dagnode, &op_counter);
+            // CONCURRENT HYBRID EXECUTION
+            // Launch the CPU executor asynchronously so it runs at the same time as the GPU
+            auto cpu_future = std::async(std::launch::async, [&]() {
+                cpu_exec.run(dag, levels, &op_counter);
+            });
+
+            // The main thread drives the GPU executor
+            gpu_exec.run(dag, levels, &op_counter);
+
+            // Wait for the CPU thread to finish its portion of the DAG
+            cpu_future.get();
           }
         }
+
+        // Ensure GPU is finished before returning to the next barrier
+        cudaDeviceSynchronize();
       }
     }
   });

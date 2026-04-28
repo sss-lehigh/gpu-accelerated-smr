@@ -2,14 +2,16 @@
 
 #include <omp.h>
 #include <algorithm>
-#include <cstring> // For std::memcpy
+#include <cstring>
 #include <atomic>
+#include <vector>
+#include <unordered_map>
 
-#include "scheduler.h"
 #include "cpu_matrix_ops.h"
 #include "DenseMat.h"
 #include "state.h"
-#include "dag.h" // Ensure dag.h is included for the updated DagNode
+#include "dag.h"
+#include "workload.h"
 
 class CpuExecutor {
 private:
@@ -44,56 +46,79 @@ public:
   void load_state(const State<float>& initial_state) {
     size_t bytes = rows * cols * sizeof(float); 
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < kNumMatrices; i++) {
       const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
       std::memcpy(host_mats[i], cpu_mat.data(), bytes);
     } 
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
-    // Explicitly enable nested parallelism
-    omp_set_max_active_levels(2);
-    int total_hw_threads = omp_get_max_threads();
+  void run(const std::unordered_map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
+    // Disable nested parallelism to prevent thread oversubscription and memory safety issues.
+    omp_set_max_active_levels(1);
 
     // Iterate through each level sequentially
     for (const auto& level : levels) {
-      int num_ops = level.size();
+      
+      // Filter out GPU tasks to avoid indexing errors
+      std::vector<uint64_t> cpu_tasks;
+      for (uint64_t op_id : level) {
+        if (dag.at(op_id).target == ExecTarget::CPU) {
+          cpu_tasks.push_back(op_id);
+        }
+      }
 
-      // Dynamic Sub-team Allocation
-      int threads_per_op = std::max(1, total_hw_threads / num_ops);
+      if (cpu_tasks.empty())
+        continue;
 
-      #pragma omp parallel for num_threads(num_ops) schedule(dynamic)
-      for (size_t i = 0; i < level.size(); ++i) {
-        uint64_t op_id = level[i];
+      // Distribute CPU operations across the available physical cores
+      #pragma omp parallel for schedule(dynamic)
+      for (size_t i = 0; i < cpu_tasks.size(); ++i) {
+        uint64_t op_id = cpu_tasks[i];
         const DagNode& node = dag.at(op_id);
         
-        // Get the current physical thread ID to access the correct workspace
+        // Safe physical thread ID to access the correct workspace
         int thread_idx = omp_get_thread_num();
 
-        // Set number of parallel threads for individual operation
-        omp_set_num_threads(threads_per_op);
-
-        // [Rishad] : Similarly, how many operations would this equate to? can we simply increment the op_counter here?
         launch(node, thread_idx);
-        op_counter->fetch_add(num_ops, std::memory_order_relaxed);
+
+        // Use original_op_count to properly credit fused operations
+        if (op_counter) {
+          op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+        }
       }
     } 
   }
 
   // Sequential Execution Baseline (CPU)
-  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
+  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
     // Guarantee that the single operation gets 100% of the physical cores 
     // to execute its internal SIMD loops.
     omp_set_num_threads(omp_get_max_threads());
 
-    // Iterate in ascending op_id order
+    // Because unordered_map loses generation order, we must manually 
+    // sort the operation IDs to ensure proper sequential state machine execution.
+    std::vector<uint64_t> sorted_keys;
+    sorted_keys.reserve(dag.size());
     for (const auto& pair : dag) {
-      const DagNode& node = pair.second;
+      sorted_keys.push_back(pair.first);
+    }
+    std::sort(sorted_keys.begin(), sorted_keys.end());
+
+    // Iterate in ascending op_id order
+    for (uint64_t op_id : sorted_keys) {
+      const DagNode& node = dag.at(op_id);
+      
+      // Skip GPU operations
+      if (node.target != ExecTarget::CPU)
+        continue;
       
       // Execute sequentially on the main thread, using workspace 0
-      // [Rishad] : How many operations would this equate to? can we simply increment the op_counter here
       launch(node, 0);
-      op_counter->fetch_add(1, std::memory_order_relaxed);
+
+      // Increment by original_op_count
+      if (op_counter) {
+        op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+      }
     }
   }
 
