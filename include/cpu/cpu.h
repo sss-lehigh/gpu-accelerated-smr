@@ -3,6 +3,7 @@
 #include <omp.h>
 #include <algorithm>
 #include <cstring> // For std::memcpy
+#include <atomic>
 
 #include "scheduler.h"
 #include "cpu_matrix_ops.h"
@@ -49,7 +50,7 @@ public:
     } 
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter = nullptr) {
+  void run(const std::map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
     // Explicitly enable nested parallelism
     omp_set_max_active_levels(2);
     int total_hw_threads = omp_get_max_threads();
@@ -74,12 +75,13 @@ public:
 
         // [Rishad] : Similarly, how many operations would this equate to? can we simply increment the op_counter here?
         launch(node, thread_idx);
+        op_counter->fetch_add(num_ops, std::memory_order_relaxed);
       }
     } 
   }
 
   // Sequential Execution Baseline (CPU)
-  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter = nullptr) {
+  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
     // Guarantee that the single operation gets 100% of the physical cores 
     // to execute its internal SIMD loops.
     omp_set_num_threads(omp_get_max_threads());
@@ -91,6 +93,7 @@ public:
       // Execute sequentially on the main thread, using workspace 0
       // [Rishad] : How many operations would this equate to? can we simply increment the op_counter here
       launch(node, 0);
+      op_counter->fetch_add(1, std::memory_order_relaxed);
     }
   }
 

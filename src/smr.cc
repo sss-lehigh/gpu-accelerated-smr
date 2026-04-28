@@ -147,7 +147,14 @@ int main(int argc, char* argv[]) {
         // ops per level, num total ops} and gives us a score that we can use to
         // decide whether to run on cpu or gpu? Can't we do that in this scope?
         auto levels = Scheduler::get_levels(dag);
-        bool is_serial = (mode == "SERIAL");
+        auto score = Scheduler::get_score(levels);
+        ROMULUS_INFO("[Commit handler] DAG has {} levels and a score of {}/100",
+                     levels.size(), score);
+
+        [[maybe_unused]] bool is_serial = (mode == "SERIAL");
+        [[maybe_unused]] bool use_gpu = (score > 50);
+
+        [[maybe_unused]] bool force_gpu = gpu_enabled;
         // Execute the Dynamic Batch
         if (cpu_enabled && is_serial) {
           ROMULUS_INFO("[Commit handler] Running on CPU in SERIAL mode");

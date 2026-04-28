@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <atomic>
 
 #include "kernels/matrix_ops.h" 
 #include "scheduler.h"
@@ -87,7 +88,7 @@ public:
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter = nullptr) {
+  void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
     // Pre create events for every node in the DAG
     for (const auto& pair : dag) {
       cudaEventCreateWithFlags(&node_events[pair.first], cudaEventDisableTiming);
@@ -110,6 +111,7 @@ public:
 
         // Launch the kernel on the specific stream
         launch(node, stream, current_stream_idx);
+        op_counter->fetch_add(1, std::memory_order_relaxed); 
 
         // Record that this node has finished its work in this stream
         CUDA_CHECK(cudaEventRecord(node_events[op_id], stream));
@@ -123,7 +125,7 @@ public:
   } //end run
 
   // Sequential Execution Baseline
-  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter = nullptr) {
+  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
     // Submit all work to a single stream. 
     // The GPU hardware will natively execute them one after the other.
     cudaStream_t seq_stream = streams[0];
@@ -135,6 +137,7 @@ public:
       
       // Launch every node on the exact same stream using workspace 0
       launch(node, seq_stream, 0);
+      op_counter->fetch_add(1, std::memory_order_relaxed);
     }
 
     // Block until the sequential queue is fully processed
