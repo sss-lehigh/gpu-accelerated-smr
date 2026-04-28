@@ -168,13 +168,6 @@ int main(int argc, char* argv[]) {
           gpu_exec.run(dag, levels, &op_counter);
         }
 
-        if (is_serial) {
-          ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
-          gpu_exec.run_sequential(dag, &op_counter);
-        } else {
-          ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
-          gpu_exec.run(dag, levels, &op_counter);
-        }
         // Ensure GPU is finished before returning to the next barrier
         cudaDeviceSynchronize();
       }
