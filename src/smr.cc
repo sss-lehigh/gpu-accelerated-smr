@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
-
+    std::atomic<int> op_counter = 0;
     while (handler_running.load(std::memory_order_relaxed) == true) {
       // Wait for the main thread to signal that a batch of proposals has been
       // sent
@@ -141,34 +141,39 @@ int main(int argc, char* argv[]) {
         // Build the new DAG
         builder.build_dag(current_batch_ops);
         auto& dag = builder.get_dag();
+        // [Rishad] : At this point, we have the DAG built. Why do we have to
+        // rely on the scheduler to give us a score? Can't we just define a
+        // utility function that takes a couple of factors {e.g. num levels, num
+        // ops per level, num total ops} and gives us a score that we can use to
+        // decide whether to run on cpu or gpu? Can't we do that in this scope?
         auto levels = Scheduler::get_levels(dag);
         bool is_serial = (mode == "SERIAL");
         // Execute the Dynamic Batch
         if (cpu_enabled && is_serial) {
           ROMULUS_INFO("[Commit handler] Running on CPU in SERIAL mode");
-          cpu_exec.run_sequential(dag);
+          cpu_exec.run_sequential(dag, &op_counter);
         }
         if (cpu_enabled && !is_serial) {
           ROMULUS_INFO("[Commit handler] Running on CPU in DAG mode");
-          cpu_exec.run(dag, levels);
+          cpu_exec.run(dag, levels, &op_counter);
         }
         // at this point it must be a gpu execution
         gpu_exec.prepare_dag(dag);
         if (gpu_enabled && is_serial) {
           ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
-          gpu_exec.run_sequential(dag);
+          gpu_exec.run_sequential(dag, &op_counter);
         }
         if (gpu_enabled && !is_serial) {
           ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
-          gpu_exec.run(dag, levels);
+          gpu_exec.run(dag, levels, &op_counter);
         }
 
         if (is_serial) {
           ROMULUS_INFO("[Commit handler] Running on GPU in SERIAL mode");
-          gpu_exec.run_sequential(dag);
+          gpu_exec.run_sequential(dag, &op_counter);
         } else {
           ROMULUS_INFO("[Commit handler] Running on GPU in DAG mode");
-          gpu_exec.run(dag, levels);
+          gpu_exec.run(dag, levels, &op_counter);
         }
         // Ensure GPU is finished before returning to the next barrier
         cudaDeviceSynchronize();

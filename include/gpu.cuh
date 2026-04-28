@@ -87,7 +87,7 @@ public:
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels) {
+  void run(const std::map<uint64_t, DagNode>& dag, std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter = nullptr) {
     // Pre create events for every node in the DAG
     for (const auto& pair : dag) {
       cudaEventCreateWithFlags(&node_events[pair.first], cudaEventDisableTiming);
@@ -123,7 +123,7 @@ public:
   } //end run
 
   // Sequential Execution Baseline
-  void run_sequential(const std::map<uint64_t, DagNode>& dag) {
+  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter = nullptr) {
     // Submit all work to a single stream. 
     // The GPU hardware will natively execute them one after the other.
     cudaStream_t seq_stream = streams[0];

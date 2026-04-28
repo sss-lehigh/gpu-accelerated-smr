@@ -49,7 +49,7 @@ public:
     } 
   }
 
-  void run(const std::map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels) {
+  void run(const std::map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter = nullptr) {
     // Explicitly enable nested parallelism
     omp_set_max_active_levels(2);
     int total_hw_threads = omp_get_max_threads();
@@ -72,13 +72,14 @@ public:
         // Set number of parallel threads for individual operation
         omp_set_num_threads(threads_per_op);
 
+        // [Rishad] : Similarly, how many operations would this equate to? can we simply increment the op_counter here?
         launch(node, thread_idx);
       }
     } 
   }
 
   // Sequential Execution Baseline (CPU)
-  void run_sequential(const std::map<uint64_t, DagNode>& dag) {
+  void run_sequential(const std::map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter = nullptr) {
     // Guarantee that the single operation gets 100% of the physical cores 
     // to execute its internal SIMD loops.
     omp_set_num_threads(omp_get_max_threads());
@@ -88,6 +89,7 @@ public:
       const DagNode& node = pair.second;
       
       // Execute sequentially on the main thread, using workspace 0
+      // [Rishad] : How many operations would this equate to? can we simply increment the op_counter here
       launch(node, 0);
     }
   }
