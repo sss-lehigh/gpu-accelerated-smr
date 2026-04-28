@@ -229,6 +229,8 @@ class DagGenerator {
 
   const std::map<uint64_t, DagNode>& get_dag() const { return dag_; }
 
+  const std::vector<int>& get_op_scores() const { return op_scores_; }
+
   // reset the dag
   void reset() {
     // Free all dynamically allocated host memory for the current batch
@@ -242,5 +244,6 @@ class DagGenerator {
     // Clear the dependency tracker and the DAG container
     dag_.clear();
     last_write_.clear();
+    op_scores_.clear();
   }
 };  // end class
