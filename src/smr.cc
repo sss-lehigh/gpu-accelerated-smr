@@ -89,23 +89,27 @@ int main(int argc, char* argv[]) {
   if (!cpu_enabled && gpu_enabled) e_mode = ExecMode::BASELINE_GPU;
 
   // Initialize the combined ExecutionGraph
-  ExecutionGraph graph(e_mode);
+  ExecutionGraph graph(mat_size, e_mode);
 
   // Initialize the State Machine exactly once
   State<float> initstate(num_state_mat, mat_size);
   initstate.populate_random_state_matrix(1.0f, 100.0f);
 
-  // CUDA Unified Memory allocation
-  float** unified_state_matrices = new float*[num_state_mat];
+  // Separate explicit allocations for Host (CPU) and Device (GPU)
+  float** cpu_state_matrices = new float*[num_state_mat];
+  float** gpu_state_matrices = new float*[num_state_mat];
   size_t matrix_bytes = mat_size * mat_size * sizeof(float);
 
   for (int i = 0; i < (int)num_state_mat; ++i) {
-    cudaMallocManaged(&unified_state_matrices[i], matrix_bytes);
+    // cudaHostAlloc Portable guarantees pinned memory that can be accessed fast by the CPU 
+    // and explicitly DMA-copied asynchronously by the GPU.
+    cudaHostAlloc((void**)&cpu_state_matrices[i], matrix_bytes, cudaHostAllocPortable);
+    cudaMalloc((void**)&gpu_state_matrices[i], matrix_bytes);
   }
 
-  // Pass the exact same memory pointers to both executors
-  CpuExecutor cpu_exec(mat_size, num_state_mat, unified_state_matrices);
-  GpuExecutor gpu_exec(mat_size, num_state_mat, unified_state_matrices);
+  // Pass separated memory pointers to respective executors
+  CpuExecutor cpu_exec(mat_size, num_state_mat, cpu_state_matrices, gpu_state_matrices);
+  GpuExecutor gpu_exec(mat_size, num_state_mat, gpu_state_matrices, cpu_state_matrices);
 
   // Load state only once, since both executors now point to the same physical memory
   gpu_exec.load_state(initstate);
@@ -132,13 +136,13 @@ int main(int argc, char* argv[]) {
       if (id == 0) {
         auto start_time = std::chrono::high_resolution_clock::now();
         // Fetch the REAL batch corresponding to what MU just committed
-        std::vector<op> current_batch_ops;
+        std::vector<const op*> current_batch_ops;
         current_batch_ops.reserve(buf_size);
 
         // Slice the next 'buf_size' operations from the master 'ops' array
         size_t batch_end = std::min(current_commit_idx + buf_size, ops.size());
         for (size_t i = current_commit_idx; i < batch_end; ++i) {
-          current_batch_ops.push_back(ops[i]);
+          current_batch_ops.push_back(&ops[i]);
         }
 
         // Update the tracker for the next batch
@@ -178,17 +182,19 @@ int main(int argc, char* argv[]) {
             cpu_exec.run_sequential(dag, &op_counter);
             gpu_exec.run_sequential(dag, &op_counter);
           } else {
-            // Concurrent hybrid execution
-            // Launch the CPU executor asynchronously so it runs at the same time as the GPU
-            auto cpu_future = std::async(std::launch::async, [&]() {
-              cpu_exec.run(dag, levels, &op_counter);
-            });
+            // Concurrent hybrid execution level by level
+            for (const auto& level : levels) {
+              std::vector<std::vector<uint64_t>> single_level = { level };
 
-            // The main thread drives the GPU executor
-            gpu_exec.run(dag, levels, &op_counter);
+              auto cpu_future = std::async(std::launch::async, [&]() {
+                cpu_exec.run(dag, single_level, &op_counter);
+              });
 
-            // Wait for the CPU thread to finish its portion of the DAG
-            cpu_future.get();
+              gpu_exec.run(dag, single_level, &op_counter);
+
+              // Wait for CPU to finish this specific level before the GPU proceeds to the next
+              cpu_future.get();
+            }
           }
         }
 
@@ -268,11 +274,13 @@ int main(int argc, char* argv[]) {
     delete[] p.second;
   }
 
-  // Cleanup unified memory
+  // Phase 2 Cleanup: Free pinned host memory and device memory
   for (int i = 0; i < (int)num_state_mat; ++i) {
-    cudaFree(unified_state_matrices[i]);
+    cudaFreeHost(cpu_state_matrices[i]);
+    cudaFree(gpu_state_matrices[i]);
   }
-  delete[] unified_state_matrices;
+  delete[] cpu_state_matrices;
+  delete[] gpu_state_matrices;
 
   return 0;
 }

@@ -16,8 +16,9 @@
 
 class GpuExecutor {
  private:
-  float** device_mats_;       // Points to CUDA Unified Memory
-  float** stream_workspace_;  // Pre allocated workspace for MAT_MULT
+  float** device_mats_;       // Dedicated GPU VRAM
+  float** host_mats_;         // Pinned CPU Host Memory (for explicit DMA pulls)
+  float** stream_workspace_;  // Pre-allocated workspace for MAT_MULT
   cudaStream_t* streams_;     // Concurrent hardware queues
   uint64_t rows_, cols_;
   uint64_t num_matrices_;
@@ -33,8 +34,9 @@ class GpuExecutor {
   size_t param_pool_bytes_ = 0;
 
  public:
-  GpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
-      : device_mats_(shared_mats),
+  GpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** d_mats, float** h_mats = nullptr)
+      : device_mats_(d_mats),
+        host_mats_(h_mats),
         rows_(matrix_dim),
         cols_(matrix_dim),
         num_matrices_(num_matrices) {
@@ -43,8 +45,7 @@ class GpuExecutor {
     stream_workspace_ = new float*[8];
     for (int i = 0; i < 8; ++i) {
       CUDA_CHECK(cudaStreamCreate(&streams_[i]));
-      CUDA_CHECK(
-          cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
+      CUDA_CHECK(cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
     }
   }
 
@@ -129,11 +130,7 @@ class GpuExecutor {
       }
     }
 
-    // Hoist device query out of the per-node loop
-    int device_id;
-    cudaGetDevice(&device_id);
     size_t bytes = rows_ * cols_ * sizeof(float);
-
     int s_idx = 0;
 
     for (const auto& level : levels) {
@@ -146,27 +143,23 @@ class GpuExecutor {
         int current_stream_idx = s_idx % 8;
         cudaStream_t stream = streams_[current_stream_idx];
 
-        // Replaced std::set range loop with array counter loop
         for (int i = 0; i < node.dep_count; ++i) {
           uint64_t dep_id = node.deps[i];
+          const DagNode& dep_node = dag.at(dep_id);
 
-          // Only wait if the dependency was ALSO a GPU operation
-          if (dag.at(dep_id).target == ExecTarget::GPU) {
+          if (dep_node.target == ExecTarget::GPU) {
+            // Wait for prior GPU kernel to finish
             CUDA_CHECK(cudaStreamWaitEvent(stream, node_events[dep_id], 0));
+          } else if (dep_node.target == ExecTarget::CPU && host_mats_ != nullptr) {
+            // The CPU mutated this dependency matrix.
+            // Pull the freshest state from Host Pinned Memory directly into VRAM asynchronously.
+            uint32_t cpu_mutated_mat = dep_node.operation.dest_mat_id_1.value();
+            CUDA_CHECK(cudaMemcpyAsync(device_mats_[cpu_mutated_mat],
+                                       host_mats_[cpu_mutated_mat],
+                                       bytes,
+                                       cudaMemcpyHostToDevice,
+                                       stream));
           }
-        }
-
-        // Bulk Prefetch to GPU VRAM
-        cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_1.value()],
-                             bytes, device_id, stream);
-
-        // Prefetch operand 2 if it's a binary matrix operation
-        if (node.operation.type == OpType::MAT_ADD ||
-            node.operation.type == OpType::MAT_SUB ||
-            node.operation.type == OpType::MAT_MULT) {
-          cudaMemPrefetchAsync(
-              device_mats_[node.operation.dest_mat_id_2.value()], bytes,
-              device_id, stream);
         }
 
         launch(node, stream, current_stream_idx);
@@ -189,10 +182,10 @@ class GpuExecutor {
   void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag,
                       std::atomic<int>* op_counter) {
     cudaStream_t seq_stream = streams_[0];
+    size_t bytes = rows_ * cols_ * sizeof(float);
 
     // Because unordered_map loses generation order, we must manually
-    // sort the operation IDs to ensure proper sequential state machine
-    // execution.
+    // sort the operation IDs to ensure proper sequential state machine execution.
     std::vector<uint64_t> sorted_keys;
     sorted_keys.reserve(dag.size());
     for (const auto& pair : dag) {
@@ -205,6 +198,20 @@ class GpuExecutor {
 
       // Skip CPU operations
       if (node.target != ExecTarget::GPU) continue;
+
+      for (int i = 0; i < node.dep_count; ++i) {
+        uint64_t dep_id = node.deps[i];
+        const DagNode& dep_node = dag.at(dep_id);
+
+        if (dep_node.target == ExecTarget::CPU && host_mats_ != nullptr) {
+          uint32_t cpu_mutated_mat = dep_node.operation.dest_mat_id_1.value();
+          CUDA_CHECK(cudaMemcpyAsync(device_mats_[cpu_mutated_mat],
+                                     host_mats_[cpu_mutated_mat],
+                                     bytes,
+                                     cudaMemcpyHostToDevice,
+                                     seq_stream));
+        }
+      }
 
       launch(node, seq_stream, 0);
 
@@ -247,7 +254,7 @@ class GpuExecutor {
         case OpType::MAT_MULT: {
           float* d_mat_B = device_mats_[node.operation.dest_mat_id_2.value()];
           float* d_temp_result =
-              stream_workspace_[stream_idx];  // use pre allocated buffer
+              stream_workspace_[stream_idx];  // use pre-allocated buffer
           size_t size = rows_ * cols_ * sizeof(float);
 
           // SGEMM into temp buffer, then Async Copy back

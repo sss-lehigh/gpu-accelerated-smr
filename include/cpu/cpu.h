@@ -17,7 +17,8 @@
 
 class CpuExecutor {
 private:
-  float** host_mats_;                     // Points to CUDA Unified Memory
+  float** host_mats_;                     // Pinned CPU Host Memory
+  float** device_mats_;                   // Dedicated GPU VRAM (for explicit DMA pulls)
   std::vector<float*> thread_workspaces_; // Pre-allocated workspaces per thread for MAT_MULT
   uint64_t rows_, cols_;
   uint64_t num_matrices_;
@@ -33,8 +34,8 @@ private:
   std::atomic<int>* current_op_counter = nullptr;
 
 public:
-  CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
-      : host_mats_(shared_mats), rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
+  CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** h_mats, float** d_mats = nullptr)
+      : host_mats_(h_mats), device_mats_(d_mats), rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
 
     // Initialize physical threads matching hardware concurrency
     int num_workers = std::max(1u, std::thread::hardware_concurrency());
@@ -87,39 +88,42 @@ public:
       std::vector<uint64_t> cpu_tasks;
       cpu_tasks.reserve(level.size());
 
-      std::vector<uint64_t> mats_to_prefetch;
-      mats_to_prefetch.reserve(level.size());
+      std::vector<uint64_t> mats_to_pull;
+      mats_to_pull.reserve(level.size() * 2);
 
       for (uint64_t op_id : level) {
         const DagNode& node = dag.at(op_id);
         if (node.target == ExecTarget::CPU) {
           cpu_tasks.push_back(op_id);
 
-          // Mark operands for prefetching
-          mats_to_prefetch.push_back(node.operation.dest_mat_id_1.value());
-          if (node.operation.type == OpType::MAT_ADD || 
-              node.operation.type == OpType::MAT_SUB || 
-              node.operation.type == OpType::MAT_MULT) {
-            mats_to_prefetch.push_back(node.operation.dest_mat_id_2.value());
+          // Check dependencies to see if the GPU was the last writer
+          for (int i = 0; i < node.dep_count; ++i) {
+            uint64_t dep_id = node.deps[i];
+            const DagNode& dep_node = dag.at(dep_id);
+
+            if (dep_node.target == ExecTarget::GPU && device_mats_ != nullptr) {
+              mats_to_pull.push_back(dep_node.operation.dest_mat_id_1.value());
+            }
           }
         }
       }
 
       if (cpu_tasks.empty()) continue;
 
-      // Bulk Prefetch to CPU System RAM
-      // Remove duplicates
-      std::sort(mats_to_prefetch.begin(), mats_to_prefetch.end());
-      mats_to_prefetch.erase(std::unique(mats_to_prefetch.begin(), mats_to_prefetch.end()), mats_to_prefetch.end());
+      // Bulk transfer GPU-mutated matrices into CPU Host Memory
+      if (!mats_to_pull.empty()) {
+        // Remove duplicates so we don't pull the same matrix twice
+        std::sort(mats_to_pull.begin(), mats_to_pull.end());
+        mats_to_pull.erase(std::unique(mats_to_pull.begin(), mats_to_pull.end()), mats_to_pull.end());
 
-      size_t bytes = rows_ * cols_ * sizeof(float);
-      for (uint64_t mat_id : mats_to_prefetch) {
-        // Prefetch to the CPU
-        cudaMemPrefetchAsync(host_mats_[mat_id], bytes, cudaCpuDeviceId, 0);
+        size_t bytes = rows_ * cols_ * sizeof(float);
+        for (uint64_t mat_id : mats_to_pull) {
+          cudaMemcpyAsync(host_mats_[mat_id], device_mats_[mat_id], bytes, cudaMemcpyDeviceToHost, 0);
+        }
+        
+        // We must block the master thread until the D2H bulk transfer finishes.
+        cudaStreamSynchronize(0); 
       }
-      // We must block the master thread until the bulk transfer finishes.
-      // Otherwise, the worker threads will wake up and trigger page faults anyway.
-      cudaStreamSynchronize(0); 
 
       // STRATEGY 1: Task-Level Parallelism
       // We have enough operations to keep the cores busy. 
@@ -137,6 +141,15 @@ public:
 
         // Wait at the barrier until all workers finish the level
         sync_barrier->arrive_and_wait();
+
+        // Bulk-update the op_counter
+        if (op_counter) {
+          int level_ops = 0;
+          for (uint64_t op_id : cpu_tasks) {
+            level_ops += dag.at(op_id).original_op_count;
+          }
+          op_counter->fetch_add(level_ops, std::memory_order_relaxed);
+        }
       }
       // STRATEGY 2: Data-Level Parallelism
       // Few operations. Master thread executes them, but passes 'use_parallel = true'
@@ -159,6 +172,8 @@ public:
 
   // Sequential Execution Baseline (CPU)
   void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
+    size_t bytes = rows_ * cols_ * sizeof(float);
+
     // Because unordered_map loses generation order, we must manually 
     // sort the operation IDs to ensure proper sequential state machine execution.
     std::vector<uint64_t> sorted_keys;
@@ -176,6 +191,20 @@ public:
       if (node.target != ExecTarget::CPU)
         continue;
       
+      // Sequential mode also requires state pulls if the last writer was the GPU
+      for (int i = 0; i < node.dep_count; ++i) {
+        uint64_t dep_id = node.deps[i];
+        const DagNode& dep_node = dag.at(dep_id);
+
+        if (dep_node.target == ExecTarget::GPU && device_mats_ != nullptr) {
+          uint32_t gpu_mutated_mat = dep_node.operation.dest_mat_id_1.value();
+          cudaMemcpy(host_mats_[gpu_mutated_mat],
+                     device_mats_[gpu_mutated_mat],
+                     bytes,
+                     cudaMemcpyDeviceToHost);
+        }
+      }
+
       // Execute sequentially on the main thread. Internal math is strictly sequential.
       launch(node, 0, false);
 
@@ -188,6 +217,7 @@ public:
   }
 
 private:
+  // The persistent loop executed by the pre-spawned task threads
   // The persistent loop executed by the pre-spawned task threads
   void worker_loop(int thread_idx) {
     while (true) {
@@ -211,10 +241,6 @@ private:
 
         // Execute task. Task workers NEVER use internal data parallelism.
         launch(node, thread_idx, false);
-
-        if (current_op_counter) {
-          current_op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
-        }
       }
 
       // Block here to signal to the master thread that this worker is done with the level
