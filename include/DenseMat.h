@@ -6,8 +6,8 @@
 
 #include "romulus/logging.h"
 
-const uint64_t ROWS = 10;
-const uint64_t COLS = 10;
+const uint64_t ROWS = 512;
+const uint64_t COLS = 512;
 
 /// A dense matrix, implemented as a 1D array
 ///

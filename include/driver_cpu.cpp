@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << "[3/5] Initializing CPU Executor and Workspaces..." << std::endl;
-    CpuExecutor executor(ROWS, COLS);
+    CpuExecutor executor(ROWS, COLS, kNumMatrices);
     
     // 4. Initialize the atomic operation counter
     std::atomic<int> op_counter{0};

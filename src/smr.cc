@@ -6,6 +6,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <cuda_runtime.h>
 
 #include "cfg.h"
 #include "cpu/cpu.h"
@@ -94,10 +95,19 @@ int main(int argc, char* argv[]) {
   State<float> initstate(num_state_mat, mat_size);
   initstate.populate_random_state_matrix(1.0f, 100.0f);
 
-  CpuExecutor cpu_exec(mat_size, num_state_mat);
-  GpuExecutor gpu_exec(mat_size, num_state_mat);
+  // CUDA Unified Memory allocation
+  float** unified_state_matrices = new float*[num_state_mat];
+  size_t matrix_bytes = mat_size * mat_size * sizeof(float);
 
-  cpu_exec.load_state(initstate);
+  for (int i = 0; i < num_state_mat; ++i) {
+    cudaMallocManaged(&unified_state_matrices[i], matrix_bytes);
+  }
+
+  // Pass the exact same memory pointers to both executors
+  CpuExecutor cpu_exec(mat_size, num_state_mat, unified_state_matrices);
+  GpuExecutor gpu_exec(mat_size, num_state_mat, unified_state_matrices);
+
+  // Load state only once, since both executors now point to the same physical memory
   gpu_exec.load_state(initstate);
 
   std::atomic<bool> handler_running = true;
@@ -111,8 +121,7 @@ int main(int argc, char* argv[]) {
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
     while (handler_running.load(std::memory_order_relaxed) == true) {
-      // Wait for the main thread to signal that a batch of proposals has been
-      // sent
+      // Wait for the main thread to signal that a batch of proposals has been sent
       commit_barrier.arrive_and_wait();
       // Need to do a quick check after all that wait time
       if (handler_running.load(std::memory_order_relaxed) == false) {
@@ -140,7 +149,6 @@ int main(int argc, char* argv[]) {
           current_commit_idx = 0;
         }
 
-        // Use the new unified ExecutionGraph API
         graph.reset();
         graph.ingest_batch(current_batch_ops);
         const auto& dag = graph.get_dag();
@@ -170,9 +178,8 @@ int main(int argc, char* argv[]) {
             cpu_exec.run_sequential(dag, &op_counter);
             gpu_exec.run_sequential(dag, &op_counter);
           } else {
-            // CONCURRENT HYBRID EXECUTION
-            // Launch the CPU executor asynchronously so it runs at the same
-            // time as the GPU
+            // Concurrent hybrid execution
+            // Launch the CPU executor asynchronously so it runs at the same time as the GPU
             auto cpu_future = std::async(std::launch::async, [&]() {
               cpu_exec.run(dag, levels, &op_counter);
             });
@@ -209,8 +216,7 @@ int main(int argc, char* argv[]) {
   auto testtime_us =
       std::chrono::duration_cast<std::chrono::microseconds>(testtime);
   ROMULUS_STOPWATCH_BEGIN();
-  // size_t iterations = 0; // turning off iterations variable for now (causing
-  // -werror)
+  // size_t iterations = 0; // turning off iterations variable for now
   while (ROMULUS_STOPWATCH_RUNTIME(ROMULUS_MICROSECONDS) <
          static_cast<uint64_t>(testtime_us.count())) {
     for (uint32_t i = 0; i < loop; ++i) {
@@ -261,6 +267,12 @@ int main(int argc, char* argv[]) {
   for (auto& p : proposals) {
     delete[] p.second;
   }
+
+  // Cleanup unified memory
+  for (int i = 0; i < num_state_mat; ++i) {
+    cudaFree(unified_state_matrices[i]);
+  }
+  delete[] unified_state_matrices;
 
   return 0;
 }

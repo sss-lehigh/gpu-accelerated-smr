@@ -1,12 +1,12 @@
 #pragma once
 
-#include <omp.h>
-
 #include <algorithm>
 #include <atomic>
 #include <cstring>
 #include <unordered_map>
-#include <vector>
+#include <thread>
+#include <barrier>
+#include <memory>
 
 #include "DenseMat.h"
 #include "cpu_matrix_ops.h"
@@ -15,35 +15,53 @@
 #include "workload.h"
 
 class CpuExecutor {
- private:
-  float** host_mats_;  // Pointers to the 5 state matrices in system RAM
-  std::vector<float*>
-      thread_workspaces_;  // Pre-allocated workspaces per thread for MAT_MULT
+private:
+  float** host_mats_;                     // Points to CUDA Unified Memory
+  std::vector<float*> thread_workspaces_; // Pre-allocated workspaces per thread for MAT_MULT
   uint64_t rows_, cols_;
   uint64_t num_matrices_;
 
- public:
-  CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices)
-      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
-    // Allocate State Matrices in standard RAM
-    host_mats_ = new float*[num_matrices_];
-    for (int i = 0; i < (int)num_matrices_; i++) {
-      host_mats_[i] = new float[rows_ * cols_]();
+  std::vector<std::thread> workers;
+  std::unique_ptr<std::barrier<>> sync_barrier;
+  std::atomic<bool> terminate_pool{false};
+
+  // Shared pointers for the currently executing level
+  const std::unordered_map<uint64_t, DagNode>* current_dag = nullptr;
+  const std::vector<uint64_t>* current_tasks = nullptr;
+  std::atomic<size_t> next_task_idx{0};
+  std::atomic<int>* current_op_counter = nullptr;
+
+public:
+  CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
+      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices), host_mats_(shared_mats) {
+
+    // Initialize physical threads matching hardware concurrency
+    int num_workers = std::thread::hardware_concurrency();
+    thread_workspaces_.resize(num_workers);
+    
+    for (int i = 0; i < num_workers; ++i) {
+      thread_workspaces_[i] = new float[rows_ * cols_]();
     }
 
-    int max_threads = omp_get_max_threads();
-    thread_workspaces_.resize(max_threads);
+    // Initialize barrier for the workers + 1 master thread
+    sync_barrier = std::make_unique<std::barrier<>>(num_workers + 1);
 
-    for (int i = 0; i < max_threads; ++i) {
-      thread_workspaces_[i] = new float[rows_ * cols_]();
+    // Pre-spawn the task-level thread pool
+    for (int i = 0; i < num_workers; ++i) {
+      workers.emplace_back(&CpuExecutor::worker_loop, this, i);
     }
   }
 
   ~CpuExecutor() {
-    for (int i = 0; i < (int)num_matrices_; ++i) {
-      delete[] host_mats_[i];
+    // Signal workers to terminate and drop the barrier to wake them up
+    terminate_pool.store(true, std::memory_order_relaxed);
+    sync_barrier->arrive_and_wait();
+
+    for (auto& t : workers) {
+      if (t.joinable())
+        t.join();
     }
-    delete[] host_mats_;
+
     for (size_t i = 0; i < thread_workspaces_.size(); ++i) {
       delete[] thread_workspaces_[i];
     }
@@ -58,17 +76,15 @@ class CpuExecutor {
     }
   }
 
-  void run(const std::unordered_map<uint64_t, DagNode>& dag,
-           const std::vector<std::vector<uint64_t>>& levels,
-           std::atomic<int>* op_counter) {
-    // Disable nested parallelism to prevent thread oversubscription and memory
-    // safety issues.
-    omp_set_max_active_levels(1);
+  void run(const std::unordered_map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
+    int total_hw_threads = thread_workspaces_.size();
 
-    // Iterate through each level sequentially
+    // Iterate through each level sequentially on the master thread
     for (const auto& level : levels) {
-      // Filter out GPU tasks to avoid indexing errors
+      
+      // Filter out GPU tasks
       std::vector<uint64_t> cpu_tasks;
+      cpu_tasks.reserve(level.size());
       for (uint64_t op_id : level) {
         if (dag.at(op_id).target == ExecTarget::CPU) {
           cpu_tasks.push_back(op_id);
@@ -77,36 +93,46 @@ class CpuExecutor {
 
       if (cpu_tasks.empty()) continue;
 
-// Distribute CPU operations across the available physical cores
-#pragma omp parallel for schedule(dynamic)
-      for (size_t i = 0; i < cpu_tasks.size(); ++i) {
-        uint64_t op_id = cpu_tasks[i];
-        const DagNode& node = dag.at(op_id);
+      // STRATEGY 1: Task-Level Parallelism
+      // We have enough operations to keep the cores busy. 
+      // 1 Worker Thread = 1 Operation. Internal math is strictly sequential.
+      if (cpu_tasks.size() >= total_hw_threads) {
+        
+        // Stage the work
+        current_dag = &dag;
+        current_tasks = &cpu_tasks;
+        current_op_counter = op_counter;
+        next_task_idx.store(0, std::memory_order_relaxed);
 
-        // Safe physical thread ID to access the correct workspace
-        int thread_idx = omp_get_thread_num();
+        // Drop barrier to release workers
+        sync_barrier->arrive_and_wait();
 
-        launch(node, thread_idx);
+        // Wait at the barrier until all workers finish the level
+        sync_barrier->arrive_and_wait();
+      }
+      // STRATEGY 2: Data-Level Parallelism
+      // Few operations. Master thread executes them, but passes 'use_parallel = true'
+      // to wake up the internal MathThreadPool.
+      else {
+        for (uint64_t op_id : cpu_tasks) {
+          const DagNode& node = dag.at(op_id);
+          
+          // Execute on master thread, delegating inner math to multiple threads.
+          // Note: using workspace 0 since the master thread handles this block.
+          launch(node, 0, true); 
 
-        // Use original_op_count to properly credit fused operations
-        if (op_counter) {
-          op_counter->fetch_add(node.original_op_count,
-                                std::memory_order_relaxed);
+          if (op_counter) {
+            op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+          }
         }
       }
     }
   }
 
   // Sequential Execution Baseline (CPU)
-  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag,
-                      std::atomic<int>* op_counter) {
-    // Guarantee that the single operation gets 100% of the physical cores
-    // to execute its internal SIMD loops.
-    omp_set_num_threads(omp_get_max_threads());
-
-    // Because unordered_map loses generation order, we must manually
-    // sort the operation IDs to ensure proper sequential state machine
-    // execution.
+  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
+    // Because unordered_map loses generation order, we must manually 
+    // sort the operation IDs to ensure proper sequential state machine execution.
     std::vector<uint64_t> sorted_keys;
     sorted_keys.reserve(dag.size());
     for (const auto& pair : dag) {
@@ -119,10 +145,11 @@ class CpuExecutor {
       const DagNode& node = dag.at(op_id);
 
       // Skip GPU operations
-      if (node.target != ExecTarget::CPU) continue;
-
-      // Execute sequentially on the main thread, using workspace 0
-      launch(node, 0);
+      if (node.target != ExecTarget::CPU)
+        continue;
+      
+      // Execute sequentially on the main thread. Internal math is strictly sequential.
+      launch(node, 0, false);
 
       // Increment by original_op_count
       if (op_counter) {
@@ -132,28 +159,59 @@ class CpuExecutor {
     }
   }
 
- private:
-  void launch(const DagNode& node, int thread_idx) {
+private:
+  // The persistent loop executed by the pre-spawned task threads
+  void worker_loop(int thread_idx) {
+    while (true) {
+      // Block here until the master thread stages a level
+      sync_barrier->arrive_and_wait();
+
+      // Check for signal
+      if (terminate_pool.load(std::memory_order_relaxed))
+        break;
+
+      // Task grabbing
+      while (true) {
+        size_t idx = next_task_idx.fetch_add(1, std::memory_order_relaxed);
+        
+        // If the index exceeds the task list, this level is complete
+        if (idx >= current_tasks->size())
+          break;
+
+        uint64_t op_id = (*current_tasks)[idx];
+        const DagNode& node = current_dag->at(op_id);
+
+        // Execute task. Task workers NEVER use internal data parallelism.
+        launch(node, thread_idx, false);
+
+        if (current_op_counter) {
+          current_op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+        }
+      }
+
+      // Block here to signal to the master thread that this worker is done with the level
+      sync_barrier->arrive_and_wait();
+    }
+  }
+
+  // Modified to pass the use_parallel flag
+  void launch(const DagNode& node, int thread_idx, bool use_parallel) {
     float* d_out = host_mats_[node.operation.dest_mat_id_1.value()];
 
     if (node.has_fused_scalar) {
-      fusedScalarMultiplyAndAddCPU(d_out, node.fused_alpha, node.fused_beta,
-                                   rows_, cols_);
+      fusedScalarMultiplyAndAddCPU(d_out, node.fused_alpha, node.fused_beta, rows_, cols_, use_parallel);
     } else {
       switch (node.operation.type) {
         case OpType::SCALAR_ADD:
-          addScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows_,
-                       cols_);
+          addScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows_, cols_, use_parallel);
           break;
 
         case OpType::SCALAR_SUB:
-          subtractScalarCPU(d_out, (float)node.operation.scalar_param.value(),
-                            rows_, cols_);
+          subtractScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows_, cols_, use_parallel);
           break;
 
         case OpType::SCALAR_MULT:
-          multiplyScalarCPU(d_out, (float)node.operation.scalar_param.value(),
-                            rows_, cols_);
+          multiplyScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows_, cols_, use_parallel);
           break;
 
         case OpType::MAT_MULT: {
@@ -162,32 +220,29 @@ class CpuExecutor {
           size_t bytes = rows_ * cols_ * sizeof(float);
 
           // Compute into temp buffer, then synchronous memory copy
-          launchSgemmCPU(d_out, d_mat_B, temp_result, rows_, cols_, cols_);
+          launchSgemmCPU(d_out, d_mat_B, temp_result, rows_, cols_, cols_, use_parallel);
           std::memcpy(d_out, temp_result, bytes);
           break;
         }
 
-        // FIXED: Replaced node.d_mat_param with node.h_mat_param
         case OpType::NEW_MAT_ADD:
-          inPlaceMatrixAddCPU(d_out, node.h_mat_param, rows_, cols_);
-          break;
+          inPlaceMatrixAddCPU(d_out, node.h_mat_param, rows_, cols_, use_parallel); 
+          break; 
 
         case OpType::NEW_MAT_SUB:
-          inPlaceMatrixSubCPU(d_out, node.h_mat_param, rows_, cols_);
+          inPlaceMatrixSubCPU(d_out, node.h_mat_param, rows_, cols_, use_parallel); 
           break;
 
         case OpType::NEW_MAT_MULT: {
           float* temp_result = thread_workspaces_[thread_idx];
           size_t bytes = rows_ * cols_ * sizeof(float);
 
-          launchSgemmCPU(d_out, node.h_mat_param, temp_result, rows_, cols_,
-                         cols_);
+          launchSgemmCPU(d_out, node.h_mat_param, temp_result, rows_, cols_, cols_, use_parallel);
           std::memcpy(d_out, temp_result, bytes);
           break;
         }
         case OpType::ELEMAT_MULT:
-          inPlaceElementwiseMatrixMultCPU(d_out, node.h_mat_param, rows_,
-                                          cols_);
+          inPlaceElementwiseMatrixMultCPU(d_out, node.h_mat_param, rows_, cols_, use_parallel);
           break;
 
         default:

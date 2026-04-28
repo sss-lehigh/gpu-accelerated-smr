@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cuda_runtime.h>
 
 #include <algorithm>
@@ -14,7 +16,7 @@
 
 class GpuExecutor {
  private:
-  float** device_mats_;       // Ptrs to state mats
+  float** device_mats_;       // Points to CUDA Unified Memory
   float** stream_workspace_;  // Pre allocated workspace for MAT_MULT
   cudaStream_t* streams_;     // Concurrent hardware queues
   uint64_t rows_, cols_;
@@ -27,33 +29,27 @@ class GpuExecutor {
   std::unordered_map<uint64_t, float*> d_op_params;
 
  public:
-  GpuExecutor(uint64_t matrix_dim, uint64_t num_matrices)
-      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
-    device_mats_ = new float*[num_matrices_];
-    for (int i = 0; i < (int)num_matrices_; i++) {
-      // allocate memory for state mats
-      CUDA_CHECK(cudaMalloc(&device_mats_[i], rows_ * cols_ * sizeof(float)));
-    }  // end for
+  GpuExecutor(uint64_t matrix_dim, uint64_t num_matrices, float** shared_mats)
+      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices), device_mats_(shared_mats) {
 
     // Initialize streams and workspaces
     streams_ = new cudaStream_t[8];
     stream_workspace_ = new float*[8];
     for (int i = 0; i < 8; ++i) {
       CUDA_CHECK(cudaStreamCreate(&streams_[i]));
-      CUDA_CHECK(
-          cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
+      CUDA_CHECK(cudaMalloc(&stream_workspace_[i], rows_ * cols_ * sizeof(float)));
     }
-  }  // end constructor
+  }
 
   ~GpuExecutor() {
-    for (int i = 0; i < (int)num_matrices_; ++i) {
-      cudaFree(device_mats_[i]);
-    }
-
     for (int i = 0; i < 8; ++i) {
       cudaFree(stream_workspace_[i]);
       cudaStreamDestroy(streams_[i]);
     }
+    
+    // Clean up heap allocations from constructor
+    delete[] streams_;
+    delete[] stream_workspace_;
 
     for (auto& pair : node_events) {
       cudaEventDestroy(pair.second);
@@ -63,19 +59,18 @@ class GpuExecutor {
     for (auto& pair : d_op_params) {
       cudaFree(pair.second);
     }
-  }  // end destructor
+  }
 
   void load_state(const State<float>& initial_state) {
     size_t bytes = rows_ * cols_ * sizeof(float);
 
     for (int i = 0; i < (int)num_matrices_; i++) {
       const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
-      CUDA_CHECK(cudaMemcpy(device_mats_[i], cpu_mat.data(), bytes,
-                            cudaMemcpyHostToDevice));
-    }  // end for
+      CUDA_CHECK(cudaMemcpy(device_mats_[i], cpu_mat.data(), bytes, cudaMemcpyDefault));
+    }
 
     CUDA_CHECK(cudaDeviceSynchronize());
-  }  // end load state
+  }
 
   // Preparation Phase
   void prepare_dag(const std::unordered_map<uint64_t, DagNode>& dag) {
@@ -126,7 +121,6 @@ class GpuExecutor {
           uint64_t dep_id = node.deps[i];
 
           // Only wait if the dependency was ALSO a GPU operation
-          // (CPU/GPU syncs are handled at the barrier level in smr.cc)
           if (dag.at(dep_id).target == ExecTarget::GPU) {
             CUDA_CHECK(cudaStreamWaitEvent(stream, node_events[dep_id], 0));
           }
@@ -134,7 +128,7 @@ class GpuExecutor {
 
         launch(node, stream, current_stream_idx);
 
-        // FIXED: Increment by original_op_count for accurate metrics
+        // Increment by original_op_count for accurate metrics
         if (op_counter) {
           op_counter->fetch_add(node.original_op_count,
                                 std::memory_order_relaxed);
@@ -253,8 +247,7 @@ class GpuExecutor {
 
         default:
           break;
-      }  // end switch
-    }  // end if else
-  }  // end launch
-
-};  // end gpuexecutor class
+      }
+    }
+  }
+};
