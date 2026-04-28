@@ -7,8 +7,8 @@
 OUTFILE="results/matrix_sz.csv"
 echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,cons_lat_avg,e2e_lat_avg,goodput' >"$OUTFILE"
 
-# Fixed: 
-# 
+# Fixed:
+#
 # System size: n nodes
 # Buf size: 64
 # Num state matrices: 5
@@ -18,12 +18,12 @@ echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mo
 # DAG: true
 BASE_ARGS="--buf-size 64 --num-state-mat 5 --cpu-enabled --gpu-enabled --mode DAG"
 MAT_SIZES=(128 256 512 1024 2048)
+echo "Resetting..."
+reset-all
+reset-memcached
 for mat_size in "${MAT_SIZES[@]}"; do
-	echo "Resetting..."
-	reset-all
-	reset-memcached
 	EXTRA_ARGS="${BASE_ARGS} --mat-size $mat_size"
 	echo "Launching experiment with matrix size ${mat_size}..."
-	run_mu "$2"
+	run_mu "${EXE_PATH}"
 	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE"
 done

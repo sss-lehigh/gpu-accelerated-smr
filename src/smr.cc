@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
   std::function<void(void)> init = SYNC_NODES;
   std::function<void(void)> exec = EXEC_LATENCY;
   std::function<void(void)> done = DONE_LATENCY;
-  std::function<void(std::ofstream&)> calc = CALC_LATENCY;
+  std::function<void(std::tuple<double, double, double, double>* result)> calc = CALC_LATENCY;
   std::function<void(void)> reset = RESET;
 
   init();
@@ -91,11 +91,11 @@ int main(int argc, char* argv[]) {
   ExecutionGraph graph(e_mode);
 
   // Initialize the State Machine exactly once
-  State<float> initstate(kNumMatrices);
+  State<float> initstate(num_state_mat, mat_size);
   initstate.populate_random_state_matrix(1.0f, 100.0f);
 
-  CpuExecutor cpu_exec(ROWS, COLS);
-  GpuExecutor gpu_exec(ROWS, COLS);
+  CpuExecutor cpu_exec(mat_size, num_state_mat);
+  GpuExecutor gpu_exec(mat_size, num_state_mat);
 
   cpu_exec.load_state(initstate);
   gpu_exec.load_state(initstate);
@@ -106,10 +106,10 @@ int main(int argc, char* argv[]) {
 
   // Track how far into the master 'ops' array we have committed
   size_t current_commit_idx = 0;
+  std::atomic<int> op_counter = 0;
 
   auto commit_handler = std::thread([&]() {
     PinToCore(1);
-    std::atomic<int> op_counter = 0;
     while (handler_running.load(std::memory_order_relaxed) == true) {
       // Wait for the main thread to signal that a batch of proposals has been
       // sent
@@ -217,8 +217,8 @@ int main(int argc, char* argv[]) {
       // Fixed leader node0
       if (id == 0) {
         if (fuo >= buf_size) {
-          ROMULUS_INFO("Flushing buffer ({} bytes) to commit handler...",
-                       fuo * sizeof(op));
+          // ROMULUS_INFO("Flushing buffer ({} bytes) to commit handler...",
+          //              fuo * sizeof(op));
           // Signal the commit handler to process the batch of proposals
           commit_barrier.arrive_and_wait();
           // Reset offset for the next batch
@@ -237,8 +237,6 @@ int main(int argc, char* argv[]) {
 
   ROMULUS_INFO("Experiment is finished. Cleaning up...");
 
-  done();  // cleanup
-
   if (id == 0) {
     // Calculate End-to-End Batch Latency and Throughput
     std::tuple<double, double, double, double> cons_latency_result;
@@ -247,7 +245,7 @@ int main(int argc, char* argv[]) {
     calc(&commit_latency_result);
     double cons_lat_avg = std::get<0>(cons_latency_result);
     double commit_lat_avg = std::get<0>(commit_latency_result);
-    double e2e_lat_avg = cons_lat_avg + commit_lat_avg
+    double e2e_lat_avg = cons_lat_avg + commit_lat_avg;
                          // calculate goodput as op-tracker / total time
                          double seconds = testtime_us.count() / 1e6;
     double goodput =

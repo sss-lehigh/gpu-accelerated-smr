@@ -77,7 +77,7 @@ namespace romulus {
 ///
 /// @param msg The message to print
 ///
-inline void print_debug(std::string_view msg, const char *file, uint32_t line) {
+inline void print_debug(std::string_view msg, const char* file, uint32_t line) {
   // NB: for thread-safety, we use printf
   std::printf("[DEBUG] %.*s (%s:%u)\n", (int)msg.length(), msg.data(), file,
               line);
@@ -115,6 +115,7 @@ inline void print_fatal(std::string_view msg) {
 #define ROMULUS_FATAL(...)                          \
   {                                                 \
     romulus::print_fatal(std::format(__VA_ARGS__)); \
+    __builtin_trap();                               \
     std::_Exit(1);                                  \
   }
 

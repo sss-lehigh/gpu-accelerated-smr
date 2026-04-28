@@ -1,0 +1,2 @@
+system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,cons_lat_avg,e2e_lat_avg,goodput
+5,512,8,5,1,1,DAG,3.02906,6.05811,0.00116587

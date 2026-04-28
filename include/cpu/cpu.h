@@ -1,64 +1,72 @@
 #pragma once
 
 #include <omp.h>
-#include <algorithm>
-#include <cstring>
-#include <atomic>
-#include <vector>
-#include <unordered_map>
 
-#include "cpu_matrix_ops.h"
+#include <algorithm>
+#include <atomic>
+#include <cstring>
+#include <unordered_map>
+#include <vector>
+
 #include "DenseMat.h"
-#include "state.h"
+#include "cpu_matrix_ops.h"
 #include "dag.h"
+#include "state.h"
 #include "workload.h"
 
 class CpuExecutor {
-private:
-  float *host_mats[5];                    // Pointers to the 5 state matrices in system RAM
-  std::vector<float *> thread_workspaces; // Pre-allocated workspaces per thread for MAT_MULT
-  uint64_t rows, cols;
+ private:
+  float** host_mats_;  // Pointers to the 5 state matrices in system RAM
+  std::vector<float*>
+      thread_workspaces_;  // Pre-allocated workspaces per thread for MAT_MULT
+  uint64_t rows_, cols_;
+  uint64_t num_matrices_;
 
-public:
-  CpuExecutor(uint64_t r, uint64_t c) : rows(r), cols(c) {
+ public:
+  CpuExecutor(uint64_t matrix_dim, uint64_t num_matrices)
+      : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices) {
     // Allocate State Matrices in standard RAM
-    for (int i = 0; i < 5; i++) {
-      host_mats[i] = new float[rows * cols]();
-    } 
+    host_mats_ = new float*[num_matrices_];
+    for (int i = 0; i < (int)num_matrices_; i++) {
+      host_mats_[i] = new float[rows_ * cols_]();
+    }
 
     int max_threads = omp_get_max_threads();
-    thread_workspaces.resize(max_threads);
-    
+    thread_workspaces_.resize(max_threads);
+
     for (int i = 0; i < max_threads; ++i) {
-      thread_workspaces[i] = new float[rows * cols]();
+      thread_workspaces_[i] = new float[rows_ * cols_]();
     }
   }
 
   ~CpuExecutor() {
-    for (int i = 0; i < 5; ++i) {
-      delete[] host_mats[i];
+    for (int i = 0; i < (int)num_matrices_; ++i) {
+      delete[] host_mats_[i];
     }
-    for (size_t i = 0; i < thread_workspaces.size(); ++i) {
-      delete[] thread_workspaces[i];
+    delete[] host_mats_;
+    for (size_t i = 0; i < thread_workspaces_.size(); ++i) {
+      delete[] thread_workspaces_[i];
     }
   }
 
   void load_state(const State<float>& initial_state) {
-    size_t bytes = rows * cols * sizeof(float); 
+    size_t bytes = rows_ * cols_ * sizeof(float);
 
-    for (int i = 0; i < kNumMatrices; i++) {
+    for (int i = 0; i < (int)num_matrices_; i++) {
       const DenseMat<float>& cpu_mat = initial_state.getMatrix(i);
-      std::memcpy(host_mats[i], cpu_mat.data(), bytes);
-    } 
+      std::memcpy(host_mats_[i], cpu_mat.data(), bytes);
+    }
   }
 
-  void run(const std::unordered_map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
-    // Disable nested parallelism to prevent thread oversubscription and memory safety issues.
+  void run(const std::unordered_map<uint64_t, DagNode>& dag,
+           const std::vector<std::vector<uint64_t>>& levels,
+           std::atomic<int>* op_counter) {
+    // Disable nested parallelism to prevent thread oversubscription and memory
+    // safety issues.
     omp_set_max_active_levels(1);
 
     // Iterate through each level sequentially
     for (const auto& level : levels) {
-      
       // Filter out GPU tasks to avoid indexing errors
       std::vector<uint64_t> cpu_tasks;
       for (uint64_t op_id : level) {
@@ -67,15 +75,14 @@ public:
         }
       }
 
-      if (cpu_tasks.empty())
-        continue;
+      if (cpu_tasks.empty()) continue;
 
-      // Distribute CPU operations across the available physical cores
-      #pragma omp parallel for schedule(dynamic)
+// Distribute CPU operations across the available physical cores
+#pragma omp parallel for schedule(dynamic)
       for (size_t i = 0; i < cpu_tasks.size(); ++i) {
         uint64_t op_id = cpu_tasks[i];
         const DagNode& node = dag.at(op_id);
-        
+
         // Safe physical thread ID to access the correct workspace
         int thread_idx = omp_get_thread_num();
 
@@ -83,20 +90,23 @@ public:
 
         // Use original_op_count to properly credit fused operations
         if (op_counter) {
-          op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+          op_counter->fetch_add(node.original_op_count,
+                                std::memory_order_relaxed);
         }
       }
-    } 
+    }
   }
 
   // Sequential Execution Baseline (CPU)
-  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag, std::atomic<int> *op_counter) {
-    // Guarantee that the single operation gets 100% of the physical cores 
+  void run_sequential(const std::unordered_map<uint64_t, DagNode>& dag,
+                      std::atomic<int>* op_counter) {
+    // Guarantee that the single operation gets 100% of the physical cores
     // to execute its internal SIMD loops.
     omp_set_num_threads(omp_get_max_threads());
 
-    // Because unordered_map loses generation order, we must manually 
-    // sort the operation IDs to ensure proper sequential state machine execution.
+    // Because unordered_map loses generation order, we must manually
+    // sort the operation IDs to ensure proper sequential state machine
+    // execution.
     std::vector<uint64_t> sorted_keys;
     sorted_keys.reserve(dag.size());
     for (const auto& pair : dag) {
@@ -107,78 +117,82 @@ public:
     // Iterate in ascending op_id order
     for (uint64_t op_id : sorted_keys) {
       const DagNode& node = dag.at(op_id);
-      
+
       // Skip GPU operations
-      if (node.target != ExecTarget::CPU)
-        continue;
-      
+      if (node.target != ExecTarget::CPU) continue;
+
       // Execute sequentially on the main thread, using workspace 0
       launch(node, 0);
 
       // Increment by original_op_count
       if (op_counter) {
-        op_counter->fetch_add(node.original_op_count, std::memory_order_relaxed);
+        op_counter->fetch_add(node.original_op_count,
+                              std::memory_order_relaxed);
       }
     }
   }
 
-private:
+ private:
   void launch(const DagNode& node, int thread_idx) {
-    float* d_out = host_mats[node.operation.dest_mat_id_1.value()];
+    float* d_out = host_mats_[node.operation.dest_mat_id_1.value()];
 
     if (node.has_fused_scalar) {
-      fusedScalarMultiplyAndAddCPU(d_out, node.fused_alpha, node.fused_beta, rows, cols);
+      fusedScalarMultiplyAndAddCPU(d_out, node.fused_alpha, node.fused_beta,
+                                   rows_, cols_);
     } else {
       switch (node.operation.type) {
         case OpType::SCALAR_ADD:
-          addScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows, cols);
+          addScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows_,
+                       cols_);
           break;
 
         case OpType::SCALAR_SUB:
-          subtractScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows, cols);
+          subtractScalarCPU(d_out, (float)node.operation.scalar_param.value(),
+                            rows_, cols_);
           break;
 
         case OpType::SCALAR_MULT:
-          multiplyScalarCPU(d_out, (float)node.operation.scalar_param.value(), rows, cols);
+          multiplyScalarCPU(d_out, (float)node.operation.scalar_param.value(),
+                            rows_, cols_);
           break;
 
-        case OpType::MAT_MULT: 
-        {
-          float* d_mat_B = host_mats[node.operation.dest_mat_id_2.value()];
-          float* temp_result = thread_workspaces[thread_idx]; 
-          size_t bytes = rows * cols * sizeof(float);
+        case OpType::MAT_MULT: {
+          float* d_mat_B = host_mats_[node.operation.dest_mat_id_2.value()];
+          float* temp_result = thread_workspaces_[thread_idx];
+          size_t bytes = rows_ * cols_ * sizeof(float);
 
           // Compute into temp buffer, then synchronous memory copy
-          launchSgemmCPU(d_out, d_mat_B, temp_result, rows, cols, cols);
+          launchSgemmCPU(d_out, d_mat_B, temp_result, rows_, cols_, cols_);
           std::memcpy(d_out, temp_result, bytes);
           break;
         }
 
         // FIXED: Replaced node.d_mat_param with node.h_mat_param
         case OpType::NEW_MAT_ADD:
-          inPlaceMatrixAddCPU(d_out, node.h_mat_param, rows, cols); 
-          break; 
-
-        case OpType::NEW_MAT_SUB:
-          inPlaceMatrixSubCPU(d_out, node.h_mat_param, rows, cols); 
+          inPlaceMatrixAddCPU(d_out, node.h_mat_param, rows_, cols_);
           break;
 
-        case OpType::NEW_MAT_MULT:
-        {
-          float* temp_result = thread_workspaces[thread_idx]; 
-          size_t bytes = rows * cols * sizeof(float);
+        case OpType::NEW_MAT_SUB:
+          inPlaceMatrixSubCPU(d_out, node.h_mat_param, rows_, cols_);
+          break;
 
-          launchSgemmCPU(d_out, node.h_mat_param, temp_result, rows, cols, cols);
+        case OpType::NEW_MAT_MULT: {
+          float* temp_result = thread_workspaces_[thread_idx];
+          size_t bytes = rows_ * cols_ * sizeof(float);
+
+          launchSgemmCPU(d_out, node.h_mat_param, temp_result, rows_, cols_,
+                         cols_);
           std::memcpy(d_out, temp_result, bytes);
           break;
         }
         case OpType::ELEMAT_MULT:
-          inPlaceElementwiseMatrixMultCPU(d_out, node.h_mat_param, rows, cols);
+          inPlaceElementwiseMatrixMultCPU(d_out, node.h_mat_param, rows_,
+                                          cols_);
           break;
 
         default:
           break;
-      } 
-    } 
-  } 
+      }
+    }
+  }
 };

@@ -80,7 +80,7 @@ std::vector<double> commit_latencies;
     double latency_50p = 0.0;                                                  \
     double latency_99p = 0.0;                                                  \
     double latency_99_9p = 0.0;                                                \
-    double latency_max = 0.0;                                                  \
+    [[maybe_unused]] double latency_max = 0.0;                                                  \
     int latency_max_idx = 0;                                                   \
     if (latencies.size() > 0) {                                                \
       latency_avg = std::accumulate(latencies.begin(), latencies.end(), 0.0);  \

@@ -1,0 +1,190 @@
+romulus::DEBUG is false
+[INFO] Node 1 of 5 is clgpu016
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=clgpu016
+[INFO] !> [CONF] host id=0
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_5.csv
+[INFO] !> [CONF] testtime=30_s
+[INFO] !> [CONF] device name=mlx5_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=RoCE
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] system_size=5
+[INFO] !> [CONF] cpu_enabled=false
+[INFO] !> [CONF] gpu_enabled=false
+[INFO] !> [CONF] mode=DAG
+[INFO] Initializing Mu
+[INFO] remote: 2
+[INFO] remote: 3
+[INFO] remote: 4
+[INFO] remote: 5
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx5_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 0)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-1-for-2, 0:00000000000000000000ffff0a0a0104:8b:71e4778cc040:7b333333:133f3)
+RC: CONNECTION FAILURE
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Failed to set to the store the (K, V) = (qp-replication-1-for-2, 0:00000000000000000000ffff0a0a0104:8b:71e4778cc040:7b333333:133f3)
+romulus::DEBUG is false
+[INFO] Node 2 of 5 is clgpu013
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=clgpu013
+[INFO] !> [CONF] host id=1
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_5.csv
+[INFO] !> [CONF] testtime=30_s
+[INFO] !> [CONF] device name=mlx5_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=RoCE
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] system_size=5
+[INFO] !> [CONF] cpu_enabled=false
+[INFO] !> [CONF] gpu_enabled=false
+[INFO] !> [CONF] mode=DAG
+[INFO] Initializing Mu
+[INFO] remote: 1
+[INFO] remote: 3
+[INFO] remote: 4
+[INFO] remote: 5
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx5_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 0)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-2-for-1, 0:00000000000000000000ffff0a0a0101:4b:71b590e71040:7b333333:186d00)
+RC: CONNECTION FAILURE
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Failed to set to the store the (K, V) = (qp-replication-2-for-1, 0:00000000000000000000ffff0a0a0101:4b:71b590e71040:7b333333:186d00)
+romulus::DEBUG is false
+[INFO] Node 3 of 5 is clgpu009
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=clgpu009
+[INFO] !> [CONF] host id=2
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_5.csv
+[INFO] !> [CONF] testtime=30_s
+[INFO] !> [CONF] device name=mlx5_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=RoCE
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] system_size=5
+[INFO] !> [CONF] cpu_enabled=false
+[INFO] !> [CONF] gpu_enabled=false
+[INFO] !> [CONF] mode=DAG
+[INFO] Initializing Mu
+[INFO] remote: 1
+[INFO] remote: 2
+[INFO] remote: 4
+[INFO] remote: 5
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx5_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 0)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-3-for-1, 0:00000000000000000000ffff0a0a0102:8b:75b18bacc040:7b333333:129e9)
+RC: CONNECTION FAILURE
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Failed to set to the store the (K, V) = (qp-replication-3-for-1, 0:00000000000000000000ffff0a0a0102:8b:75b18bacc040:7b333333:129e9)
+romulus::DEBUG is false
+[INFO] Node 4 of 5 is clgpu017
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=clgpu017
+[INFO] !> [CONF] host id=3
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_5.csv
+[INFO] !> [CONF] testtime=30_s
+[INFO] !> [CONF] device name=mlx5_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=RoCE
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] system_size=5
+[INFO] !> [CONF] cpu_enabled=false
+[INFO] !> [CONF] gpu_enabled=false
+[INFO] !> [CONF] mode=DAG
+[INFO] Initializing Mu
+[INFO] remote: 1
+[INFO] remote: 2
+[INFO] remote: 3
+[INFO] remote: 5
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx5_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 0)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-4-for-1, 0:00000000000000000000ffff0a0a0103:8b:7a02a6a77040:7b333333:186d00)
+RC: CONNECTION FAILURE
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Failed to set to the store the (K, V) = (qp-replication-4-for-1, 0:00000000000000000000ffff0a0a0103:8b:7a02a6a77040:7b333333:186d00)
+romulus::DEBUG is false
+[INFO] Node 5 of 5 is clgpu021
+[INFO] Experimental Configuration:
+[INFO] !> [CONF] hostname=clgpu021
+[INFO] !> [CONF] host id=4
+[INFO] !> [CONF] registry ip=10.10.1.1
+[INFO] !> [CONF] output file=mu_stats_5.csv
+[INFO] !> [CONF] testtime=30_s
+[INFO] !> [CONF] device name=mlx5_0
+[INFO] !> [CONF] device port=1
+[INFO] !> [CONF] transport type=RoCE
+[INFO] !> [CONF] loop=1000
+[INFO] !> [CONF] capacity=4096
+[INFO] !> [CONF] buf_size=64
+[INFO] !> [CONF] sleep=10_ms
+[INFO] !> [CONF] leader_fixed=false
+[INFO] !> [CONF] system_size=5
+[INFO] !> [CONF] cpu_enabled=false
+[INFO] !> [CONF] gpu_enabled=false
+[INFO] !> [CONF] mode=DAG
+[INFO] Initializing Mu
+[INFO] remote: 1
+[INFO] remote: 2
+[INFO] remote: 3
+[INFO] remote: 4
+[consensus] Allocated size: 2066953011 bytes
+[CONS:info] Device name: mlx5_0, Device verbs name: uverbs0, Extra info: NodeType::CA TransportType::IB
+[CONS:info] Binding to the first port of the device... OK
+[CONS:info] Binded on (port_id, port_lid) = (1, 0)
+[CB:info] PD 'primary' registered
+[CB:info] Buffer 'shared-buf' of size 2066953011 allocated
+[CB:info] MR 'shared-mr' under PD 'primary' registered with buf 'shared-buf' and rights 7
+[CB:info] CQ 'cq-replication' registered
+[CB:info] CQ 'cq-leader-election' registered
+Set (K, V) = (qp-replication-5-for-1, 0:00000000000000000000ffff0a0a0105:8b:7f55928cc040:7b333333:135f3)
+RC: CONNECTION FAILURE
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Failed to set to the store the (K, V) = (qp-replication-5-for-1, 0:00000000000000000000ffff0a0a0105:8b:7f55928cc040:7b333333:135f3)

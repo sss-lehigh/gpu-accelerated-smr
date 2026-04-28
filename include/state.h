@@ -12,14 +12,16 @@ class State {
  private:
   size_t num_matrix;
   std::vector<DenseMat<T>> matrices;
+  size_t mat_dim;
 
  public:
-  State(int num) : num_matrix{static_cast<size_t>(num)} {
+  State(int num, size_t mat_dim)
+      : num_matrix(static_cast<size_t>(num)), mat_dim(mat_dim) {
     matrices.reserve(num);
     for (size_t i = 0; i < static_cast<size_t>(num); ++i) {
       // emplace_back passes these arguments directly to DenseMat(uint64_t,
       // uint64_t)
-      matrices.emplace_back(ROWS, COLS);
+      matrices.emplace_back(mat_dim, mat_dim);
     }
   }
   State(std::vector<DenseMat<T>> matrices)
@@ -27,10 +29,13 @@ class State {
 
   DenseMat<T> getMatrix(size_t index) const {
     if (index >= matrices.size()) {
-      ROMULUS_FATAL("Matrix index out of range.");
+      ROMULUS_FATAL("Matrix index out of range. Requested: {}, Available: {}",
+                    index, matrices.size());
     }
     return matrices[index];
   }
+
+  std::vector<DenseMat<T>> getMatrices() const { return matrices; }
 
   void populate_random_state_matrix(T min_val = static_cast<T>(0),
                                     T max_val = static_cast<T>(1)) {

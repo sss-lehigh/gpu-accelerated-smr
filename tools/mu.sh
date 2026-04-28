@@ -90,6 +90,21 @@ function install_deps {
 	send_libs
 }
 
+function wait_for_pattern() {
+	local pattern="$1"
+	local file="$2"
+
+	# Wait until the file exists
+	while [[ ! -f "$file" ]]; do
+		sleep 0.1
+	done
+
+	# Poll the file until pattern appears
+	while ! grep -qF "$pattern" "$file" 2>/dev/null; do
+		sleep 0.1
+	done
+}
+
 function run_mu {
 	# check if file exists
 	EXE_NAME=$(basename "$1")
@@ -105,6 +120,19 @@ function run_mu {
 	wait
 	rm -rf logs
 	mkdir logs
+
+	# Start background process to do wait for pattern then kill processes
+	(
+		wait_for_pattern "[PARSE]" logs/log_0.txt
+		echo "Pattern found for buffer size ${buf_size}. Killing processes..."
+		sleep 1
+
+		# Kill everyone else because they will hang
+		echo "Resetting..."
+		reset-all
+		reset-memcached
+	) &
+	
 	# Set up a screen script for running the program on all MACHINES
 	tmp_screen="$(mktemp)" || exit 1
 	make_screen "$tmp_screen"
@@ -116,10 +144,11 @@ function run_mu {
 	for i in "${!MACHINES[@]}"; do
 		host="${MACHINES[$i]}"
 		ENV_ARGS="EXPER_PORT=${STARTING_PORT} SID=$((i + 1)) IDS=${IDS} DORY_REGISTRY_IP=${DORY_REGISTRY_IP} LD_LIBRARY_PATH=~/"
+		# gdb -ex \"catch throw\" -ex \"r\" --args
 		CMD="${ENV_ARGS} ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}"
 		echo "$CMD"
 		cat >>"$tmp_screen" <<EOF
-screen -t node${i} ssh ${USER}@${host}.${DOMAIN} ${CMD} ${EXTRA_ARGS}
+screen -t node${i} ssh -t ${USER}@${host}.${DOMAIN} ${CMD} ${EXTRA_ARGS}
 logfile logs/log_${i}.txt
 log on
 EOF
@@ -181,7 +210,7 @@ function send_libs() {
 }
 
 function reset-memcached() {
-# Reset the memcached server
+	# Reset the memcached server
 	ssh ${USER}@${MACHINES[0]}.${DOMAIN} "sudo pkill memcached"
 	sleep 1
 	# Launch the memcached server
@@ -246,18 +275,18 @@ elif [[ "$cmd" == "experiment" && "$count" -eq 2 ]]; then
 	if [[ "$2" -gt 0 && "$2" -lt 5 ]]; then
 		# switch on $2
 		case "$2" in
-			1)
-				source experiments/num_nodes.sh
-				;;
-			2)
-				source experiments/matrix_size.sh
-				;;
-			3)
-				source experiments/num_state_mat.sh
-				;;
-			4)
-				source experiments/buf_sz.sh
-				;;
+		1)
+			source experiments/num_nodes.sh
+			;;
+		2)
+			source experiments/matrix_size.sh
+			;;
+		3)
+			source experiments/num_state_mat.sh
+			;;
+		4)
+			source experiments/buf_sz.sh
+			;;
 		esac
 	else
 		echo "Usage: $0 experiment [1|2|3|4]"

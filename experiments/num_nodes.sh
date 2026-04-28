@@ -7,8 +7,8 @@
 OUTFILE="results/num_nodes.csv"
 echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,cons_lat_avg,e2e_lat_avg,goodput' >"$OUTFILE"
 
-# Fixed: 
-# 
+# Fixed:
+#
 # Mat size: 512
 # Buf size: 64
 # Num state matrices: 5
@@ -17,14 +17,13 @@ echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mo
 # Serial: false
 # DAG: true
 EXTRA_ARGS="--mat-size 512 --buf-size 64 --num-state-mat 5 --cpu-enabled --gpu-enabled --mode DAG"
-
 ORIG_MACHINES=("${MACHINES[@]}")
+echo "Resetting..."
+reset-all
+reset-memcached
 for i in $(seq 3 ${#ORIG_MACHINES[@]}); do
 	MACHINES=("${ORIG_MACHINES[@]:0:$i}")
-	echo "Resetting..."
-	reset-all
-	reset-memcached
 	echo "Launching experiment with ${#MACHINES[@]} nodes..."
-	run_mu "$2"
+	run_mu "${EXE_PATH}"
 	grep -oP '\[PARSE\] \K.*' logs/log_0.txt >>"$OUTFILE"
 done
