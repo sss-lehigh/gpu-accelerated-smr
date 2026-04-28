@@ -10,7 +10,6 @@ constexpr const char* CAPACITY = "--capacity";
 constexpr const char* BUF_SIZE = "--buf-size";
 constexpr const char* SLEEP = "--sleep";
 constexpr const char* STABLE_LEADER = "--stable-leader";
-constexpr const char* CPU_ENABLED = "--cpu-enabled";
 constexpr const char* GPU_ENABLED = "--gpu-enabled";
 constexpr const char* MODE = "--mode";
 constexpr const char* NUM_STATE_MAT = "--num-state-mat";
@@ -38,7 +37,6 @@ inline auto EXTRA_ARGS = {
     U64_ARG_OPT(SLEEP, "Sleep interval between proposals in ms", 10),
     BOOL_ARG_OPT(STABLE_LEADER,
                  "If true, only a single node proposes commands."),
-    BOOL_ARG_OPT(CPU_ENABLED, "If true, CPU groups are enabled."),
     BOOL_ARG_OPT(GPU_ENABLED, "If true, GPU groups are enabled."),
     ENUM_ARG_OPT(MODE, "Execution mode (SERIAL | DAG)", "DAG", {"SERIAL", "DAG"}),
     U64_ARG_OPT(NUM_STATE_MAT, "Number of state matrices.", 5),

@@ -33,8 +33,8 @@ struct DagNode {
 
 class DagGenerator {
  private:
-  std::map<uint64_t, uint64_t> last_write;
-  std::map<uint64_t, DagNode> dag;
+  std::map<uint64_t, uint64_t> last_write_;
+  std::map<uint64_t, DagNode> dag_;
 
   bool heavy_op(OpType type) {
     return type == OpType::MAT_MULT || type == OpType::MAT_ADD ||
@@ -44,17 +44,8 @@ class DagGenerator {
   }  // end heavy operation
 
  public: 
-  // RESTORED: Destructor to prevent memory leaks
-  ~DagGenerator() {
-    for (auto& pair : dag) {
-      if (pair.second.h_mat_param != nullptr) {
-        delete[] pair.second.h_mat_param;
-        pair.second.h_mat_param = nullptr;
-      }
-    }
-  }
 
-  void build_dag(const std::vector<op>& log_slice) {
+  explicit DagGenerator(const std::vector<op>& log_slice){
     // FIXED: Use 'auto op' to make a mutable copy, not a const reference
     for (auto op : log_slice) {
       
@@ -67,9 +58,9 @@ class DagGenerator {
       uint64_t targ_mat = op.dest_mat_id_1.value();
 
       // RESTORED: The scope block that fetches the previous operation
-      if (last_write.count(targ_mat)) {
-        uint64_t prev_op = last_write[targ_mat];
-        DagNode& prev = dag[prev_op];
+      if (last_write_.count(targ_mat)) {
+        uint64_t prev_op = last_write_[targ_mat];
+        DagNode& prev = dag_[prev_op];
 
         // merge scalar ops
         if (op.type == prev.operation.type &&
@@ -81,7 +72,7 @@ class DagGenerator {
             prev.operation.scalar_param.value() *= op.scalar_param.value();
           }
 
-          last_write[op.id] = prev_op;
+          last_write_[op.id] = prev_op;
           continue;
         }  // end if
 
@@ -97,7 +88,7 @@ class DagGenerator {
           }
 
           prev.has_fused_scalar = true;
-          last_write[op.id] = prev_op;
+          last_write_[op.id] = prev_op;
           continue;
         }  // end if
       }  // end if
@@ -106,18 +97,18 @@ class DagGenerator {
       node.operation = op;
       node.has_fused_scalar = false;
 
-      if (last_write.count(op.dest_mat_id_1.value())) {
-        node.deps.insert(last_write[op.dest_mat_id_1.value()]);
+      if (last_write_.count(op.dest_mat_id_1.value())) {
+        node.deps.insert(last_write_[op.dest_mat_id_1.value()]);
       }  // end if
 
       if (op.type == OpType::MAT_ADD || op.type == OpType::MAT_SUB ||
           op.type == OpType::MAT_MULT) {
-        if (last_write.count(op.dest_mat_id_2.value())) {
-          node.deps.insert(last_write[op.dest_mat_id_2.value()]);
+        if (last_write_.count(op.dest_mat_id_2.value())) {
+          node.deps.insert(last_write_[op.dest_mat_id_2.value()]);
         }  // end if
       }  // end if
 
-      last_write[op.dest_mat_id_1.value()] = op.id;
+      last_write_[op.dest_mat_id_1.value()] = op.id;
 
       if (op.mat_param.has_value()) {
         const auto& mat = op.mat_param.value();
@@ -132,18 +123,27 @@ class DagGenerator {
         std::memcpy(node.h_mat_param, mat.data(), total_bytes);
       }
 
-      dag[op.id] = node;
+      dag_[op.id] = node;
     }  // end for
-  }  // end build_dag
+  }
+  // RESTORED: Destructor to prevent memory leaks
+  ~DagGenerator() {
+    for (auto& pair : dag_) {
+      if (pair.second.h_mat_param != nullptr) {
+        delete[] pair.second.h_mat_param;
+        pair.second.h_mat_param = nullptr;
+      }
+    }
+  }
   
   const std::map<uint64_t, DagNode>& get_dag() const {
-    return dag;
+    return dag_;
   }
 
   // reset the dag
   void reset() {
     // Free all dynamically allocated host memory for the current batch
-    for (auto& pair : dag) {
+    for (auto& pair : dag_) {
       if (pair.second.h_mat_param != nullptr) {
         delete[] pair.second.h_mat_param;
         pair.second.h_mat_param = nullptr;
@@ -151,7 +151,7 @@ class DagGenerator {
     }
     
     // Clear the dependency tracker and the DAG container
-    dag.clear();
-    last_write.clear();
+    dag_.clear();
+    last_write_.clear();
   }
 };  // end class

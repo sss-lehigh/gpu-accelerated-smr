@@ -61,7 +61,6 @@ void busy_wait(std::chrono::duration<Rep, Period> d,
   auto buf_size = args->uget(romulus::BUF_SIZE);                       \
   auto sleep = std::chrono::milliseconds(args->uget(romulus::SLEEP));  \
   auto leader_fixed = args->bget(romulus::STABLE_LEADER);              \
-  auto cpu_enabled = args->bget(romulus::CPU_ENABLED);                 \
   auto gpu_enabled = args->bget(romulus::GPU_ENABLED);                 \
   auto mode = args->sget(romulus::MODE);
 
