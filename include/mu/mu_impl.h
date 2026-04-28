@@ -21,6 +21,7 @@
                       [[maybe_unused]] size_t len) {});
 
 std::vector<double> latencies;
+std::vector<double> commit_latencies;
 
 #define SYNC_NODES [&]() {};
 
@@ -73,7 +74,7 @@ std::vector<double> latencies;
 #define DONE_LATENCY []() {};
 
 #define CALC_LATENCY                                                           \
-  [&](std::ofstream& outfile) {                                                \
+  [&](std::tuple<double, double, double, double>* result) {                    \
     double latency_avg = 0.0;                                                  \
     double latency_stddev = 0.0;                                               \
     double latency_50p = 0.0;                                                  \
@@ -101,27 +102,9 @@ std::vector<double> latencies;
           latencies[static_cast<uint32_t>((latencies.size() * .99))];          \
       latency_99_9p =                                                          \
           latencies[static_cast<uint32_t>((latencies.size() * .999))];         \
+      *result = std::make_tuple(latency_avg, latency_50p, latency_99p,         \
+                                latency_99_9p);                                \
     }                                                                          \
-    std::stringstream ss;                                                      \
-    ss << latency_avg << "," << latency_50p << "," << latency_99p << ","       \
-       << latency_99_9p << '\n';                                               \
-    for (int i = 0; i < (int)latencies.size(); ++i) {                          \
-      ss << latencies[i];                                                      \
-      if (i != (int)latencies.size() - 1) {                                    \
-        ss << ", ";                                                            \
-      }                                                                        \
-    }                                                                          \
-    ss << std::endl;                                                           \
-    outfile << ss.str();                                                       \
-    ROMULUS_INFO("[PARSE] {}", ss.str());                                      \
-    ROMULUS_INFO("!> [LAT] count={}", latencies.size());                       \
-    ROMULUS_INFO("!> [LAT] lat_avg={:4.2f} ± {:4.2f} us", latency_avg,         \
-                 latency_stddev);                                              \
-    ROMULUS_INFO("!> [LAT] lat_50p={:4.2f} us", latency_50p);                  \
-    ROMULUS_INFO("!> [LAT] lat_99p={:4.2f} us", latency_99p);                  \
-    ROMULUS_INFO("!> [LAT] lat_99_9p={:4.2f} us", latency_99_9p);              \
-    ROMULUS_INFO("!> [LAT] lat_max={:4.2f} us", latency_max);                  \
-    ROMULUS_INFO("!> [LAT] lat_max_idx={}", latency_max_idx);                  \
   };
 
 #define RESET [&]() {};
@@ -170,5 +153,3 @@ uint64_t count = 0;
     ROMULUS_INFO("!> [THRU] throughput={:4.2f}ops/us", avg_throughput);      \
     ROMULUS_INFO("!> [THRU] count={}", total_count);                         \
   };
-
-  

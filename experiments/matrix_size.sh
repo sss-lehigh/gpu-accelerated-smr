@@ -5,7 +5,7 @@
 # Experiment: End-to-End Performance vs. Matrix Dimension
 
 OUTFILE="results/matrix_sz.csv"
-echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,lat_avg,lat_50p,lat_99p,lat_99_9p,throughput' >"$OUTFILE"
+echo 'system_size,mat_size,buf_size,num_state_mat,cpu_enabled,gpu_enabled,exe_mode,cons_lat_avg,e2e_lat_avg,goodput' >"$OUTFILE"
 
 # Fixed: 
 # 

@@ -2,10 +2,10 @@
 #include <csignal>
 #include <filesystem>
 #include <functional>
+#include <future>
 #include <iostream>
 #include <random>
 #include <string>
-#include <future>
 
 #include "cfg.h"
 #include "cpu/cpu.h"
@@ -84,10 +84,8 @@ int main(int argc, char* argv[]) {
 
   // Map config flags to the new ExecMode
   ExecMode e_mode = ExecMode::HYBRID;
-  if (cpu_enabled && !gpu_enabled)
-    e_mode = ExecMode::BASELINE_CPU;
-  if (!cpu_enabled && gpu_enabled)
-    e_mode = ExecMode::BASELINE_GPU;
+  if (cpu_enabled && !gpu_enabled) e_mode = ExecMode::BASELINE_CPU;
+  if (!cpu_enabled && gpu_enabled) e_mode = ExecMode::BASELINE_GPU;
 
   // Initialize the combined ExecutionGraph
   ExecutionGraph graph(e_mode);
@@ -123,6 +121,7 @@ int main(int argc, char* argv[]) {
 
       // Only the leader is allowed to process the DAG
       if (id == 0) {
+        auto start_time = std::chrono::high_resolution_clock::now();
         // Fetch the REAL batch corresponding to what MU just committed
         std::vector<op> current_batch_ops;
         current_batch_ops.reserve(buf_size);
@@ -155,18 +154,16 @@ int main(int argc, char* argv[]) {
             cpu_exec.run_sequential(dag, &op_counter);
           else
             cpu_exec.run(dag, levels, &op_counter);
-        } 
-        else if (e_mode == ExecMode::BASELINE_GPU) {
+        } else if (e_mode == ExecMode::BASELINE_GPU) {
           gpu_exec.prepare_dag(dag);
           if (is_serial)
             gpu_exec.run_sequential(dag, &op_counter);
           else
             gpu_exec.run(dag, levels, &op_counter);
-        } 
-        else if (e_mode == ExecMode::HYBRID) {
+        } else if (e_mode == ExecMode::HYBRID) {
           // In Hybrid mode, both devices need access to the DAG
-          gpu_exec.prepare_dag(dag); 
-          
+          gpu_exec.prepare_dag(dag);
+
           if (is_serial) {
             // Strictly sequential hybrid execution (for debugging)
             // Executors will internally check node.target
@@ -174,9 +171,10 @@ int main(int argc, char* argv[]) {
             gpu_exec.run_sequential(dag, &op_counter);
           } else {
             // CONCURRENT HYBRID EXECUTION
-            // Launch the CPU executor asynchronously so it runs at the same time as the GPU
+            // Launch the CPU executor asynchronously so it runs at the same
+            // time as the GPU
             auto cpu_future = std::async(std::launch::async, [&]() {
-                cpu_exec.run(dag, levels, &op_counter);
+              cpu_exec.run(dag, levels, &op_counter);
             });
 
             // The main thread drives the GPU executor
@@ -189,6 +187,12 @@ int main(int argc, char* argv[]) {
 
         // Ensure GPU is finished before returning to the next barrier
         cudaDeviceSynchronize();
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto batch_latency =
+            std::chrono::duration_cast<std::chrono::microseconds>(end_time -
+                                                                  start_time)
+                .count();
+        commit_latencies.emplace_back(batch_latency);
       }
     }
   });
@@ -235,12 +239,25 @@ int main(int argc, char* argv[]) {
 
   done();  // cleanup
 
-  if (id == (int)system_size - 1) {
-    std::ofstream outfile(output_file);
-    calc(outfile);
-    calc = CALC_THROUGHPUT;
-    calc(outfile);
-    outfile.close();
+  if (id == 0) {
+    // Calculate End-to-End Batch Latency and Throughput
+    std::tuple<double, double, double, double> cons_latency_result;
+    std::tuple<double, double, double, double> commit_latency_result;
+    calc(&cons_latency_result);
+    calc(&commit_latency_result);
+    double cons_lat_avg = std::get<0>(cons_latency_result);
+    double commit_lat_avg = std::get<0>(commit_latency_result);
+    double e2e_lat_avg = cons_lat_avg + commit_lat_avg
+                         // calculate goodput as op-tracker / total time
+                         double seconds = testtime_us.count() / 1e6;
+    double goodput =
+        op_counter.load(std::memory_order_relaxed) / seconds / 1e6;  // in MOPS
+
+    std::stringstream ss;
+    ss << system_size << "," << mat_size << "," << buf_size << ","
+       << num_state_mat << "," << cpu_enabled << "," << gpu_enabled << ","
+       << mode << "," << cons_lat_avg << "," << e2e_lat_avg << "," << goodput << std::endl;
+    ROMULUS_INFO("[PARSE] {}", ss.str());
   }
 
   for (auto& p : proposals) {
