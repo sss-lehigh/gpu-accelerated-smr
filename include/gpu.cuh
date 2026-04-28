@@ -126,6 +126,21 @@ class GpuExecutor {
           }
         }
 
+        // Bulk Prefetch to GPU VRAM
+        int device_id;
+        cudaGetDevice(&device_id);
+        size_t bytes = rows_ * cols_ * sizeof(float);
+        
+        // Prefetch operand 1
+        cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_1.value()], bytes, device_id, stream);
+        
+        // Prefetch operand 2 if it's a binary matrix operation
+        if (node.operation.type == OpType::MAT_ADD || 
+            node.operation.type == OpType::MAT_SUB || 
+            node.operation.type == OpType::MAT_MULT) {
+          cudaMemPrefetchAsync(device_mats_[node.operation.dest_mat_id_2.value()], bytes, device_id, stream);
+        }
+
         launch(node, stream, current_stream_idx);
 
         // Increment by original_op_count for accurate metrics

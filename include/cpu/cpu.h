@@ -7,6 +7,7 @@
 #include <thread>
 #include <barrier>
 #include <memory>
+#include <cuda_runtime.h>
 
 #include "DenseMat.h"
 #include "cpu_matrix_ops.h"
@@ -36,7 +37,7 @@ public:
       : rows_(matrix_dim), cols_(matrix_dim), num_matrices_(num_matrices), host_mats_(shared_mats) {
 
     // Initialize physical threads matching hardware concurrency
-    int num_workers = std::thread::hardware_concurrency();
+    int num_workers = std::max(1u, std::thread::hardware_concurrency());
     thread_workspaces_.resize(num_workers);
     
     for (int i = 0; i < num_workers; ++i) {
@@ -77,7 +78,7 @@ public:
   }
 
   void run(const std::unordered_map<uint64_t, DagNode>& dag, const std::vector<std::vector<uint64_t>>& levels, std::atomic<int> *op_counter) {
-    int total_hw_threads = thread_workspaces_.size();
+    int total_hw_threads = static_cast<int>(thread_workspaces_.size());
 
     // Iterate through each level sequentially on the master thread
     for (const auto& level : levels) {
@@ -85,13 +86,39 @@ public:
       // Filter out GPU tasks
       std::vector<uint64_t> cpu_tasks;
       cpu_tasks.reserve(level.size());
+
+      std::vector<uint64_t> mats_to_prefetch;
+      mats_to_prefetch.reserve(level.size());
+
       for (uint64_t op_id : level) {
         if (dag.at(op_id).target == ExecTarget::CPU) {
           cpu_tasks.push_back(op_id);
+
+          // Mark operands for prefetching
+          mats_to_prefetch.push_back(node.operation.dest_mat_id_1.value());
+          if (node.operation.type == OpType::MAT_ADD || 
+              node.operation.type == OpType::MAT_SUB || 
+              node.operation.type == OpType::MAT_MULT) {
+            mats_to_prefetch.push_back(node.operation.dest_mat_id_2.value());
+          }
         }
       }
 
       if (cpu_tasks.empty()) continue;
+
+      // Bulk Prefetch to CPU System RAM
+      // Remove duplicates
+      std::sort(mats_to_prefetch.begin(), mats_to_prefetch.end());
+      mats_to_prefetch.erase(std::unique(mats_to_prefetch.begin(), mats_to_prefetch.end()), mats_to_prefetch.end());
+
+      size_t bytes = rows_ * cols_ * sizeof(float);
+      for (uint64_t mat_id : mats_to_prefetch) {
+        // Prefetch to the CPU
+        cudaMemPrefetchAsync(host_mats_[mat_id], bytes, cudaCpuDeviceId, 0);
+      }
+      // We must block the master thread until the bulk transfer finishes.
+      // Otherwise, the worker threads will wake up and trigger page faults anyway.
+      cudaStreamSynchronize(0); 
 
       // STRATEGY 1: Task-Level Parallelism
       // We have enough operations to keep the cores busy. 
