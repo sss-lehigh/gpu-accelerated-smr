@@ -31,7 +31,7 @@ if __name__ == '__main__':
   plt.plot(bufs, gpu_dag, label='GPU DAG', marker='o', linestyle='-', color='red')
   # plt.plot(buf_szs, hybrid_dag, label='Hybrid DAG', marker='o', linestyle='-', color='purple')
   
-  plt.title('Average Latency vs. Buffer Size')
+  plt.title('E2E Batch Latency vs. Buffer Size')
   plt.xlabel('Buffer Size')
   plt.xscale('log', base=2)
   plt.ylabel('Latency (ms)')
@@ -57,7 +57,7 @@ if __name__ == '__main__':
   plt.plot(mat_szs, gpu_dag, label='GPU DAG', marker='o', linestyle='-', color='red')
   plt.plot(mat_szs[:-2], hybrid_dag, label='Hybrid DAG', marker='o', linestyle='-', color='purple')
   
-  plt.title('Average Latency vs. Matrix Size')
+  plt.title('E2E Batch Latency vs. Matrix Size')
   plt.xlabel('Matrix Size')
   plt.xscale('log', base=2)
   plt.ylabel('Latency (ms)')
@@ -83,7 +83,7 @@ if __name__ == '__main__':
   plt.plot(num_state_matrices, gpu_dag, label='GPU DAG', marker='o', linestyle='-', color='red')
   plt.plot(num_state_matrices, hybrid_dag, label='Hybrid DAG', marker='o', linestyle='-', color='purple')
   
-  plt.title('Average Latency vs. Number of State Matrices')
+  plt.title('E2E Batch Latency vs. Number of State Matrices')
   plt.xlabel('Number of State Matrices')
   plt.xscale('log', base=2)
   plt.ylabel('Latency (ms)')
