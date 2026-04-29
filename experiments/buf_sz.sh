@@ -19,7 +19,7 @@ rm logs/* || true
 # GPU Enabled: true 
 # CPU Enabled: false 
 BASE_ARGS="--mat-size 512 --num-state-mat 5 --gpu-enabled --mode DAG"
-BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
+BUF_SIZES=(128 256 512 1024 2048 4096)
 echo "Resetting..."
 reset-all
 reset-memcached
@@ -33,7 +33,6 @@ done
 # GPU Enabled: false 
 # CPU Enabled: true 
 BASE_ARGS="--mat-size 512 --num-state-mat 5 --cpu-enabled --mode DAG"
-BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
 echo "Resetting..."
 reset-all
 reset-memcached
@@ -47,7 +46,6 @@ done
 # GPU Enabled: true 
 # CPU Enabled: true 
 BASE_ARGS="--mat-size 512 --num-state-mat 5 --cpu-enabled --gpu-enabled --mode DAG"
-BUF_SIZES=(128 256 512 1024 2048 4096 8192 16384)
 echo "Resetting..."
 reset-all
 reset-memcached
