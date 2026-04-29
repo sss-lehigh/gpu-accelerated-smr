@@ -40,12 +40,6 @@ struct DagNode {
   int score = 0;
   ExecTarget target = ExecTarget::GPU;
 
-  // Phase 2: Explicit DMA Pull Routing Flags
-  bool pull_h2d_mat1 = false;
-  bool pull_h2d_mat2 = false;
-  bool pull_d2h_mat1 = false;
-  bool pull_d2h_mat2 = false;
-
   void add_dep(uint64_t dep_id) {
     if (dep_count < 2) {
       for (int i = 0; i < dep_count; ++i) {
@@ -59,33 +53,33 @@ struct DagNode {
 
 class ExecutionGraph {
  private:
-   int mat_dim_;
-   ExecMode mode;
-   std::unordered_map<uint64_t, uint64_t> last_write;
-   std::unordered_map<uint64_t, DagNode> dag;
+  ExecMode mode;
+  std::unordered_map<uint64_t, uint64_t> last_write;
+  std::unordered_map<uint64_t, DagNode> dag;
 
-   // Tracks the physical location of matrices to penalize data ping-pong.
-   // Do not clear this in reset()
-   std::unordered_map<uint64_t, ExecTarget> mat_location;
+  // Tracks the physical location of matrices to penalize data ping-pong.
+  // Do not clear this in reset()
+  std::unordered_map<uint64_t, ExecTarget> mat_location;
 
-   // Memory Arena for parameters
-   std::vector<float> param_arena;
-   size_t arena_offset = 0;
+  // Memory Arena for parameters
+  std::vector<float> param_arena;
+  size_t arena_offset = 0;
 
-   bool heavy_op(OpType type)
-   {
-     return type == OpType::MAT_MULT || type == OpType::MAT_ADD ||
-            type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT ||
-            type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB ||
-            type == OpType::ELEMAT_MULT;
-   }
+  bool heavy_op(OpType type) {
+    return type == OpType::MAT_MULT || type == OpType::MAT_ADD ||
+           type == OpType::MAT_SUB || type == OpType::NEW_MAT_MULT ||
+           type == OpType::NEW_MAT_ADD || type == OpType::NEW_MAT_SUB ||
+           type == OpType::ELEMAT_MULT;
+  }
 
   void evaluate_and_route(DagNode& node) {
     // Hardware Performance Constants (Tune these to your specific cluster)
-    constexpr float CPU_GFLOPS = 4000.0f;  // Estimated GFLOP/s for a single CPU core
-    constexpr float GPU_GFLOPS = 10000.0f; // Estimated GFLOP/s for your GPU
-    constexpr float GPU_LAUNCH_US = 5.0f;  // Kernel launch overhead in microseconds
-    constexpr float PCIE_GBPS = 12.5f;     // PCIe Gen3/Gen4 bandwidth in GB/s
+    constexpr float CPU_GFLOPS =
+        4000.0f;  // Estimated GFLOP/s for a single CPU core
+    constexpr float GPU_GFLOPS = 10000.0f;  // Estimated GFLOP/s for your GPU
+    constexpr float GPU_LAUNCH_US =
+        5.0f;  // Kernel launch overhead in microseconds
+    constexpr float PCIE_GBPS = 12.5f;  // PCIe Gen3/Gen4 bandwidth in GB/s
 
     // Calculate Theoretical FLOPs
     float total_flops = 0.0f;
@@ -112,10 +106,12 @@ class ExecutionGraph {
     }
 
     // Base Execution Time in microseconds (us)
+    // 1 GFLOP/s = 1000 FLOPs per microsecond
     float t_cpu = total_flops / (CPU_GFLOPS * 1000.0f);
     float t_gpu = GPU_LAUNCH_US + (total_flops / (GPU_GFLOPS * 1000.0f));
 
     // Data Locality / PCIe Penalties
+    // Transfer time: Bytes / (GB/s * 1000) = microseconds
     float bytes_to_transfer = static_cast<float>(num_elements * sizeof(float));
     float transfer_time_us = bytes_to_transfer / (PCIE_GBPS * 1000.0f);
 
@@ -154,17 +150,23 @@ class ExecutionGraph {
 
     // Final Routing Decision
     node.target = (t_gpu < t_cpu) ? ExecTarget::GPU : ExecTarget::CPU;
+
+    // Update State Tracker
+    mat_location[dest_id_1] = node.target;
+
+    // Store the delta (t_cpu - t_gpu) as the score for telemetry/debugging.
+    // Positive score = GPU is faster. Negative score = CPU is faster.
     node.score = static_cast<int>(t_cpu - t_gpu);
   }
 
  public:
-  ExecutionGraph(int mat_size, ExecMode m = ExecMode::HYBRID) : mat_dim_(mat_size), mode(m) {
-    param_arena.resize(kNumProposals * mat_dim_ * mat_dim_);
+  // Defaults to hybrid mode if not specified
+  ExecutionGraph(ExecMode m = ExecMode::HYBRID) : mode(m) {
+    param_arena.resize(kNumProposals * ROWS * COLS);
   }
 
-  void ingest_batch(const std::vector<const op*>& log_slice) {
-    for (const op* op_ptr : log_slice) {
-      op op = *op_ptr;
+  void ingest_batch(const std::vector<op>& log_slice) {
+    for (auto op : log_slice) {
       if (op.type == OpType::SCALAR_SUB) {
         op.type = OpType::SCALAR_ADD;
         op.scalar_param.value() = -op.scalar_param.value();
@@ -227,6 +229,7 @@ class ExecutionGraph {
 
       last_write[op.dest_mat_id_1.value()] = op.id;
 
+      // Matrix sizing logic from your scoring function
       if (op.mat_param.has_value()) {
         const auto& mat = op.mat_param.value();
         node.rows = mat.num_rows;
@@ -238,11 +241,12 @@ class ExecutionGraph {
 
         arena_offset += n_elements;
       } else {
-        node.rows = mat_dim_;
-        node.cols = mat_dim_;
+        // Fallback to global constants if no matrix payload exists
+        node.rows = 0;
+        node.cols = 0;
       }
 
-      // 1. Calculate score and assign target
+      // Calculate score and assign target immediately before insertion
       if (mode == ExecMode::BASELINE_CPU) {
         node.target = ExecTarget::CPU;
       } else if (mode == ExecMode::BASELINE_GPU) {
@@ -251,28 +255,11 @@ class ExecutionGraph {
         evaluate_and_route(node);
       }
 
-      // Resolve inter/intra-batch explicitly required DMA Pulls
-      uint64_t mat_1 = op.dest_mat_id_1.value();
-      if (mat_location.count(mat_1) && mat_location[mat_1] != node.target) {
-        if (node.target == ExecTarget::GPU) node.pull_h2d_mat1 = true;
-        if (node.target == ExecTarget::CPU) node.pull_d2h_mat1 = true;
-      }
-      mat_location[mat_1] = node.target; // Mat 1 is mutated, cache its new location
-
-      if (op.type == OpType::MAT_ADD || op.type == OpType::MAT_SUB || op.type == OpType::MAT_MULT) {
-        uint64_t mat_2 = op.dest_mat_id_2.value();
-        if (mat_location.count(mat_2) && mat_location[mat_2] != node.target) {
-          if (node.target == ExecTarget::GPU) node.pull_h2d_mat2 = true;
-          if (node.target == ExecTarget::CPU) node.pull_d2h_mat2 = true;
-          // Note: We do NOT update mat_location for Mat 2 because it's only read, 
-          // meaning its latest mutated version still physically exists elsewhere.
-        }
-      }
-
       dag[op.id] = node;
     }
   }
 
+  // Fast O(V+E) dispatch level generation
   std::vector<std::vector<uint64_t>> generate_levels() {
     std::vector<std::vector<uint64_t>> lvls;
     std::vector<uint64_t> curr_lvl;
