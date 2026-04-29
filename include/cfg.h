@@ -31,7 +31,7 @@ constexpr const char* MAT_SIZE = "--mat-size";
 
 inline auto EXTRA_ARGS = {
     STR_ARG(HOSTNAME, "Hostname of this node."),
-    U64_ARG_OPT(TESTTIME, "Experiment duration in seconds", 15),
+    U64_ARG_OPT(TESTTIME, "Experiment duration in seconds", 7),
     U64_ARG_OPT(LOOP, "Number of iterations between runtime checks.", 1000),
     U64_ARG_OPT(CAPACITY, "Capacity of the replicated log.", (1ULL << 12)),
     U64_ARG_OPT(BUF_SIZE, "Buffer size for remote writes.", 1024),

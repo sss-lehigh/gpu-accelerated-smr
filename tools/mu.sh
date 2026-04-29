@@ -145,7 +145,8 @@ function run_mu {
 		host="${MACHINES[$i]}"
 		ENV_ARGS="EXPER_PORT=${STARTING_PORT} SID=$((i + 1)) IDS=${IDS} DORY_REGISTRY_IP=${DORY_REGISTRY_IP} LD_LIBRARY_PATH=~/"
 		# gdb -ex \"catch throw\" -ex \"r\" --args
-		CMD="sudo env ${ENV_ARGS} perf record -e cycles:u -F 50 -g ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}; sudo perf annotate --stdio > perf_report.txt"
+		# CMD="sudo env ${ENV_ARGS} perf record -e cycles:u -F 50 -g ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}; sudo perf annotate --stdio > perf_report.txt"
+		CMD="sudo env ${ENV_ARGS} ./${EXE_NAME} --hostname ${host} --node-id ${i} --output-file mu_stats_${NUM_MACHINES}.csv ${ARGS}"
 		echo "$CMD"
 		cat >>"$tmp_screen" <<EOF
 screen -t node${i} ssh -t ${USER}@${host}.${DOMAIN} "${CMD}" ${EXTRA_ARGS}

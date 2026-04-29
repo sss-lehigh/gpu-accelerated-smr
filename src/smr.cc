@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
   std::function<void(void)> init = SYNC_NODES;
   std::function<void(void)> exec = EXEC_LATENCY;
   std::function<void(void)> done = DONE_LATENCY;
-  std::function<void(std::tuple<double, double, double, double>* result)> calc = CALC_LATENCY;
+  std::function<void(std::tuple<double, double, double, double>* result, std::vector<double>& latencies)> calc = CALC_LATENCY;
   std::function<void(void)> reset = RESET;
 
   init();
@@ -253,8 +253,8 @@ int main(int argc, char* argv[]) {
     // Calculate End-to-End Batch Latency and Throughput
     std::tuple<double, double, double, double> cons_latency_result;
     std::tuple<double, double, double, double> commit_latency_result;
-    calc(&cons_latency_result);
-    calc(&commit_latency_result);
+    calc(&cons_latency_result, latencies);
+    calc(&commit_latency_result, commit_latencies);
     double cons_lat_avg = std::get<0>(cons_latency_result);
     double commit_lat_avg = std::get<0>(commit_latency_result);
     double e2e_lat_avg = cons_lat_avg + commit_lat_avg;
